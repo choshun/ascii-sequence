@@ -1,29 +1,29 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
-import NewTodo from './NewTodo'
+import NewTrigger from './NewTrigger'
 import {addTrigger} from '../actions'
 import {deleteTrigger} from '../actions'
 
-const Todos = ({todos, dispatch}) => (
+const Triggers = ({triggers, dispatch}) => (
   <div>
     <h1>it begins ╰(✿˙ᗜ˙)੭━☆゜.*･｡✲</h1>
-    <NewTodo onChange = {e => {
+    <NewTrigger onChange = {e => {
       if(e.keyCode == 13) {
         dispatch(addTrigger(e.target.value));
         e.target.value = '';
       }
     }}/>
-    {todos.map((trigger, index) => <p onClick={
+    {triggers.map((trigger, index) => <p onClick={
       e => dispatch(deleteTrigger(index))
     } key={trigger}>{trigger}</p>)}
   </div>
 )
 
-function mapStateToProps(todos) {
+function mapStateToProps(triggers) {
   return {
-    todos
+    triggers
   }
 }
 
-export default connect(mapStateToProps)(Todos)
+export default connect(mapStateToProps)(Triggers)
