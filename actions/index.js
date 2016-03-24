@@ -1,13 +1,13 @@
-export function addTodo(todo){
+export function addTrigger(trigger) {
   return {
-    type: 'addTodo',
-    todo
+    type: 'addTrigger',
+    trigger
   };
 }
 
-export function deleteTodo(index){
+export function deleteTrigger(index) {
   return {
-    type: 'deleteTodo',
+    type: 'deleteTrigger',
     index
   };
 }

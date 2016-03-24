@@ -4,7 +4,8 @@ import {Provider} from 'react-redux'
 import store from '../store'
 import Todos from './todos'
 
-let reactElement = document.getElementById('react')
+let reactElement = document.getElementById('app');
+
 render(
   <Provider store={store}>
     <Todos />

@@ -2,19 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import NewTodo from './NewTodo'
-import {addTodo} from '../actions'
-import {deleteTodo} from '../actions'
+import {addTrigger} from '../actions'
+import {deleteTrigger} from '../actions'
 
 const Todos = ({todos, dispatch}) => (
   <div>
-    <h1>Todos</h1>
+    <h1>it begins ╰(✿˙ᗜ˙)੭━☆゜.*･｡✲</h1>
     <NewTodo onChange = {e => {
       if(e.keyCode == 13) {
-        dispatch(addTodo(e.target.value));
+        dispatch(addTrigger(e.target.value));
         e.target.value = '';
       }
     }}/>
-    {todos.map(todo => <p onClick = {e => dispatch(deleteTodo(0))} key={todo}>{todo}</p>)}
+    {todos.map((trigger, index) => <p onClick={
+      e => dispatch(deleteTrigger(index))
+    } key={trigger}>{trigger}</p>)}
   </div>
 )
 
