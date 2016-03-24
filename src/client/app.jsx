@@ -1,8 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-import store from '../store';
-import Triggers from './triggers';
+import store from './store';
+import Triggers from './components/triggers.jsx';
 
 let reactElement = document.getElementById('app');
 

@@ -1,9 +1,9 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import {connect} from 'react-redux';
 
-import NewTrigger from './NewTrigger'
-import {addTrigger} from '../actions'
-import {deleteTrigger} from '../actions'
+import NewTrigger from './NewTrigger.jsx';
+import {addTrigger} from '../actions';
+import {deleteTrigger} from '../actions';
 
 const Triggers = ({triggers, dispatch}) => (
   <div>
@@ -18,7 +18,7 @@ const Triggers = ({triggers, dispatch}) => (
       e => dispatch(deleteTrigger(index))
     } key={trigger}>{trigger}</p>)}
   </div>
-)
+);
 
 function mapStateToProps(triggers) {
   return {
