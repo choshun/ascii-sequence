@@ -1,0 +1,8 @@
+# distribution
+dist
+
+#logs
+*.log
+
+#node modules
+node_modules
