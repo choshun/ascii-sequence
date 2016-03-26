@@ -2,10 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import NewTrigger from './NewTrigger.jsx';
-import layer from './layer.jsx';
+import Layer from './layer.jsx';
 import {addTrigger} from '../actions';
 import {deleteTrigger} from '../actions';
 
+// triggers is store
 const Triggers = ({triggers, dispatch}) => (
   <div>
     <h1>it begins ╰(✿˙ᗜ˙)੭━☆゜.*･｡✲</h1>
@@ -21,9 +22,10 @@ const Triggers = ({triggers, dispatch}) => (
       dispatch(deleteTrigger(index));
     }}
     key={trigger}>{trigger}</p>)}
-    asd<layer />asd
-  </div>
+    {console.log('Layer', Layer)}
 
+    asd<Layer layer={triggers} />asd
+  </div>
 );
 
 function mapStateToProps(triggers) {
