@@ -1,21 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { addLayer } from '../actions';
 
-const Layer = ({layer, dispatch}) => (
-  <div>
-    {console.log(layer)}
-    {layer.layer.map((layer, index) => <p onClick={(event) => {
-      console.log('boop', layer);
-    }}
-    key={layer}>adads{layer}</p>)}
+let layer = {
+  'layer': 2,
+  'time': .2353,
+  'callback': 'addStyle1',
+  'data2': '.layer2 { blob: of css};'
+};
+
+const Layer = ({onClick}) => (
+  <div onClick={onClick}>
+    sup
   </div>
 );
 
-function mapStateToProps(layer) {
-  console.log('layer?', layer);
-  return {
-    layer
-  }
-}
-
-export default connect(mapStateToProps)(Layer)
+export default Layer
