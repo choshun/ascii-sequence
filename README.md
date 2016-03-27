@@ -20,8 +20,10 @@ A. you can only pass state and action, but action can be an object, so pass as o
 
 How to I have nested components? putting layer in trigger isn't doing anything.
 https://facebook.github.io/react/docs/multiple-components.html
+A. Still fuzzy, but IT NEEDS TO BE CAPITOLIZED, or it won't be registered as a component.
+I should look more into props, it's looking like store is what's passed everywhere as of now. Maybe function mapStateToProps(grid) should help with my container aspirations (see below "next steps").
 
-NOTES:
+NOTES (from docs):
 All components must be capital cased. ie <MyComponent />, file-name MyComponent.jsx
 If you don't, IT WON'T RENDER.
 
@@ -35,3 +37,16 @@ A common pattern is to create several stateless components that just render data
 
 http://facebook.github.io/react/docs/multiple-components.html
 The key should always be supplied directly to the components in the array, not to the container HTML child of each component in the array
+
+NOTES (from sucking)
+If you try to dispatch immediately there'll be an esoteric error cause it can't assign a key or something (mount cycle, kinda like $timeout, digest, and apply). If you set a timeout, it will work but then fire like an interval... I dun get it.
+
+Next steps:
+
+2 models:
+Looking like I need a ui model grid -> layers, that populates the ui, the interactions will inform:
+A sequence model, a flat sequence array of objects (Immutable.List), that gets ordered by time and consumed by scheduler.
+
+Have a containers folder that transforms stores into immutable stuff that just gets passed to child components, all changes should be done there for all its responsibilities.
+
+What gets stored or "dispatched" should be the quickest simplest information I'd need for the store before it's transformed by container stuff. IE, for a trigger: time, layer, callback, data. In this case time may need to be futzed with to have an actual time, DON'T DO IT, just add event.positionX, the containers will do what they need to do.
