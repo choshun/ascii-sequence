@@ -1,10 +1,10 @@
-import {combineReducers, createStore} from 'redux';
+import { combineReducers, createStore } from 'redux';
+import grid from './reducers/grid';
 import triggers from './reducers/triggers';
-import layer from './reducers/layer';
 
 let reducers = combineReducers({
-  triggers,
-  layer
+  grid,
+  triggers
 });
 
 export default createStore(reducers);

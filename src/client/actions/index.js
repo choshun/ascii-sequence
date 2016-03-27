@@ -11,3 +11,10 @@ export function deleteTrigger(index) {
     index
   };
 }
+
+export function addLayer(layer) {
+  return {
+    type: 'addLayer',
+    layer
+  };
+}
