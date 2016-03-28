@@ -1,5 +1,5 @@
 import React from 'react';
-import Layer from './layer.jsx';
+import Layer from './Layer.jsx';
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 
@@ -12,7 +12,7 @@ let layer = {
 
 let layer1 = 'hey there';
 
-const Grid = ({grid, dispatch}) => (
+const Grid = ({grid, layer, dispatch}) => (
   <section>
     Grid!!
     {console.log('grid?', grid.triggers, grid.grid)}
@@ -23,6 +23,8 @@ const Grid = ({grid, dispatch}) => (
       dispatch(addLayer(layer));
       console.log('layer', layer);
     }, 1000)*/};
+
+    {console.log('layer?', grid, layer)}
 
     <ul>
       {grid.grid.map(function(layer) {
@@ -36,7 +38,17 @@ const Grid = ({grid, dispatch}) => (
 
 function mapStateToProps(grid) {
   return {
-    grid
+    grid: {
+      grid: [{
+        'time': 0,
+        'callback': 'test'
+      },
+      {
+        'time': 2,
+        'callback': 'test1'
+      }]
+    },
+    'layer': 'hello'
   };
 }
 
