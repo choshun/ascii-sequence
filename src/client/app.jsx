@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-import Grid from './components/Grid.jsx';
+import Grid from './containers/Grid.jsx';
 
 let reactElement = document.getElementById('app');
 
