@@ -1,16 +1,17 @@
-import _ from 'lodash';
+/** 
+ * This is responsible for the event UI.
+ * You can add, select, and remove events.
+**/
+
+import { uniq, map, each, filter, clone } from 'lodash';
+import Immutable from 'immutable';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
 
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 
-/** 
- * containers do all the data transformations
- * via mapStateToProps, all children should
- * not have transformation logic, ie stateless
- * no mapStateToProps
-**/
+
 
 function createLayersFromEvents(layers, events) {
   let eventsObject = events.toObject(),
@@ -18,8 +19,9 @@ function createLayersFromEvents(layers, events) {
       layersAndEvents = [];
 
   // Makes a key for each event.
+  // TODO: Maybe do this in reducer.
   _.each(eventsObject, (item, index) => {
-    item.key = item.layer + item.time;
+    item.key = `event-${item.layer}${item.time}`.replace(/\./g, '-');
   });
 
   // Creates new object of Layers with events for ui.
@@ -30,27 +32,41 @@ function createLayersFromEvents(layers, events) {
   return layersAndEvents;
 }
 
-const Grid = ({ layers, test, dispatch }) => (
+function createGridCSS(events) {
+  let eventsObject = events.toObject(),
+      position = '', // TODO: I hope I don't need this.
+      key = '',
+      cssObject = {};
+
+  _.each(eventsObject, (item) => {
+    position = item.time.toString().split('.').slice(-1) + '%';
+    key = item.key;
+    cssObject[key] = `{ left: ${position} }`;
+  });
+
+  return cssObject;
+}
+
+function mapStateToProps(store) {
+  return {
+    'layers': createLayersFromEvents(store.layers, store.events),
+    'gridCSS': createGridCSS(store.events)
+  };
+}
+
+const Grid = ({ layers, gridCSS, dispatch }) => (
   <section>
     Grid!!
 
-    <p>{test}</p>
-
     <ul>
       {
-        layers.map(function(layer, index) {
-          return <Layer key={index} data={layer} />;
+        layers.map((layer, index) => {
+          return <Layer key={index} data={layer} css={gridCSS} />;
         })
       }
     </ul>
 
   </section>
 );
-
-function mapStateToProps(store) {
-  return {
-    'layers': createLayersFromEvents(store.layers, store.events)
-  };
-}
 
 export default connect(mapStateToProps)(Grid);
