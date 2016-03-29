@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { addEvent , deleteEvent } from '../actions';
 
 // triggers is store
-const Event = ({data, dispatch}) => (
-  <li data-class={data.key}>
+const Event = ({data, css, dispatch}) => (
+  <li className={data.key} style={{css}}>
     oh hai?!?!
-    {console.log('eventdata?', data)}
+    asd{css}asd
     {data.key}
   </li>
 );
