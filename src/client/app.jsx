@@ -3,12 +3,16 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import Grid from './containers/Grid.jsx';
+import StyleManager from './containers/StyleManager.jsx';
 
-let reactElement = document.getElementById('app');
+let app = document.getElementById('app');
+
+// have to make an app component, only one root :(
+// then in there style manager, grid, style, scene, etc
 
 render(
   <Provider store={store}>
     <Grid />
   </Provider>,
-  reactElement
+  app
 );
