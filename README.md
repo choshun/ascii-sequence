@@ -45,7 +45,73 @@ Next steps:
 
 2 models:
 Looking like I need a ui model grid -> layers, that populates the ui, the interactions will inform:
-A sequence model, a flat sequence array of objects (Immutable.List), that gets ordered by time and consumed by scheduler.
+
+  /*
+    have an id that's layer+time
+
+    ideal output:
+
+    from 
+    [
+      {
+        'index': 0,
+        'element': ':'
+      },
+      {
+        'index': 1,
+        'element': ')'
+      },
+    ]
+
+    and
+    [
+      {
+        'layer': 0,
+        'time': .75,
+        'callback': 'addStyle',
+        'data': '.layer2 { blob: of css};'
+      },
+      {
+        'layer': 1,
+        'time': .545,
+        'callback': 'addStyle',
+        'data': '.layer2 { blob: of css};'
+      },
+      {
+        'layer': 0,
+        'time': 0,
+        'callback': 'addStyle',
+        'data': '.layer2 { blob: of css};'
+      }
+    ];
+
+    we get (order not important)
+    [
+      [
+        {
+          'key': '0.75',
+          'time': .75,
+          'callback': 'addStyle',
+          'data': '.layer2 { blob: of css};'
+        },
+        {
+          'key': '0.0',
+          'callback': 'addStyle',
+          'data': '.layer2 { blob: of css};'
+        }
+      ],
+      [
+        {
+          'key': 1.545,
+          'time': .545,
+          'callback': 'addStyle',
+          'data': '.layer2 { blob: of css};'
+        }
+      ]
+    ]
+  */
+
+We have a seperate sequence model, a flat sequence array of objects (Immutable.List), that gets ordered by time and consumed by scheduler.
 
 Have a containers folder that transforms stores into immutable stuff that just gets passed to child components, all changes should be done there for all its responsibilities.
 
