@@ -1,9 +1,9 @@
 import { combineReducers, createStore } from 'redux';
-import grid from './reducers/grid';
+import layers from './reducers/layers';
 import triggers from './reducers/triggers';
 
 let reducers = combineReducers({
-  grid,
+  layers,
   triggers
 });
 
