@@ -9,10 +9,19 @@ let layer = {
   'data2': '.layer2 { blob: of css};'
 };
 
-const Layer = ({onClick}) => (
-  <div onClick={onClick}>
-    sup
+const Layer = ({ onClick, data, triggers }) => (
+  <div onClick={onClick} data={data}>
+    {console.log('triggers?', triggers)}
+    {data.element}
   </div>
 );
 
-export default Layer
+function mapStateToProps(store) {
+  console.log('GRID', store);
+
+  return {
+    'triggers': store.layers
+  };
+}
+
+export default connect(mapStateToProps)(Layer);
