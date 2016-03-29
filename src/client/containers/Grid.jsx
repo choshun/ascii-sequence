@@ -4,7 +4,6 @@
 **/
 
 import { uniq, map, each, filter, clone } from 'lodash';
-import Immutable from 'immutable';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
 
