@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
+
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 
@@ -10,6 +12,24 @@ import { addLayer } from '../actions';
  * no mapStateToProps
 **/
 
+function createLayersFromEvents(layers, events) {
+  let eventsObject = events.toObject(),
+      uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
+      layersAndEvents = [];
+
+  // Makes a key for each event.
+  _.each(eventsObject, (item, index) => {
+    item.key = item.layer + item.time;
+  });
+
+  // Creates new object of Layers with events for ui.
+  _.each(uniqueLayers, (item, index) => {
+    layersAndEvents.push(_.filter(eventsObject, {layer: index}));
+  });
+
+  return layersAndEvents;
+}
+
 const Grid = ({ layers, test, dispatch }) => (
   <section>
     Grid!!
@@ -19,7 +39,7 @@ const Grid = ({ layers, test, dispatch }) => (
     <ul>
       {
         layers.map(function(layer, index) {
-          return <Layer key={layer.index} data={layer} />;
+          return <Layer key={index} data={layer} />;
         })
       }
     </ul>
@@ -29,8 +49,7 @@ const Grid = ({ layers, test, dispatch }) => (
 
 function mapStateToProps(store) {
   return {
-    'layers': store.layers,
-    'test': 'sup'
+    'layers': createLayersFromEvents(store.layers, store.events)
   };
 }
 
