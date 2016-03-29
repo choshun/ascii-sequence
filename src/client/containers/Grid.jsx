@@ -6,7 +6,8 @@ import { addLayer } from '../actions';
 /** 
  * containers do all the data transformations
  * via mapStateToProps, all children should
- * not have transformation logic, ie stateless.
+ * not have transformation logic, ie stateless
+ * no mapStateToProps
 **/
 
 const Grid = ({ layers, test, dispatch }) => (
