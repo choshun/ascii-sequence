@@ -11,6 +11,9 @@ https://facebook.github.io/react/docs/multiple-components.html
 immutable:
 https://facebook.github.io/immutable-js/
 
+good example:
+https://github.com/andrewngu/sound-redux/blob/master/scripts/main.js
+
 q's. 
 how do I combine stores/have more than just todo's in the store, ie layers, triggers, grid etc/
 A. combineReducer. Once this is done the store will have two children, change data parsing accordingly.
@@ -118,3 +121,6 @@ Have a containers folder that transforms stores into immutable stuff that just g
 * This means mapStateToProps should only be in containers, the rest of the child elements are dumb.
 
 What gets stored or "dispatched" should be the quickest simplest information I'd need for the store before it's transformed by container stuff. IE, for a trigger: time, layer, callback, data. In this case time may need to be futzed with to have an actual time, DON'T DO IT, just add event.positionX, the containers will do what they need to do.
+
+2/28/16
+Where should I put the grid css stuff? In grid, if so is there reusable things for injecting css? No, it should be it's own thing thatonly consumes sqc, also including trigger css.
