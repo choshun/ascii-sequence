@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import {addEvent} from '../actions';
-import {deleteEvent} from '../actions';
+import { addEvent , deleteEvent } from '../actions';
 
 // triggers is store
 const Event = ({data, dispatch}) => (
-  <div>
+  <li>
     oh hai
-  </div>
+    {console.log('eventdata?', data)}
+    {data.callback}
+  </li>
 );
 
-export default Event
+export default Event;
