@@ -49,4 +49,6 @@ A sequence model, a flat sequence array of objects (Immutable.List), that gets o
 
 Have a containers folder that transforms stores into immutable stuff that just gets passed to child components, all changes should be done there for all its responsibilities.
 
+* This means mapStateToProps should only be in containers, the rest of the child elements are dumb.
+
 What gets stored or "dispatched" should be the quickest simplest information I'd need for the store before it's transformed by container stuff. IE, for a trigger: time, layer, callback, data. In this case time may need to be futzed with to have an actual time, DON'T DO IT, just add event.positionX, the containers will do what they need to do.
