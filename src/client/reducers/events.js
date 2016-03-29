@@ -24,7 +24,7 @@ let sqnc = [
 export default (state = Immutable.List(sqnc), action) => {
   switch(action.type) {
     case 'addTrigger':
-    console.log(action);
+      console.log(action);
       return state.push(action.trigger.test);
     case 'deleteTrigger':
       console.log(action);
