@@ -12,7 +12,10 @@ let app = document.getElementById('app');
 
 render(
   <Provider store={store}>
-    <Grid />
+    <section className="container-wrapper">
+      <Grid />
+      <StyleManager />
+    </section>
   </Provider>,
   app
 );
