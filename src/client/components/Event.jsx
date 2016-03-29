@@ -4,10 +4,10 @@ import { addEvent , deleteEvent } from '../actions';
 
 // triggers is store
 const Event = ({data, dispatch}) => (
-  <li>
-    oh hai
+  <li data-class={data.key}>
+    oh hai?!?!
     {console.log('eventdata?', data)}
-    {data.callback}
+    {data.key}
   </li>
 );
 

@@ -8,7 +8,7 @@ const Layer = ({ onClick, data }) => (
     <ul>
       {
         data.map(function(event, index) {
-          return <Event key={data.element} data={event} />;
+          return <Event key={index} data={event} />;
         })
       }
     </ul>
