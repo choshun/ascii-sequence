@@ -1,10 +1,10 @@
 import { combineReducers, createStore } from 'redux';
 import layers from './reducers/layers';
-import triggers from './reducers/triggers';
+import events from './reducers/events';
 
 let reducers = combineReducers({
   layers,
-  triggers
+  events
 });
 
 export default createStore(reducers);

@@ -1,13 +1,13 @@
-export function addTrigger(trigger) {
+export function addEvent(trigger) {
   return {
-    type: 'addTrigger',
+    type: 'addEvent',
     trigger
   };
 }
 
-export function deleteTrigger(index) {
+export function deleteEvent(index) {
   return {
-    type: 'deleteTrigger',
+    type: 'deleteEvent',
     index
   };
 }
