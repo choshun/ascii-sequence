@@ -9,7 +9,7 @@ let sqnc = [
   },
   {
     'layer': 1,
-    'time': .545,
+    'time': .55,
     'callback': 'addStyle',
     'data': '.layer2 { blob: of css};'
   },
