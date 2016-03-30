@@ -3,13 +3,12 @@
  * You can add, select, and remove events.
 **/
 
-import { uniq, map, each, filter, clone } from 'lodash';
+import { uniq, map, each, filter } from 'lodash';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
 
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
-
 
 
 function createLayersFromEvents(layers, events) {
@@ -38,7 +37,7 @@ function createGridCSS(events) {
       cssObject = {};
 
   _.each(eventsObject, (item) => {
-    position = item.time.toString().split('.').slice(-1) + '%';
+    position = item.time * 100 + '%';
     key = item.key;
     cssObject[key] = `{ left: ${position} }`;
   });
@@ -46,26 +45,26 @@ function createGridCSS(events) {
   return cssObject;
 }
 
-function mapStateToProps(store) {
-  return {
-    'layers': createLayersFromEvents(store.layers, store.events),
-    'gridCSS': createGridCSS(store.events)
-  };
-}
-
-const Grid = ({ layers, gridCSS, dispatch }) => (
+const Grid = ({ layers, gridCSS }) => (
   <section className={'grid'}>
     Grid!!
 
     <ul className={'layers'}>
       {
         layers.map((layer, index) => {
-          return <Layer key={index} data={layer} css={gridCSS} />;
+          return <Layer key={index} data={layer} layer={index} css={gridCSS} />;
         })
       }
     </ul>
 
   </section>
 );
+
+function mapStateToProps(store) {
+  return {
+    'layers': createLayersFromEvents(store.layers, store.events),
+    'gridCSS': createGridCSS(store.events)
+  };
+}
 
 export default connect(mapStateToProps)(Grid);
