@@ -1,28 +1,19 @@
-/** 
- * This is responsible for adding needed styles (event styles
- * for scheduler, trigger styles for grid).
- * It should be pretty dumb, and just add the styles that are
- * in the events store.
-**/
-
-import _ from 'lodash';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
+import Immutable from 'immutable';
 
+import { filter } from 'lodash';
 import { connect } from 'react-redux';
-import { addLayer } from '../actions';
 
-const StyleManager = ({ events, dispatch }) => (
+const StyleManager = ({ store, dispatch }) => (
   <section>
-    boop
-    {/*console.log('events', events)*/}
-
+    <textarea value={ store.styleManager.get('active').time + store.styleManager.get('active').data }></textarea>
   </section>
 );
 
 function mapStateToProps(store) {
   return {
-    'events': store.events
+    store
   };
 }
 
