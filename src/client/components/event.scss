@@ -1,3 +1,10 @@
 li[class*="event"] {
-    background: #ffff00;
+  $width: 10;
+
+  background: green;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 10px;
+  margin-left: $width/2 * -1px;
 }
