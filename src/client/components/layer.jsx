@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 
 const Layer = ({ onClick, data, css }) => (
-  <li>
-    <ul>
+  <li className={'layer'}>
+    <ul className={'events'}>
       {
         data.map((event, index) => {
           return <Event key={event.key} data={event} css={css[event.key]} />;

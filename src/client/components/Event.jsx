@@ -1,3 +1,5 @@
+require('./event.scss');
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { addEvent , deleteEvent } from '../actions';
