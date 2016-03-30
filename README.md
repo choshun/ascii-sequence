@@ -56,5 +56,7 @@ Have a containers folder that transforms stores into immutable stuff that just g
 
 What gets stored or "dispatched" should be the quickest simplest information I'd need for the store before it's transformed by container stuff. IE, for a trigger: time, layer, callback, data. In this case time may need to be futzed with to have an actual time, DON'T DO IT, just add event.positionX, the containers will do what they need to do.
 
-2/28/16
-Where should I put the grid css stuff? In grid, if so is there reusable things for injecting css? No, it should be it's own thing thatonly consumes sqc, also including trigger css.
+More NOTES (from sucking)
+Event handling is strange. Everything is bound to root, and then delegated, so you can't really stop event propagation. Work around is seeing what the target is and only executing if it's the one you want (kinda meh, but oh well).
+
+You NEED mapStatesToData to use dispatch. Kinda strange cause connect NEEDS an object to connect to the Element, but a lot of the time I don't need that prop at all since I pass them explicitly in the tag. Seems kinda unneeded.
