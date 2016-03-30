@@ -19,10 +19,7 @@ const Layer = ({ data, css, layer, dispatch }) => (
     <ul className={'events'}>
       {
         data.map((event, index) => {
-          return <Event
-          		key={event.key}
-              data={event}
-              css={css[event.key]} />;
+          return <Event key={event.key} data={event} css={css[event.key]} />;
         })
       }
     </ul>
