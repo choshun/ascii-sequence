@@ -23,12 +23,21 @@ let sqnc = [
 
 export default (state = Immutable.List(sqnc), action) => {
   switch(action.type) {
-    case 'addTrigger':
-      console.log(action);
-      return state.push(action.trigger.test);
-    case 'deleteTrigger':
-      console.log(action);
-      return state.delete(action.index);
+    case 'addEvent':
+      let eventState = {
+        'callback': 'addStyle',
+        'data': '.layer2 { blob: of css};'
+      };
+
+      eventState.layer = action.event.layer;
+      eventState.time = action.event.leftOffset;
+
+      return state.push(eventState);
+      break;
+    case 'deleteEvent':
+      console.log('delete reducer?!?!', action);
+      // return state.delete(action.index);
+      break;
     default:
       return state;
   }
