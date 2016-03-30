@@ -1,7 +1,7 @@
 require('./event.scss');
 
 import React from 'react';
-import { deleteEvent } from '../actions';
+import { deleteEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
 
 var styleBlock = document.createElement('style');
@@ -12,10 +12,12 @@ function addStyleToHead(className, css) {
   styleBlock.innerHTML = styleBlock.innerHTML + `.${className} ${css}\n`;
 }
 
+// TODO: add classNames to project for active stuff
+// https://github.com/JedWatson/classnames
 const Event = ({data, css, dispatch}) => (
   <li className={data.key} onClick={(event) => {
-  		console.log('remove??!!', deleteEvent);
-      dispatch(deleteEvent(data.key));
+      // Pass event data we want to change
+      dispatch(selectStyle(data));
     }}>
 
     { addStyleToHead(data.key, css) }
