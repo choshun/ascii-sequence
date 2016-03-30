@@ -18,3 +18,10 @@ export function addLayer(layer) {
     layer
   };
 }
+
+export function selectStyle(eventKey) {
+  return {
+    type: 'selectStyle',
+    eventKey
+  };
+}
