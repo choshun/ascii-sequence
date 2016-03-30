@@ -5,19 +5,19 @@ let sqnc = [
     'layer': 0,
     'time': .75,
     'callback': 'addStyle',
-    'data': '.layer2 { blob: of css};'
+    'data': '.layer2 { basdlob: of css};'
   },
   {
     'layer': 1,
     'time': .55,
     'callback': 'addStyle',
-    'data': '.layer2 { blob: of css};'
+    'data': '.layer2 { blasdob: of css};'
   },
   {
     'layer': 0,
     'time': 0,
     'callback': 'addStyle',
-    'data': '.layer2 { blob: of css};'
+    'data': '.layer1 { blobasd: of css};'
   }
 ];
 
@@ -30,6 +30,8 @@ export default (state = Immutable.List(sqnc), action) => {
       };
       eventState.layer = action.event.layer;
       eventState.time = action.event.leftOffset;
+
+      //TODO: need to order by time, maybe for selecting by index
 
       return state.push(eventState);
     case 'deleteEvent':
