@@ -7,10 +7,8 @@ import { connect } from 'react-redux';
 
 const Layer = ({ data, css, layer, dispatch }) => (
   <li className={'layer'} onClick={(event) => {
-      console.log(':(', event.pageX);
-
       if (event.target.classList.contains('layer')) {
-        var leftOffset = event.pageX / window.innerWidth;
+        let leftOffset = event.pageX / window.innerWidth;
 
         dispatch(addEvent({
           leftOffset,

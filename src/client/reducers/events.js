@@ -28,12 +28,10 @@ export default (state = Immutable.List(sqnc), action) => {
         'callback': 'addStyle',
         'data': '.layer2 { blob: of css};'
       };
-
       eventState.layer = action.event.layer;
       eventState.time = action.event.leftOffset;
 
       return state.push(eventState);
-      break;
     case 'deleteEvent':
       console.log('delete reducer?!?!', action);
       // return state.delete(action.index);
