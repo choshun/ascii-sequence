@@ -1,8 +1,8 @@
 require('./event.scss');
 
 import React from 'react';
+import { deleteEvent } from '../actions';
 import { connect } from 'react-redux';
-import { addEvent , deleteEvent } from '../actions';
 
 var styleBlock = document.createElement('style');
 document.head.appendChild(styleBlock);
@@ -13,11 +13,19 @@ function addStyleToHead(className, css) {
 }
 
 const Event = ({data, css, dispatch}) => (
-  <li className={data.key}>
+  <li className={data.key} onClick={(event) => {
+  		console.log('remove??!!', deleteEvent);
+      dispatch(deleteEvent(data.key));
+    }}>
+
     { addStyleToHead(data.key, css) }
-    {data.key}
-    {css}
   </li>
 );
 
-export default Event;
+function mapStateToProps(store) {
+  return {
+    store
+  }
+}
+
+export default connect(mapStateToProps)(Event);
