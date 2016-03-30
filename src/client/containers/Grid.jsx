@@ -54,10 +54,10 @@ function mapStateToProps(store) {
 }
 
 const Grid = ({ layers, gridCSS, dispatch }) => (
-  <section>
+  <section className={'grid'}>
     Grid!!
 
-    <ul>
+    <ul className={'layers'}>
       {
         layers.map((layer, index) => {
           return <Layer key={index} data={layer} css={gridCSS} />;
