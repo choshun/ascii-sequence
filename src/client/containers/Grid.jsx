@@ -10,7 +10,6 @@ import Layer from '../components/Layer.jsx';
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 
-
 function createLayersFromEvents(layers, events) {
   let eventsObject = events.toObject(),
       uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
@@ -32,7 +31,7 @@ function createLayersFromEvents(layers, events) {
 
 function createGridCSS(events) {
   let eventsObject = events.toObject(),
-      position = '', // TODO: I hope I don't need this.
+      position = '',
       key = '',
       cssObject = {};
 
@@ -50,11 +49,9 @@ const Grid = ({ layers, gridCSS }) => (
     Grid!!
 
     <ul className={'layers'}>
-      {
-        layers.map((layer, index) => {
+      {layers.map((layer, index) => {
           return <Layer key={index} data={layer} layer={index} css={gridCSS} />;
-        })
-      }
+        })}
     </ul>
 
   </section>
