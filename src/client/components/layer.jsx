@@ -1,18 +1,40 @@
+require('./layer.scss');
+
 import React from 'react';
 import Event from './Event.jsx';
+import { addEvent } from '../actions';
 import { connect } from 'react-redux';
-import { addLayer } from '../actions';
 
-const Layer = ({ onClick, data, css }) => (
-  <li className={'layer'}>
+const Layer = ({ data, css, layer, dispatch }) => (
+  <li className={'layer'} onClick={(event) => {
+      console.log(':(', event.pageX);
+
+      if (event.target.classList.contains('layer')) {
+        var leftOffset = event.pageX / window.innerWidth;
+
+        dispatch(addEvent({
+          leftOffset,
+          layer
+        }));
+      }
+    }}>
     <ul className={'events'}>
       {
         data.map((event, index) => {
-          return <Event key={event.key} data={event} css={css[event.key]} />;
+          return <Event
+          		key={event.key}
+              data={event}
+              css={css[event.key]} />;
         })
       }
     </ul>
   </li>
 );
 
-export default Layer;
+function mapStateToProps(store) {
+  return {
+    store
+  }
+}
+
+export default connect(mapStateToProps)(Layer);
