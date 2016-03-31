@@ -14,6 +14,9 @@ function addStyleToHead(className, css) {
 
 // TODO: add classNames to project for active stuff
 // https://github.com/JedWatson/classnames
+
+// TODO: pass in styleManager.active
+// and do classname={if (data.key === styleManager.active) then addCLass active }
 const Event = ({data, css, dispatch}) => (
   <li className={data.key} onClick={(event) => {
       // Pass event data we want to change
