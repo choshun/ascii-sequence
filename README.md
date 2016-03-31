@@ -60,3 +60,8 @@ More NOTES (from sucking)
 Event handling is strange. Everything is bound to root, and then delegated, so you can't really stop event propagation. Work around is seeing what the target is and only executing if it's the one you want (kinda meh, but oh well).
 
 You NEED mapStatesToData to use dispatch. Kinda strange cause connect NEEDS an object to connect to the Element, but a lot of the time I don't need that prop at all since I pass them explicitly in the tag. Seems kinda unneeded.
+
+IDEAS:
+- have left side ascii element animate by iteself based on layer
+- have the url be the thing that indicates what the acii art is
+- be able to save, makes a new version /:)/2 is the generation, this is turn can make a tree that you can click through.
