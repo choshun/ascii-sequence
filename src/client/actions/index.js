@@ -12,6 +12,13 @@ export function deleteEvent(event) {
   };
 }
 
+export function updateEventData(event) {
+  return {
+    type: 'updateEventData',
+    event
+  };
+}
+
 export function addLayer(layer) {
   return {
     type: 'addLayer',

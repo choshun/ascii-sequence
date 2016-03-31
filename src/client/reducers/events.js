@@ -27,12 +27,14 @@ let sqnc = [
 export default (state = Immutable.List(sqnc), action) => {
   switch(action.type) {
     case 'addEvent':
-      console.log('added action?', action);
       return state.push(action.event);
+    case 'updateEventData':
+      return state.update(action.event.index, (item) => {
+        item.data = action.event.data;
+        return item;
+      });
     case 'deleteEvent':
-      console.log('delete reducer?!?!', action);
-      // return state.delete(action.index);
-      break;
+      return state.delete(action.index);
     default:
       return state;
   }
