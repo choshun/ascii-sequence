@@ -3,7 +3,6 @@ require('./layer.scss');
 import React from 'react';
 import Event from './Event.jsx';
 
-import { map } from 'lodash';
 import { addEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
 
@@ -33,9 +32,9 @@ const Layer = ({ data, css, layer, dispatch }) => (
     }}>
 
     <ul className={'events'}>
-      {data.map((event, index) => {
+      { data.map((event, index) => {
         return <Event key={event.key} data={event} css={css[event.key]} />;
-      })}
+      }) }
     </ul>
   </li>
 );

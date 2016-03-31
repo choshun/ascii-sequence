@@ -7,7 +7,6 @@ import Layer from '../components/Layer.jsx';
 
 import { uniq, map, each, filter } from 'lodash';
 import { connect } from 'react-redux';
-import { addLayer } from '../actions';
 
 function createLayersFromEvents(layers, events) {
   let eventsObject = events.toObject(),
