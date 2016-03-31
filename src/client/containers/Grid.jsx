@@ -15,12 +15,6 @@ function createLayersFromEvents(layers, events) {
       uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
       layersAndEvents = [];
 
-  // Makes a key for each event.
-  // TODO: Maybe do this in reducer.
-  _.each(eventsObject, (item, index) => {
-    item.key = `event-${item.layer}${item.time}`.replace(/\./g, '-');
-  });
-
   // Creates new object of Layers with events for ui.
   _.each(uniqueLayers, (item, index) => {
     layersAndEvents.push(_.filter(eventsObject, {layer: index}));
