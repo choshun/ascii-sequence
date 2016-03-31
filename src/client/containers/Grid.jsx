@@ -2,11 +2,10 @@
  * This is responsible for the event UI.
  * You can add, select, and remove events.
 **/
-
-import { uniq, map, each, filter } from 'lodash';
 import React from 'react';
 import Layer from '../components/Layer.jsx';
 
+import { uniq, map, each, filter } from 'lodash';
 import { connect } from 'react-redux';
 import { addLayer } from '../actions';
 

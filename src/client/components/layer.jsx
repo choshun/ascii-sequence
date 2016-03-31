@@ -1,15 +1,11 @@
 require('./layer.scss');
-import Immutable from 'immutable';
 
 import React from 'react';
-import { map } from 'lodash';
 import Event from './Event.jsx';
+
+import { map } from 'lodash';
 import { addEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
-
-function createKey(leftOffset, layer) {
-  return `event-${layer}${leftOffset}`.replace(/\./g, '-');
-}
 
 function createEvent(leftOffset, layer) {
   return Object.assign({}, {
@@ -19,6 +15,10 @@ function createEvent(leftOffset, layer) {
     'data': 'Do something cool!',
     'key': createKey(leftOffset, layer)
   });
+}
+
+function createKey(leftOffset, layer) {
+  return `event-${layer}${leftOffset}`.replace(/\./g, '-');
 }
 
 const Layer = ({ store, data, css, layer, dispatch }) => (
