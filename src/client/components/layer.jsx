@@ -21,7 +21,7 @@ function createKey(leftOffset, layer) {
   return `event-${layer}${leftOffset}`.replace(/\./g, '-');
 }
 
-const Layer = ({ store, data, css, layer, dispatch }) => (
+const Layer = ({ data, css, layer, dispatch }) => (
   <li className={'layer'} onClick={(event) => {
       if (event.target.classList.contains('layer')) {
         let leftOffset = event.pageX / window.innerWidth,
@@ -33,11 +33,9 @@ const Layer = ({ store, data, css, layer, dispatch }) => (
     }}>
 
     <ul className={'events'}>
-      {
-        data.map((event, index) => {
-          return <Event key={event.key} data={event} css={css[event.key]} />;
-        })
-      }
+      {data.map((event, index) => {
+        return <Event key={event.key} data={event} css={css[event.key]} />;
+      })}
     </ul>
   </li>
 );
