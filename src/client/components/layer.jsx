@@ -1,21 +1,37 @@
 require('./layer.scss');
+import Immutable from 'immutable';
 
 import React from 'react';
+import { map } from 'lodash';
 import Event from './Event.jsx';
-import { addEvent } from '../actions';
+import { addEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
 
-const Layer = ({ data, css, layer, dispatch }) => (
+function createKey(leftOffset, layer) {
+  return `event-${layer}${leftOffset}`.replace(/\./g, '-');
+}
+
+function createEvent(leftOffset, layer) {
+  return Object.assign({}, {
+    'layer': layer,
+    'time': leftOffset,
+    'callback': 'addStyle',
+    'data': 'Do something cool!',
+    'key': createKey(leftOffset, layer)
+  });
+}
+
+const Layer = ({ store, data, css, layer, dispatch }) => (
   <li className={'layer'} onClick={(event) => {
       if (event.target.classList.contains('layer')) {
-        let leftOffset = event.pageX / window.innerWidth;
+        let leftOffset = event.pageX / window.innerWidth,
+            newEvent = createEvent(leftOffset, layer);
 
-        dispatch(addEvent({
-          leftOffset,
-          layer
-        }));
+        dispatch(addEvent(newEvent));
+        dispatch(selectStyle(newEvent));
       }
     }}>
+
     <ul className={'events'}>
       {
         data.map((event, index) => {
