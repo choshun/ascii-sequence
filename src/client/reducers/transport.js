@@ -4,7 +4,8 @@ let initialTransport = {
   'play': true,
   'start': 0,
   'end': 1,
-  'measure': 0
+  'measure': 0,
+  'time': 1
 };
 
 export default (state = Immutable.Map(initialTransport), action) => {
