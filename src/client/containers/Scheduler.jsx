@@ -21,6 +21,8 @@ class SchedulerUtils {
   constructor() {
     this.context;
 
+    this.sequence = [];
+
     /**
      * Interval to try and refire schedule.
      * @type {Number} in ms
@@ -52,6 +54,15 @@ class SchedulerUtils {
     this.play = true;
   }
 
+  setSequence(sequence) {
+    console.log('set!!!!', sequence);
+    this.sequence = sequence;
+  }
+
+  getSequence() {
+    return this.sequence;
+  }
+
   /**
    * Kicks off timer for animation events.
    */
@@ -68,14 +79,19 @@ class SchedulerUtils {
     }
   }
 
+  // TODO: so much to do here, but based on transport play and fire destination
   /**
    * Scheduler for sequence of events in sequence.js.
    */
-  schedule() {
+  schedule(transport) {
+    this.startContext();
+
     var eventKey,
         trigger; // single event
 
-    trigger = this.sequence[this.index];
+    console.log('transport!', transport);
+
+    trigger = this.sequence.get(this.index);
     this.eventTime = trigger.time;
 
     // If the event time is less than now and a look ahead time window
@@ -96,9 +112,9 @@ class SchedulerUtils {
       }
     }
 
-    if (this.play) {
+    if (transport.get('play') === true) {
       window.setTimeout(() => {
-        this.schedule();
+        this.schedule(transport);
       }, this.lookahead);
     }
   }
@@ -113,25 +129,22 @@ class SchedulerUtils {
         setAttribute('class', theClass);
   }
 
-  test() {
-    console.log('alrighty, got in there!!!');
-  }
-
   mapStateToProps(store) {
-    console.log('it worked?');
     return {
-      sequence: store.events
+      sequence: store.events,
+      transport: store.transport
     };
   }
 }
 
 const schedulerUtils = new SchedulerUtils();
 
-const Scheduler = ({ sequence }) => (
+const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
     /* this will refire EVERY TIME SEQUENCE CHANGES :0, so sick */
     Scheduler!!!
-    { console.log('sequence available!', sequence, 'class available!', schedulerUtils.test) }
+    { schedulerUtils.setSequence(sequence) }
+    { schedulerUtils.schedule(transport) }
   </section>
 );
 
