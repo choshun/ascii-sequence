@@ -31,7 +31,7 @@ scene
 */
 
 
-// TODO: not sure how else to do this,
+// not sure how else to do this,
 // the output is the the head tag.
 // decided to pass it to event, so react can manage changing only what changes
 instead of constantly injecting the whole thing in a head tag.
