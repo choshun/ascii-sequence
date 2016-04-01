@@ -7,6 +7,7 @@ import store from './store';
 import Grid from './containers/Grid.jsx';
 import StyleManager from './containers/StyleManager.jsx';
 import Scheduler from './containers/Scheduler.jsx';
+import Transport from './containers/Transport.jsx';
 import Scene from './containers/Scene.jsx';
 
 let app = document.getElementById('app');
@@ -22,6 +23,9 @@ render(
 
       {/* Schedules events. */}
       <Scheduler />
+
+      {/* Controls playback of scheduler. */}
+      <Transport />
 
       {/* Destination of events. */}
       <Scene />
