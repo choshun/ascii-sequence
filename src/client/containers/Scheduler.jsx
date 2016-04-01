@@ -7,15 +7,12 @@ import { connect } from 'react-redux';
 
 /**
  * @class Scheduler
- *
  * A sequencer using audio context for timing.
- *
  * @author choshun.snyder@gmail.com (Choshun Snyder)
  */
 class SchedulerUtils {
   /**
    * @constructor Scheduler
-   *
    * @param {Object} cube cube object to schedule
    */
   constructor() {
@@ -84,18 +81,16 @@ class SchedulerUtils {
    * Scheduler for sequence of events in sequence.js.
    */
   schedule(transport) {
-    this.startContext();
-
     var eventKey,
         trigger; // single event
 
-    console.log('transport!', transport);
+    console.log('transport!8=====D', transport);
 
     trigger = this.sequence.get(this.index);
     this.eventTime = trigger.time;
 
     // If the event time is less than now and a look ahead time window
-    if (this.eventTime < (this.context.currentTime +
+    if (this.time < (this.context.currentTime +
         this.scheduleAheadTime)) {
 
       // fire callbacks
@@ -138,11 +133,11 @@ class SchedulerUtils {
 }
 
 const schedulerUtils = new SchedulerUtils();
-
 const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
     /* this will refire EVERY TIME SEQUENCE CHANGES :0, so sick */
     Scheduler!!!
+    { schedulerUtils.startContext() }
     { schedulerUtils.setSequence(sequence) }
     { schedulerUtils.schedule(transport) }
   </section>
