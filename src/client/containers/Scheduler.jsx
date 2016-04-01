@@ -92,18 +92,26 @@ class SchedulerUtils {
   /**
    * Scheduler for sequence of events in sequence.js.
    */
+
+  // TODO: BUG: if I put an event really far right of the grid, current measure time skips
+  // to the next measure.
   schedule() {
     let nextEvent,
-        eventTime;
+        eventTime,
+        measure = 0;
 
     if (this.sequence && this.transport) {
+      // TODO: might want to calculate this every tick, may need to
+      // put back in constructor and set only at end of if,
+      // and play/pause to get back on track.
       nextEvent = this.sequence[this.index];
       eventTime = nextEvent.time * this.transport.time;
-
+      
       if ((eventTime + this.measure) < (this.context.currentTime +
         this.scheduleAheadTime)) {
-        console.log('nextEvent?', (eventTime + this.measure), (this.context.currentTime +
-        this.scheduleAheadTime), nextEvent);  
+        // console.log('measure?', this.measure);
+        // console.log('nextEvent?', (eventTime + this.measure), (this.context.currentTime +
+        // this.scheduleAheadTime), nextEvent);  
 
         this.index = ((this.index + 1) % this.sequence.length);
 
@@ -111,8 +119,12 @@ class SchedulerUtils {
         if (this.index === 0 ) {
           console.log('\n\n---------NEW MEASURE---------\n\n');
 
-          // TODO: make measure based on this.context.currentTime / this.transport.time
-          this.measure += this.transport.time;
+          // No clue what to call this. Based on context time, so it's play/pause proof :D.
+          var currentMeasureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
+
+          console.log('added mutliple of 5?', currentMeasureTime);
+          // TODO: measure is sort of a shitty name since it's measure * transport time
+          this.measure = currentMeasureTime;
         }
       }
     }
