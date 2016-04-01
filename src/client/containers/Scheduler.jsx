@@ -2,8 +2,8 @@
  * Scedules events from store "events". Read only!!!!.
 **/
 import React from 'react';
-
 import { connect } from 'react-redux';
+import { clone, sortBy } from 'lodash';
 
 /**
  * @class Scheduler
@@ -18,13 +18,15 @@ class SchedulerUtils {
   constructor() {
     this.context;
 
-    this.sequence = [];
+    this.sequence;
+
+    this.transport;
 
     /**
      * Interval to try and refire schedule.
      * @type {Number} in ms
      */
-    this.lookahead = 30;
+    this.lookahead = 40;
 
     /**
      * Time to look ahead in sequence to schedule.
@@ -36,33 +38,43 @@ class SchedulerUtils {
      * Index of scheduled events.
      * @type {Number}
      */
+    // TODO: feel like this doesn't need to be public
     this.index = 0;
+    this.measure = 0;
 
     /**
      * Time at which to fire scheduled items.
      * @type {Number} in sec
      */
+    // TODO: feel like this doesn't need to be public
     this.eventTime = 0;
 
     /**
      * Whether to keep interval for next scheduled event
      * @type {Boolean}
      */
+    // TODO: this is sort of redundant, already in transport
     this.play = true;
   }
 
+  // Converts Immutable object to array sorted by time.
   setSequence(sequence) {
-    console.log('set!!!!', sequence);
-    this.sequence = sequence;
+    this.sequence = _.sortBy(_.clone(sequence.toArray()), 'time');
+    console.log('set!!!!', this.sequence);
   }
 
-  getSequence() {
-    return this.sequence;
+  setTransport(transport) {
+    this.transport = _.clone(transport.toObject());
+    console.log('set transport!!!!', this.transport);
   }
 
   /**
    * Kicks off timer for animation events.
    */
+  // TODO: I feel this needs to be in a utils folder, kinda
+  // has to do with scheduling.. not 100% sure tbh.
+  // maybe it's utils.createContext, returns a context
+  // then we set this.context to that.
   startContext() {
     if (this.context === undefined) {
       var contextClass = window.AudioContext ||
@@ -80,38 +92,39 @@ class SchedulerUtils {
   /**
    * Scheduler for sequence of events in sequence.js.
    */
-  schedule(transport) {
-    var eventKey,
-        trigger; // single event
+  schedule() {
+    let nextEvent,
+        eventTime;
 
-    console.log('transport!8=====D', transport);
+    // TODO: make measure change as transport time's change, ie, if whole time for the loop is 30,
+    // measure += 30;
+    // TODO: make event time a miltiple of transport time, ie if whole time is 30,
+    // eventTime = nextEvent.time * 30
+    if (this.sequence && this.transport) {
+      nextEvent = this.sequence[this.index];
+      eventTime = nextEvent.time;
 
-    trigger = this.sequence.get(this.index);
-    this.eventTime = trigger.time;
-
-    // If the event time is less than now and a look ahead time window
-    if (this.time < (this.context.currentTime +
+      if ((eventTime + this.measure) < (this.context.currentTime +
         this.scheduleAheadTime)) {
+        console.log('nextEvent?', (eventTime + this.measure), (this.context.currentTime +
+        this.scheduleAheadTime), nextEvent);  
 
-      // fire callbacks
-      for (eventKey in trigger.events) {
-        var eventValue = trigger.events[eventKey];
-        this[eventKey](eventValue);
-      }
+        this.index = ((this.index + 1) % this.sequence.length);
 
-      // keep going if there's more scheduled events
-      if (this.sequence[this.index + 1] !== undefined) {
-        this.index++;
-      } else {
-        this.play = false;
+        // TODO: fire callback (rename to destination), with data. 
+        if (this.index === 0 ) {
+          console.log('\n\n---------NEW MEASURE---------\n\n');
+          this.measure++;
+        }
       }
     }
 
-    if (transport.get('play') === true) {
-      window.setTimeout(() => {
-        this.schedule(transport);
-      }, this.lookahead);
-    }
+    // Never not polling.
+    window.setTimeout(() => {
+      if (this.transport && this.transport.play === true) {
+        this.schedule();
+      }
+    }, this.lookahead);
   }
 
   /**
@@ -133,13 +146,16 @@ class SchedulerUtils {
 }
 
 const schedulerUtils = new SchedulerUtils();
+// Start scheduling once, not every time sequence/transport changes
+schedulerUtils.startContext();
+schedulerUtils.schedule();
+
 const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
     /* this will refire EVERY TIME SEQUENCE CHANGES :0, so sick */
     Scheduler!!!
-    { schedulerUtils.startContext() }
     { schedulerUtils.setSequence(sequence) }
-    { schedulerUtils.schedule(transport) }
+    { schedulerUtils.setTransport(transport) }
   </section>
 );
 
