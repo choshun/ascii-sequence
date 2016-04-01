@@ -96,13 +96,9 @@ class SchedulerUtils {
     let nextEvent,
         eventTime;
 
-    // TODO: make measure change as transport time's change, ie, if whole time for the loop is 30,
-    // measure += 30;
-    // TODO: make event time a miltiple of transport time, ie if whole time is 30,
-    // eventTime = nextEvent.time * 30
     if (this.sequence && this.transport) {
       nextEvent = this.sequence[this.index];
-      eventTime = nextEvent.time;
+      eventTime = nextEvent.time * this.transport.time;
 
       if ((eventTime + this.measure) < (this.context.currentTime +
         this.scheduleAheadTime)) {
@@ -114,7 +110,9 @@ class SchedulerUtils {
         // TODO: fire callback (rename to destination), with data. 
         if (this.index === 0 ) {
           console.log('\n\n---------NEW MEASURE---------\n\n');
-          this.measure++;
+
+          // TODO: make measure based on this.context.currentTime / this.transport.time
+          this.measure += this.transport.time;
         }
       }
     }
