@@ -1,6 +1,4 @@
 import React from 'react';
-import Layer from '../components/Layer.jsx';
-
 import { updateEventData, selectStyle } from '../actions';
 import { clone, findIndex } from 'lodash';
 import { connect } from 'react-redux';

@@ -4,7 +4,6 @@
 **/
 import React from 'react';
 import Layer from '../components/Layer.jsx';
-
 import { uniq, map, each, filter } from 'lodash';
 import { connect } from 'react-redux';
 
