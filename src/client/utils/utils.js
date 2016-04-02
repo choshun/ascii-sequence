@@ -13,7 +13,7 @@ class Utils {
   getContext() {
     return this.context;
   }
-
+  // should init immediately
   startContext() {
     if (this.context === undefined) {
       var contextClass = window.AudioContext ||
