@@ -26,7 +26,7 @@ class SchedulerUtils {
      * Interval to try and refire schedule.
      * @type {Number} in ms
      */
-    this.lookahead = 40;
+    this.lookahead = 30;
 
     /**
      * Time to look ahead in sequence to schedule.
@@ -38,34 +38,19 @@ class SchedulerUtils {
      * Index of scheduled events.
      * @type {Number}
      */
-    // TODO: feel like this doesn't need to be public
     this.index = 0;
-    this.measure = 0;
-
-    /**
-     * Time at which to fire scheduled items.
-     * @type {Number} in sec
-     */
-    // TODO: feel like this doesn't need to be public
-    this.eventTime = 0;
-
-    /**
-     * Whether to keep interval for next scheduled event
-     * @type {Boolean}
-     */
-    // TODO: this is sort of redundant, already in transport
-    this.play = true;
+    this.measureTime = 0;
   }
 
   // Converts Immutable object to array sorted by time.
   setSequence(sequence) {
     this.sequence = _.sortBy(_.clone(sequence.toArray()), 'time');
-    console.log('set!!!!', this.sequence);
+    // console.log('set!!!!', this.sequence);
   }
 
   setTransport(transport) {
     this.transport = _.clone(transport.toObject());
-    console.log('set transport!!!!', this.transport);
+    // console.log('set transport!!!!', this.transport);
   }
 
   /**
@@ -97,38 +82,31 @@ class SchedulerUtils {
   // to the next measure.
   schedule() {
     let nextEvent,
-        eventTime,
-        measure = 0;
+        eventTime;
 
     if (this.sequence && this.transport) {
-      // TODO: might want to calculate this every tick, may need to
-      // put back in constructor and set only at end of if,
-      // and play/pause to get back on track.
       nextEvent = this.sequence[this.index];
       eventTime = nextEvent.time * this.transport.time;
       
-      if ((eventTime + this.measure) < (this.context.currentTime +
+      if ((eventTime + this.measureTime) < (this.context.currentTime +
         this.scheduleAheadTime)) {
-        // console.log('measure?', this.measure);
-        // console.log('nextEvent?', (eventTime + this.measure), (this.context.currentTime +
-        // this.scheduleAheadTime), nextEvent);  
+        console.log('nextEvent?', (eventTime + this.measureTime), (this.context.currentTime +
+        this.scheduleAheadTime), nextEvent);
 
         this.index = ((this.index + 1) % this.sequence.length);
 
         // TODO: fire callback (rename to destination), with data. 
         if (this.index === 0 ) {
           console.log('\n\n---------NEW MEASURE---------\n\n');
-
-          // No clue what to call this. Based on context time, so it's play/pause proof :D.
-          var currentMeasureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
-
-          console.log('added mutliple of 5?', currentMeasureTime);
-          // TODO: measure is sort of a shitty name since it's measure * transport time
-          this.measure = currentMeasureTime;
+          this.measureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
         }
       }
     }
 
+    this.cycle();
+  }
+
+  cycle() {
     // Never not polling.
     window.setTimeout(() => {
       if (this.transport && this.transport.play === true) {
