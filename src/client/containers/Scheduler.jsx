@@ -16,7 +16,6 @@ class SchedulerUtils {
    * @param {Object} cube cube object to schedule
    */
   constructor() {
-    this.context;
 
     this.sequence;
 
@@ -50,27 +49,10 @@ class SchedulerUtils {
 
   setTransport(transport) {
     this.transport = _.clone(transport.toObject());
+
+    this.context = this.transport.context;
+    console.log('fuck yeah?', this.context);
     // console.log('set transport!!!!', this.transport);
-  }
-
-  /**
-   * Kicks off timer for animation events.
-   */
-  // TODO: I feel this needs to be in a utils folder, kinda
-  // has to do with scheduling.. not 100% sure tbh.
-  // maybe it's utils.createContext, returns a context
-  // then we set this.context to that.
-  startContext() {
-    if (this.context === undefined) {
-      var contextClass = window.AudioContext ||
-          window.webkitAudioContext ||
-          window.mozAudioContext || window.oAudioContext ||
-          window.msAudioContext;
-
-      if (contextClass) {
-        this.context = new contextClass();
-      }
-    }
   }
 
   // TODO: so much to do here, but based on transport play and fire destination
@@ -115,16 +97,6 @@ class SchedulerUtils {
     }, this.lookahead);
   }
 
-  /**
-   * Scheduler for sequence of events in sequence.js.
-   *
-   * @param {String} theClass space delimited classes I want to add
-   */
-  setClass(theClass) {
-    document.querySelector('.' + theClass.split(' ')[0]).
-        setAttribute('class', theClass);
-  }
-
   mapStateToProps(store) {
     return {
       sequence: store.events,
@@ -135,13 +107,15 @@ class SchedulerUtils {
 
 const schedulerUtils = new SchedulerUtils();
 // Start scheduling once, not every time sequence/transport changes
-schedulerUtils.startContext();
 schedulerUtils.schedule();
 
 const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
     /* this will refire EVERY TIME SEQUENCE CHANGES :0, so sick */
     Scheduler!!!
+    { console.log('pls work pls', transport.get('context')) }
+
+    // TODO: make single init, keep setSequence and setTransport, they sexy
     { schedulerUtils.setSequence(sequence) }
     { schedulerUtils.setTransport(transport) }
   </section>
