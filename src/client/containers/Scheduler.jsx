@@ -41,18 +41,19 @@ class SchedulerUtils {
     this.measureTime = 0;
   }
 
+  init(sequence, transport) {
+    this.setSequence(sequence);
+    this.setTransport(transport);
+    this.context = this.transport.context;
+  }
+
   // Converts Immutable object to array sorted by time.
   setSequence(sequence) {
     this.sequence = _.sortBy(_.clone(sequence.toArray()), 'time');
-    // console.log('set!!!!', this.sequence);
   }
 
   setTransport(transport) {
     this.transport = _.clone(transport.toObject());
-
-    this.context = this.transport.context;
-    console.log('fuck yeah?', this.context);
-    // console.log('set transport!!!!', this.transport);
   }
 
   // TODO: so much to do here, but based on transport play and fire destination
@@ -69,17 +70,15 @@ class SchedulerUtils {
     if (this.sequence && this.transport) {
       nextEvent = this.sequence[this.index];
       eventTime = nextEvent.time * this.transport.time;
-      
+
       if ((eventTime + this.measureTime) < (this.context.currentTime +
         this.scheduleAheadTime)) {
-        console.log('nextEvent?', (eventTime + this.measureTime), (this.context.currentTime +
-        this.scheduleAheadTime), nextEvent);
-
         this.index = ((this.index + 1) % this.sequence.length);
 
-        // TODO: fire callback (rename to destination), with data. 
+        console.log('NEXT EVENT', nextEvent);
+        // TODO: fire callback (rename to destination), with data.
+        
         if (this.index === 0 ) {
-          console.log('\n\n---------NEW MEASURE---------\n\n');
           this.measureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
         }
       }
@@ -106,18 +105,13 @@ class SchedulerUtils {
 }
 
 const schedulerUtils = new SchedulerUtils();
-// Start scheduling once, not every time sequence/transport changes
+// Starts scheduling once, not every time sequence/transport changes.
 schedulerUtils.schedule();
 
 const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
-    /* this will refire EVERY TIME SEQUENCE CHANGES :0, so sick */
     Scheduler!!!
-    { console.log('pls work pls', transport.get('context')) }
-
-    // TODO: make single init, keep setSequence and setTransport, they sexy
-    { schedulerUtils.setSequence(sequence) }
-    { schedulerUtils.setTransport(transport) }
+    { schedulerUtils.init(sequence, transport) }
   </section>
 );
 
