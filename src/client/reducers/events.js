@@ -5,21 +5,21 @@ let sqnc = [
     'layer': 0,
     'time': 0.75,
     'callback': 'addStyle',
-    'data': '.layer2 { basdlob: of css};',
+    'data': 'blob: of css;\nleft: 20px',
     'key': 'event-00-75'
   },
   {
     'layer': 1,
     'time': 0.55,
     'callback': 'addStyle',
-    'data': '.layer2 { blasdob: of css};',
+    'data': 'basdlob: of css;\nleft: 30px',
     'key': 'event-10-55'
   },
   {
     'layer': 0,
     'time': 0,
     'callback': 'addStyle',
-    'data': '.layer1 { blobasd: of css};',
+    'data': 'assdlob: of css;\nleft: 50px',
     'key': 'event-00'
   }
 ];

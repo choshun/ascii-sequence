@@ -11,7 +11,7 @@ function createEvent(leftOffset, layer) {
     'layer': layer,
     'time': leftOffset,
     'callback': 'addStyle',
-    'data': 'Do something cool!',
+    'data': 'new data: of css;\nleft: 50px',
     'key': createKey(leftOffset, layer)
   });
 }
