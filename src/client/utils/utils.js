@@ -14,7 +14,7 @@ class Utils {
     return this.context;
   }
   // should init immediately
-  startContext() {
+  createContext() {
     if (this.context === undefined) {
       var contextClass = window.AudioContext ||
           window.webkitAudioContext ||
