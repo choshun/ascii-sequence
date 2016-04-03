@@ -48,6 +48,7 @@ class SchedulerUtils {
     this.setSequence(sequence);
     this.setTransport(transport);
     this.context = this.transport.context;
+    this.destination.init();
   }
 
   // Converts Immutable object to array sorted by time.
