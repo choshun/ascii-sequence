@@ -24,7 +24,6 @@ function getClassNames(eventKey, activeKey) {
 const Event = ({store, data, css, dispatch}) => (
   <li className={getClassNames(data.key, store.styleManager.get('active').key)} onClick={(event) => {
       dispatch(selectStyle(data));
-      console.log('passed!??!?!!?', store.transport.get('context').currentTime);
     }}>
 
     { addStyleToHead(data.key, css) }
