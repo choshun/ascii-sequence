@@ -12,7 +12,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /(\.jsx?|\.js?)/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
         query: {
