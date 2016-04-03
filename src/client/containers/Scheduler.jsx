@@ -2,6 +2,7 @@
  * Scedules events from store "events". Read only!!!!.
 **/
 import React from 'react';
+import Css from '../destinations/css.js';
 import { connect } from 'react-redux';
 import { clone, sortBy } from 'lodash';
 
@@ -20,6 +21,8 @@ class SchedulerUtils {
     this.sequence;
 
     this.transport;
+
+    this.destination = new Css();
 
     /**
      * Interval to try and refire schedule.
@@ -56,9 +59,13 @@ class SchedulerUtils {
     this.transport = _.clone(transport.toObject());
   }
 
-  // TODO: so much to do here, but based on transport play and fire destination
   /**
-   * Scheduler for sequence of events in sequence.js.
+   * Scheduler for sequence of events. Fires a destination
+   * based on event time in store "events". Ideally this is destination agnostic,
+   * this same scheduler should be able to trigger anything, css, canvas, web audio etc.
+   * solely based on event data.
+   * It's a scheduler, so there's a lookahead and all that other good stuff:
+   * http://www.html5rocks.com/en/tutorials/audio/scheduling/
    */
 
   // TODO: BUG: if I put an event really far right of the grid, current measure time skips
@@ -71,13 +78,15 @@ class SchedulerUtils {
       nextEvent = this.sequence[this.index];
       eventTime = nextEvent.time * this.transport.time;
 
+      // See article above.
       if ((eventTime + this.measureTime) < (this.context.currentTime +
         this.scheduleAheadTime)) {
         this.index = ((this.index + 1) % this.sequence.length);
 
-        console.log('NEXT EVENT', nextEvent);
-        // TODO: fire callback (rename to destination), with data.
-        
+        // Fires event callback.
+        this.destination[nextEvent.callback](nextEvent);
+
+        // Reset event loop to current time.
         if (this.index === 0 ) {
           this.measureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
         }
