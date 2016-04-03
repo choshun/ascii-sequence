@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import Utils from '../utils/utils.js';
 
 const utils = new Utils();
-utils.startContext();
+utils.createContext();
 
 let initialTransport = {
   'play': true, // Should be playing.
