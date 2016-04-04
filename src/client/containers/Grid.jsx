@@ -83,13 +83,13 @@ function createLayersFromEvents(layers, events) {
   return layersAndEvents;
 }
 
-const Grid = ({ layers, gridCSS }) => (
+const Grid = ({ store, layers, gridCSS }) => (
   <section className={'grid'}>
     Grid!!
 
     <ul className={'layers'}>
       {layers.map((layer, index) => {
-        return <Layer key={index} layerData={layer} layer={index} onClick={layerClick} />;
+        return <Layer key={index} layerData={layer} layer={index} onClick={layerClick} styleManager={store.styleManager} />;
       })}
     </ul>
 
@@ -98,6 +98,7 @@ const Grid = ({ layers, gridCSS }) => (
 
 function mapStateToProps(store) {
   return {
+    store,
     'layers': createLayersFromEvents(store.layers, store.events),
     'gridCSS': initGridCSS(store.events)
   };
