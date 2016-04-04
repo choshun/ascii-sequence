@@ -73,7 +73,8 @@ class SchedulerUtils {
   // to the next measure.
   schedule() {
     let nextEvent,
-        eventTime;
+        eventTime,
+        newMeasure;
 
     if (this.sequence && this.transport) {
       nextEvent = this.sequence[this.index];
@@ -83,12 +84,13 @@ class SchedulerUtils {
       if ((eventTime + this.measureTime) < (this.context.currentTime +
         this.scheduleAheadTime)) {
         this.index = ((this.index + 1) % this.sequence.length);
+        newMeasure = (this.index === 0);
 
         // Fires event callback.
-        this.destination[nextEvent.callback](nextEvent);
+        this.destination[nextEvent.callback](nextEvent, newMeasure);
 
         // Reset event loop to current time.
-        if (this.index === 0 ) {
+        if (newMeasure) {
           this.measureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
         }
       }
