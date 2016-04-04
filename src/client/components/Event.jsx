@@ -5,14 +5,6 @@ import classNames from 'classnames';
 import { deleteEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
 
-var styleBlock = document.createElement('style');
-document.head.appendChild(styleBlock);
-
-// See README
-function addStyleToHead(className, css) {
-  styleBlock.innerHTML = styleBlock.innerHTML + `.${className} ${css}\n`;
-}
-
 function getClassNames(eventKey, activeKey) {
   let classObject = {};
   classObject[eventKey] = true;
@@ -21,12 +13,10 @@ function getClassNames(eventKey, activeKey) {
   return classNames(classObject);
 }
 
-const Event = ({store, data, css, dispatch}) => (
-  <li className={getClassNames(data.key, store.styleManager.get('active').key)} onClick={(event) => {
-      dispatch(selectStyle(data));
+const Event = ({ store, eventData, dispatch}) => (
+  <li className={getClassNames(eventData.key, store.styleManager.get('active').key)} onClick={(event) => {
+      dispatch(selectStyle(eventData));
     }}>
-
-    { addStyleToHead(data.key, css) }
   </li>
 );
 
