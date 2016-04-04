@@ -121,6 +121,8 @@ schedulerUtils.schedule();
 const Scheduler = ({ sequence, transport }) => (
   <section className={'scheduler'}>
     Scheduler!!!
+
+    // TODO: this fires every time store changes, only set sequence and transport here.
     { schedulerUtils.init(sequence, transport) }
   </section>
 );
