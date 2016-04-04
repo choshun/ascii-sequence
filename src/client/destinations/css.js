@@ -1,6 +1,5 @@
-// Add trainsition delay from schedule
-// Clear at new loop
-// Concept of persistent css (per layer or grid/scene(bg)), maybe initial state?
+// TODO: Add trainsition delay from schedule
+// TODO: Concept of persistent css (per layer or grid/scene(bg)), maybe initial state?
 class Css {
   constructor() {
     this.styleBlock = document.createElement('style');
@@ -15,8 +14,11 @@ class Css {
     return `.scene .${event.key} {\n${event.data}\n}`;
   }
 
-  addStyle(event) {
-    // TODO: clear out old stuff in style tag if possible (new loop?)
+  addStyle(event, newMeasure) {
+    if (newMeasure) {
+      this.styleBlock.innerHTML = '';
+    }
+
     this.styleBlock.innerHTML = this.styleBlock.innerHTML + `${this.createClass(event)}\n`;
   }
 }
