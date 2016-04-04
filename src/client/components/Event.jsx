@@ -1,29 +1,30 @@
 require('./event.scss');
 
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
-import { deleteEvent, selectStyle } from '../actions';
+import { selectStyle } from '../actions';
 import { connect } from 'react-redux';
 
-function getClassNames(eventKey, activeKey) {
-  let classObject = {};
-  classObject[eventKey] = true;
-  classObject['is-active'] = (eventKey === activeKey) ? true : false;
+class Event extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return classNames(classObject);
-}
+  getClassNames(eventKey, activeKey) {
+    let classObject = {};
+    classObject[eventKey] = true;
+    classObject['is-active'] = (eventKey === activeKey) ? true : false;
+    // this.props.store.styleManager.get('active').key
+    return classNames(classObject);
+  }
 
-const Event = ({ store, eventData, dispatch}) => (
-  <li className={getClassNames(eventData.key, store.styleManager.get('active').key)} onClick={(event) => {
-      dispatch(selectStyle(eventData));
-    }}>
-  </li>
-);
-
-function mapStateToProps(store) {
-  return {
-    store
+  render() {
+    return (
+      <li className={this.getClassNames(this.props.eventData.key, this.props.styleManager.get('active').key)} onClick={(event) => {
+        this.props.dispatch(selectStyle(this.props.eventData));
+      }}></li>
+    );
   }
 }
 
-export default connect(mapStateToProps)(Event);
+export default connect()(Event);
