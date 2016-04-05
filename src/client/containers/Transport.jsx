@@ -1,5 +1,5 @@
 /** 
- * Controls time! :0
+ * Responsible for the concept of time :0
 **/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -28,4 +28,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(Transport.mapStateToProps)(Transport);
+export default connect(mapStateToProps)(Transport);

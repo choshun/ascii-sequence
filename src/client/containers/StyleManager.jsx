@@ -1,3 +1,6 @@
+/** 
+ * Manages style data.
+**/
 import React, { Component } from 'react';
 import { updateEventData, selectStyle } from '../actions';
 import { clone, findIndex } from 'lodash';

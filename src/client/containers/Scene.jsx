@@ -1,5 +1,5 @@
 /** 
- * ASCII art!
+ * ASCII art! Where the cool stuff happens.
 **/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';

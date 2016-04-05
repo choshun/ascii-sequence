@@ -1,5 +1,6 @@
 /** 
- * Scedules events from store "events". Read only!!!!.
+ * Scedules events from store "events". This fires an event destination
+ * based on event time vs current time. Read only!!!!.
 **/
 import React, { Component } from 'react';
 import Css from '../destinations/css.js';

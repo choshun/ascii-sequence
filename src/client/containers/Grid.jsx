@@ -13,6 +13,8 @@ class Grid extends Component {
     super(props);
 
     this.styleBlock = document.createElement('style');
+
+    this.layerClick = this.layerClick.bind(this);
   }
 
   componentDidMount() {
@@ -20,7 +22,7 @@ class Grid extends Component {
     document.head.appendChild(this.styleBlock);
   }
 
-  // TODO: use events store, or make a constant
+  // TODO: use events store, or make a constant, if store then do Object.assign
   createEvent(leftOffset, layer) {
     return {
       'layer': layer,
@@ -32,6 +34,7 @@ class Grid extends Component {
   }
 
   addGridStyleToHead(className, css) {
+    // TODO: make .grid a constant
     this.styleBlock.innerHTML = this.styleBlock.innerHTML + `.grid .${className} ${css}\n`;
   }
 
@@ -77,7 +80,11 @@ class Grid extends Component {
 
         <ul className={'layers'}>
           {this.props.layers.map((layer, index) => {
-            return <Layer key={index} layerData={layer} layer={index} onClick={this.layerClick.bind(this)} styleManager={this.props.store.styleManager} />;
+            return <Layer key={index}
+                          layerData={layer}
+                          layer={index}
+                          onClick={this.layerClick}
+                          styleManager={this.props.store.styleManager} />;
           })}
         </ul>
 

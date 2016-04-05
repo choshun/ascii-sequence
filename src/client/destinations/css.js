@@ -1,3 +1,10 @@
+/** 
+ * Invoking this adds/removes styles to the page. Class is event.key (unique 
+ * based on layer and time), and style to add is event.data.
+ * We clear styles when the loop restarts based on the containers/Scheduler signature (scheduler
+ * is the only place to call a destination anywhere in this app).
+**/
+
 // TODO: Add trainsition delay from schedule
 // TODO: Concept of persistent css (per layer or grid/scene(bg)), maybe initial state?
 // TODO: BUG: clear the style tag at the right time (new loop)
