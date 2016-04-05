@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
 class Scene extends Component {
   constructor(props) {
     super(props);
