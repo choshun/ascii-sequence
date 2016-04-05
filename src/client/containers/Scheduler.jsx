@@ -1,7 +1,7 @@
 /** 
  * Scedules events from store "events". Read only!!!!.
 **/
-import React from 'react';
+import React, { Component } from 'react';
 import Css from '../destinations/css.js';
 import { connect } from 'react-redux';
 import { clone, sortBy } from 'lodash';
@@ -11,16 +11,13 @@ import { clone, sortBy } from 'lodash';
  * A sequencer using audio context for timing.
  * @author choshun.snyder@gmail.com (Choshun Snyder)
  */
-class SchedulerUtils {
+class Scheduler extends Component {
   /**
    * @constructor Scheduler
    * @param {Object} cube cube object to schedule
    */
-  constructor() {
-
-    this.sequence;
-
-    this.transport;
+  constructor(props) {
+    super(props);
 
     this.destination = new Css();
 
@@ -28,7 +25,7 @@ class SchedulerUtils {
      * Interval to try and refire schedule.
      * @type {Number} in ms
      */
-    this.lookahead = 30;
+    this.lookahead = 300;
 
     /**
      * Time to look ahead in sequence to schedule.
@@ -41,23 +38,13 @@ class SchedulerUtils {
      * @type {Number}
      */
     this.index = 0;
+
     this.measureTime = 0;
   }
 
-  init(sequence, transport) {
-    this.setSequence(sequence);
-    this.setTransport(transport);
-    this.context = this.transport.context;
+  componentDidMount() {
     this.destination.init();
-  }
-
-  // Converts Immutable object to array sorted by time.
-  setSequence(sequence) {
-    this.sequence = _.sortBy(_.clone(sequence.toArray()), 'time');
-  }
-
-  setTransport(transport) {
-    this.transport = _.clone(transport.toObject());
+    this.schedule();
   }
 
   /**
@@ -72,27 +59,27 @@ class SchedulerUtils {
   // TODO: BUG: if I put an event really far right of the grid, current measure time skips
   // to the next measure.
   schedule() {
-    let nextEvent,
-        eventTime,
-        newMeasure;
+    let nextEvent = this.props.sequence[this.index],
+        eventTime = nextEvent.time * this.props.transport.time;
 
-    if (this.sequence && this.transport) {
-      nextEvent = this.sequence[this.index];
-      eventTime = nextEvent.time * this.transport.time;
+    // See article above.
+    if ((eventTime + this.measureTime) < (this.props.transport.context.currentTime +
+      this.scheduleAheadTime)) {
 
-      // See article above.
-      if ((eventTime + this.measureTime) < (this.context.currentTime +
-        this.scheduleAheadTime)) {
-        this.index = ((this.index + 1) % this.sequence.length);
-        newMeasure = (this.index === 0);
+      // TODO: BUG: seems to clear right after last one here,
+      // moved to after index change it keeps last event and adds event-00 as second
+      // maybe it works? will have to make scene to make sure
+      let newMeasure = (this.index === 0);
+      this.index = ((this.index + 1) % this.props.sequence.length);
 
-        // Fires event callback.
-        this.destination[nextEvent.callback](nextEvent, newMeasure);
+      // Fires event callback.
+      this.destination[nextEvent.callback](nextEvent, newMeasure);
 
-        // Reset event loop to current time.
-        if (newMeasure) {
-          this.measureTime = (((Math.floor((this.context.currentTime + this.scheduleAheadTime) / this.transport.time)) * this.transport.time) + this.transport.time);
-        }
+      // Reset event loop to current time.
+      if (newMeasure) {
+        this.measureTime = (((Math.floor((this.props.transport.context.currentTime +
+            this.scheduleAheadTime) / this.props.transport.time)) *
+            this.props.transport.time) + this.props.transport.time);
       }
     }
 
@@ -102,31 +89,24 @@ class SchedulerUtils {
   cycle() {
     // Never not polling.
     window.setTimeout(() => {
-      if (this.transport && this.transport.play === true) {
-        this.schedule();
-      }
+      this.schedule();
     }, this.lookahead);
   }
 
-  mapStateToProps(store) {
-    return {
-      sequence: store.events,
-      transport: store.transport
-    };
+  render() {
+    return (
+      <section className={'scheduler'}>
+        Scheduler!!!
+      </section>
+    );
   }
 }
 
-const schedulerUtils = new SchedulerUtils();
-// Starts scheduling once, not every time sequence/transport changes.
-schedulerUtils.schedule();
+function mapStateToProps(store) {
+  return {
+    sequence: _.sortBy(_.clone(store.events.toArray()), 'time'),
+    transport: _.clone(store.transport.toObject())
+  };
+}
 
-const Scheduler = ({ sequence, transport }) => (
-  <section className={'scheduler'}>
-    Scheduler!!!
-
-    // TODO: this fires every time store changes, only set sequence and transport here.
-    { schedulerUtils.init(sequence, transport) }
-  </section>
-);
-
-export default connect(schedulerUtils.mapStateToProps)(Scheduler);
+export default connect(mapStateToProps)(Scheduler);
