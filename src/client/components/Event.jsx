@@ -14,15 +14,16 @@ class Event extends Component {
     let classObject = {};
     classObject[eventKey] = true;
     classObject['is-active'] = (eventKey === activeKey) ? true : false;
-    // this.props.store.styleManager.get('active').key
+
     return classNames(classObject);
   }
 
   render() {
     return (
-      <li className={this.getClassNames(this.props.eventData.key, this.props.styleManager.get('active').key)} onClick={(event) => {
-        this.props.dispatch(selectStyle(this.props.eventData));
-      }}></li>
+      <li className={this.getClassNames(this.props.eventData.key, this.props.styleManager.get('active').key)}
+          onClick={(event) => {
+            this.props.dispatch(selectStyle(this.props.eventData));
+          }}></li>
     );
   }
 }
