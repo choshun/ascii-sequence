@@ -25,7 +25,7 @@ class Scheduler extends Component {
      * Interval to try and refire schedule.
      * @type {Number} in ms
      */
-    this.lookahead = 300;
+    this.lookahead = 30;
 
     /**
      * Time to look ahead in sequence to schedule.
@@ -49,9 +49,7 @@ class Scheduler extends Component {
 
   /**
    * Scheduler for sequence of events. Fires a destination
-   * based on event time in store "events". Ideally this is destination agnostic,
-   * this same scheduler should be able to trigger anything, css, canvas, web audio etc.
-   * solely based on event data.
+   * based on event time in store "events".
    * It's a scheduler, so there's a lookahead and all that other good stuff:
    * http://www.html5rocks.com/en/tutorials/audio/scheduling/
    */
@@ -77,9 +75,9 @@ class Scheduler extends Component {
 
       // Reset event loop to current time.
       if (newMeasure) {
+        let transportTime = this.props.transport.time;
         this.measureTime = (((Math.floor((this.props.transport.context.currentTime +
-            this.scheduleAheadTime) / this.props.transport.time)) *
-            this.props.transport.time) + this.props.transport.time);
+            this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
       }
     }
 
