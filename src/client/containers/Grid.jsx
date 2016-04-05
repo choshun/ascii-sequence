@@ -24,8 +24,8 @@ function createEvent(leftOffset, layer) {
   });
 }
 
-function addStyleToHead(className, css) {
-  styleBlock.innerHTML = styleBlock.innerHTML + `.${className} ${css}\n`;
+function addGridStyleToHead(className, css) {
+  styleBlock.innerHTML = styleBlock.innerHTML + `.grid .${className} ${css}\n`;
 }
 
 function createKey(leftOffset, layer) {
@@ -50,7 +50,7 @@ function layerClick(event, layer, dispatch) {
 
     dispatch(addEvent(newEvent));
     dispatch(selectStyle(newEvent));
-    addStyleToHead(newEvent.key, css);
+    addGridStyleToHead(newEvent.key, css);
   }
 }
 
@@ -61,7 +61,7 @@ function initGridCSS(events) {
             key = item.key,
             css = createCSS('left', left);
 
-        addStyleToHead(key, css);
+        addGridStyleToHead(key, css);
 
         if (parseInt(index) === (events.size - 1)) {
           initialized = true;
