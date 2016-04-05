@@ -1,15 +1,23 @@
 /** 
  * ASCII art!
 **/
-import React from 'react';
-
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-const Scene = ({ layers, gridCSS }) => (
-  <section className={'scene'}>
-    Scene!!!
-  </section>
-);
+
+class Scene extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <section className={'scene'}>
+        Scene!!!?
+      </section>
+    );
+  }
+}
 
 function mapStateToProps(store) {
   return {
