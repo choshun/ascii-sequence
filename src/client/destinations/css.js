@@ -1,5 +1,6 @@
 // TODO: Add trainsition delay from schedule
 // TODO: Concept of persistent css (per layer or grid/scene(bg)), maybe initial state?
+// TODO: BUG: clear the style tag at the right time (new loop)
 class Css {
   constructor() {
     this.styleBlock = document.createElement('style');
