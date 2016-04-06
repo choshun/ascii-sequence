@@ -19,7 +19,7 @@ class Css {
 
   createClass(event) {
     // TODO: make scene a constant
-    return `.scene .${event.key} {\n${event.data}\n}`;
+    return `.scene ${event.class} {\n${event.data}\n}`;
   }
 
   addStyle(event, newMeasure) {
