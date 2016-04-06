@@ -97,7 +97,7 @@ class Scheduler extends Component {
   render() {
     return (
       <section className={'scheduler'}>
-        Scheduler!!!
+        Scheduler!!! :D
       </section>
     );
   }
@@ -105,8 +105,8 @@ class Scheduler extends Component {
 
 function mapStateToProps(store) {
   return {
-    sequence: _.sortBy(_.clone(store.events.toArray()), 'time'),
-    transport: _.clone(store.transport.toObject())
+    sequence: _.sortBy(_.clone(store.events).toArray(), 'time'),
+    transport: _.clone(store.transport).toObject()
   };
 }
 
