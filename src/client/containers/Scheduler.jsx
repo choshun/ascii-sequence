@@ -68,6 +68,8 @@ class Scheduler extends Component {
       // TODO: BUG: seems to clear right after last one here,
       // moved to after index change it keeps last event and adds event-00 as second
       // maybe it works? will have to make scene to make sure
+      // TODO: may need to poll currenttime :/, or maybe at 0 see if the last event one was the last one in events?
+      // TODO; seems to wait a while before it starts scheduling, ~tranportTime
       let newMeasure = (this.index === 0);
       this.index = ((this.index + 1) % this.props.sequence.length);
 
