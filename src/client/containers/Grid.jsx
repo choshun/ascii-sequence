@@ -11,9 +11,7 @@ import { connect } from 'react-redux';
 class Grid extends Component {
   constructor(props) {
     super(props);
-
     this.styleBlock = document.createElement('style');
-
     this.layerClick = this.layerClick.bind(this);
   }
 

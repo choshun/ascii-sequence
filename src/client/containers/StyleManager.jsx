@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 class StyleManager extends Component {
   constructor(props) {
     super(props);
-
     this.onStyleChange = this.onStyleChange.bind(this);
   }
 
