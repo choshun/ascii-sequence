@@ -2,6 +2,8 @@
  * ASCII art! Where the cool stuff happens.
 **/
 import React, { Component } from 'react';
+import SceneItem from '../components/SceneItem.jsx';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 
 class Scene extends Component {
@@ -9,10 +11,23 @@ class Scene extends Component {
     super(props);
   }
 
+  getClassNames(index) {
+    let classObject = {};
+    classObject['scene-item'] = true;
+    classObject[`layer-${index}`] = true;
+
+    return classNames(classObject);
+  }
+
   render() {
     return (
       <section className={'scene'}>
-        Scene!!!?
+        Scene!!!
+        { this.props.layers.map((layer, index) => {
+          return <SceneItem class={ this.getClassNames(index) }
+                            element={ layer.element }
+                            key={ index } />;
+        }) }
       </section>
     );
   }
@@ -20,7 +35,7 @@ class Scene extends Component {
 
 function mapStateToProps(store) {
   return {
-    store
+    layers: store.layers
   };
 }
 
