@@ -18,8 +18,8 @@ class Grid extends Component {
   }
 
   componentDidMount() {
-    this.initGridCSS(this.props.store.events);
     document.head.appendChild(this.styleBlock);
+    this.initGridCSS(this.props.store.events);
   }
 
   // TODO: use events store, or make a constant, if store then do Object.assign
@@ -28,6 +28,7 @@ class Grid extends Component {
       'layer': layer,
       'time': leftOffset,
       'callback': 'addStyle',
+      'class': `.layer-${layer}`,
       'data': 'new data: of css;\nleft: 50px',
       'key': this.createKey(leftOffset, layer)
     };
@@ -79,13 +80,13 @@ class Grid extends Component {
         Grid!!
 
         <ul className={'layers'}>
-          {this.props.layers.map((layer, index) => {
-            return <Layer key={index}
-                          layerData={layer}
-                          layer={index}
-                          onClick={this.layerClick}
-                          styleManager={this.props.store.styleManager} />;
-          })}
+          { this.props.layers.map((layer, index) => {
+            return <Layer key={ index }
+                          layerData={ layer }
+                          layer={ index }
+                          onClick={ this.layerClick }
+                          styleManager={ this.props.store.styleManager } />;
+          }) }
         </ul>
 
       </section>
