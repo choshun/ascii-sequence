@@ -18,14 +18,6 @@ let sqnc = [
     'key': 'event-00-75'
   },
   {
-    'layer': 0,
-    'time': 0.9,
-    'callback': 'addStyle',
-    'class': '.layer-0',
-    'data': 'blob: of css;\nleft: 500px',
-    'key': 'event-00-9'
-  },
-  {
     'layer': 1,
     'time': 0.55,
     'callback': 'addStyle',
