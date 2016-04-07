@@ -78,9 +78,12 @@ class Scheduler extends Component {
       this.index = ((this.index + 1) % length);
       let newMeasure = ((this.index - 1) === length);
 
-      // Fires event callback.
-      this.destination[nextEvent.callback](nextEvent, newMeasure);
-      
+      // TODO: keep track of where we paused and played
+      if (this.props.transport.play) {
+        // Fires event callback.
+        this.destination[nextEvent.callback](nextEvent, newMeasure);
+      }
+
       if (this.index === 0) {
         this.measureTime = (((Math.floor((this.props.transport.context.currentTime +
             this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
