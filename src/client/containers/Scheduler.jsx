@@ -72,7 +72,7 @@ class Scheduler extends Component {
     // See article above.
     if ((eventTime + this.measureTime) < (this.props.transport.context.currentTime +
       this.scheduleAheadTime)) {
-      let transportTime = this.props.transport.time,
+      let transportTime = parseFloat(this.props.transport.time),
           length = this.props.sequence.length;
 
       this.index = ((this.index + 1) % length);
