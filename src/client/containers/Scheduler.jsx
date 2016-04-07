@@ -20,6 +20,10 @@ class Scheduler extends Component {
   constructor(props) {
     super(props);
 
+    /**
+     * Destination callback class.
+     * @type {Class}
+     */
     this.destination = new Css();
 
     /**
@@ -40,6 +44,10 @@ class Scheduler extends Component {
      */
     this.index = 0;
 
+    /**
+     * Loop time verses trnsport current time.
+     * @type {Number}
+     */
     this.measureTime = 0;
   }
 
@@ -64,21 +72,16 @@ class Scheduler extends Component {
     // See article above.
     if ((eventTime + this.measureTime) < (this.props.transport.context.currentTime +
       this.scheduleAheadTime)) {
+      let transportTime = this.props.transport.time,
+          length = this.props.sequence.length;
 
-      // TODO: BUG: seems to clear right after last one here,
-      // moved to after index change it keeps last event and adds event-00 as second
-      // maybe it works? will have to make scene to make sure
-      // TODO: may need to poll currenttime :/, or maybe at 0 see if the last event one was the last one in events?
-      // TODO; seems to wait a while before it starts scheduling, ~tranportTime
-      let newMeasure = (this.index === 0);
-      this.index = ((this.index + 1) % this.props.sequence.length);
+      this.index = ((this.index + 1) % length);
+      let newMeasure = ((this.index - 1) === length);
 
       // Fires event callback.
       this.destination[nextEvent.callback](nextEvent, newMeasure);
-
-      // Reset event loop to current time.
-      if (newMeasure) {
-        let transportTime = this.props.transport.time;
+      
+      if (this.index === 0) {
         this.measureTime = (((Math.floor((this.props.transport.context.currentTime +
             this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
       }
