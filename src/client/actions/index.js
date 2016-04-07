@@ -32,3 +32,10 @@ export function selectStyle(eventKey) {
     eventKey
   };
 }
+
+export function setPlay(play) {
+  return {
+    type: 'setPlay',
+    play
+  };
+}
