@@ -39,3 +39,10 @@ export function setPlay(play) {
     play
   };
 }
+
+export function setTime(time) {
+  return {
+    type: 'setTime',
+    time
+  };
+}

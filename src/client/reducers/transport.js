@@ -16,6 +16,8 @@ export default (state = Immutable.Map(initialTransport), action) => {
   switch(action.type) {
   	case 'setPlay':
       return state.set('play', action.play);
+    case 'setTime':
+      return state.set('time', action.time);
     default:
       return state;
   }
