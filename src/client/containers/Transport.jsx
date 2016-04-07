@@ -3,6 +3,7 @@
 **/
 import React, { Component } from 'react';
 import PlayButton from '../components/PlayButton.jsx';
+import TransportTime from '../components/TransportTime.jsx';
 import { connect } from 'react-redux';
 
 class Transport extends Component {
@@ -14,14 +15,11 @@ class Transport extends Component {
     return (
       <section className={'scene'}>
         Transport!!!
-        // TODO: make into component, set transport.play to !play
-        // TODO: make sure context doesn't reset very time transport is changed,
-        // if it does, see if it matters (maybe it doesn't?)
-
         <PlayButton transport={ this.props.transport } 
                     dispatch={ this.props.dispatch } />
 
-        // TODO: make time editor thingy
+        <TransportTime transport={ this.props.transport } 
+                    dispatch={ this.props.dispatch } />
       </section>
     );
   }
