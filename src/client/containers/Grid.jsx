@@ -1,9 +1,12 @@
+require('./grid.scss');
+
 /** 
  * This is responsible for the event UI.
  * You can add, select, and remove events.
 **/
 import React, { Component } from 'react';
 import Layer from '../components/Layer.jsx';
+import TimeIndicator from '../components/TimeIndicator.jsx';
 import { clone, uniq, map, each, filter } from 'lodash';
 import { addEvent, selectStyle } from '../actions';
 import { connect } from 'react-redux';
@@ -77,9 +80,13 @@ class Grid extends Component {
       <section className={'grid'}>
         Grid!!
 
+        { /*TODO: add thingy that shows where we are, canvas cause it can change
+        position delta in the fly; */ }
+        <TimeIndicator />
+        
         <ul className={'layers'}>
           { this.props.layers.map((layer, index) => {
-            return <Layer 
+            return <Layer
                       key={ index }
                       layerData={ layer }
                       layer={ index }
