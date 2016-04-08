@@ -3,11 +3,15 @@ require('./event.scss');
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { selectStyle } from '../actions';
-import { connect } from 'react-redux';
 
 class Event extends Component {
   constructor(props) {
     super(props);
+    this.selectStyle = this.selectStyle.bind(this);
+  }
+
+  selectStyle() {
+    this.props.dispatch(selectStyle(this.props.eventData));
   }
 
   getClassNames(eventKey, activeKey) {
@@ -21,11 +25,9 @@ class Event extends Component {
   render() {
     return (
       <li className={this.getClassNames(this.props.eventData.key, this.props.styleManager.get('active').key)}
-          onClick={(event) => {
-            this.props.dispatch(selectStyle(this.props.eventData));
-          }}></li>
+          onClick={ this.selectStyle }></li>
     );
   }
 }
 
-export default connect()(Event);
+export default Event;
