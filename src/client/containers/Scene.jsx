@@ -1,3 +1,5 @@
+require('./scene.scss');
+
 /** 
  * ASCII art! Where the cool stuff happens.
 **/
@@ -25,6 +27,7 @@ class Scene extends Component {
         Scene!!!
         { this.props.layers.map((layer, index) => {
           return <SceneItem
+                    className={ 'scene' }
                     class={ this.getClassNames(index) }
                     element={ layer.element }
                     key={ index } />;
