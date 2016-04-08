@@ -15,11 +15,13 @@ class Transport extends Component {
     return (
       <section className={'scene'}>
         Transport!!!
-        <PlayButton transport={ this.props.transport } 
-                    dispatch={ this.props.dispatch } />
+        <PlayButton
+            transport={ this.props.transport } 
+            dispatch={ this.props.dispatch } />
 
-        <TransportTime transport={ this.props.transport } 
-                    dispatch={ this.props.dispatch } />
+        <TransportTime
+            transport={ this.props.transport } 
+            dispatch={ this.props.dispatch } />
       </section>
     );
   }

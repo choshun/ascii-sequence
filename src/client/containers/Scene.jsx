@@ -24,9 +24,10 @@ class Scene extends Component {
       <section className={'scene'}>
         Scene!!!
         { this.props.layers.map((layer, index) => {
-          return <SceneItem class={ this.getClassNames(index) }
-                            element={ layer.element }
-                            key={ index } />;
+          return <SceneItem
+                    class={ this.getClassNames(index) }
+                    element={ layer.element }
+                    key={ index } />;
         }) }
       </section>
     );

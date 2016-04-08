@@ -79,11 +79,13 @@ class Grid extends Component {
 
         <ul className={'layers'}>
           { this.props.layers.map((layer, index) => {
-            return <Layer key={ index }
-                          layerData={ layer }
-                          layer={ index }
-                          onClick={ this.layerClick }
-                          styleManager={ this.props.store.styleManager } />;
+            return <Layer 
+                      key={ index }
+                      layerData={ layer }
+                      layer={ index }
+                      onClick={ this.layerClick }
+                      dispatch={ this.props.dispatch }
+                      styleManager={ this.props.store.styleManager } />;
           }) }
         </ul>
 
@@ -108,6 +110,7 @@ function createLayersFromEvents(layers, events) {
 function mapStateToProps(store) {
   return {
     store,
+    dispatch: store.dispatch,
     'layers': createLayersFromEvents(store.layers, store.events)
   };
 }
