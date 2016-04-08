@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { setTime } from '../actions';
-import { connect } from 'react-redux';
 
 class TransportTime extends Component {
   constructor(props) {
@@ -10,7 +9,6 @@ class TransportTime extends Component {
   }
 
   changeTime(event) {
-    console.log('value', event.target.value);
     this.props.dispatch(setTime(event.target.value));
   }
 
@@ -23,4 +21,4 @@ class TransportTime extends Component {
   }
 }
 
-export default connect()(TransportTime);
+export default TransportTime;

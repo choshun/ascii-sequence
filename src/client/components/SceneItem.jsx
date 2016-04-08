@@ -3,7 +3,6 @@ require('./scene-item.scss');
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { selectStyle } from '../actions';
-import { connect } from 'react-redux';
 
 class SceneItem extends Component {
   constructor(props) {
@@ -17,4 +16,4 @@ class SceneItem extends Component {
   }
 }
 
-export default connect()(SceneItem);
+export default SceneItem;

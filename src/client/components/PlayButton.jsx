@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { setPlay } from '../actions';
-import { connect } from 'react-redux';
 
 class PlayButton extends Component {
   constructor(props) {
@@ -23,4 +22,4 @@ class PlayButton extends Component {
   }
 }
 
-export default connect()(PlayButton);
+export default PlayButton;
