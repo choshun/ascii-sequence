@@ -1,6 +1,6 @@
-$ npm install
-$ npm run
-$ npm run watch
+- $ npm install
+- $ npm run
+- $ npm run watch
 
 
 
