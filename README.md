@@ -1,3 +1,9 @@
+$ npm install
+$ npm run
+$ npm run watch
+
+
+
 so helpful:
 http://reactjsnews.com/your-first-redux-app
 
