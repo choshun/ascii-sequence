@@ -82,7 +82,8 @@ class Grid extends Component {
 
         { /*TODO: add thingy that shows where we are, canvas cause it can change
         position delta in the fly; */ }
-        <TimeIndicator />
+        <TimeIndicator 
+            />
         
         <ul className={'layers'}>
           { this.props.layers.map((layer, index) => {
@@ -117,7 +118,8 @@ function createLayersFromEvents(layers, events) {
 function mapStateToProps(store) {
   return {
     store,
-    dispatch: store.dispatch,
+    'transport': store.transport,
+    'dispatch': store.dispatch,
     'layers': createLayersFromEvents(store.layers, store.events)
   };
 }
