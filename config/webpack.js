@@ -3,7 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve(__dirname, '../src/client/app.jsx'),
+  entry: path.resolve(__dirname, '../src/client/app.js'),
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js'
@@ -22,6 +22,10 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css!sass')
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue'
       }
     ]
   },
@@ -33,9 +37,6 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('style.css', {
       allChunks: true
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: false
     })
   ]
 };
