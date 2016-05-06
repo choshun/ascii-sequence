@@ -20,8 +20,7 @@
 export default {
   data() {
     return {
-      test: `I'm a test yo!`
-      
+      test: `I'm a test yo!!?`
     }
   }
 }
