@@ -12,10 +12,17 @@ let initialTransport = {
   'context': utils.getContext() // Audio context that keeps time.
 };
 
-export default (state = Immutable.Map(initialTransport), action) => {
+export default (state = 0, action) => {
   switch(action.type) {
   	case 'setPlay':
-      return state.set('play', action.play);
+
+      // state.set('play', action.play);
+
+      // console.log('after', state.get('play'));
+      // state.play = action.play;
+
+      console.log('state?', state);
+      return state + 1;
     case 'setTime':
       return state.set('time', action.time);
     default:
