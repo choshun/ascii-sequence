@@ -1,15 +1,21 @@
 <template>
-  <button className={ 'play-button' } v-on:click="togglePlay">
+  <!-- <button class="play-button" @click="togglePlay">
     play button yo
-  </button>
+    {{ play }}
+  </button> -->
+
+  <section>
+    <button @click='increment'>Increment +1</button>
+  </section>
 </template>
 
 <script>
+  import { incrementCounter } from '../vuex/actions';
+
   export default {
-    methods: {
-      togglePlay: function() {
-        var playing = !this.props.transport.get('play');
-        this.props.dispatch(setPlay(playing));
+    vuex: {
+      actions: {
+        increment: incrementCounter
       }
     }
   }
