@@ -18,14 +18,11 @@
   "author": "Choshun Snyder",
   "license": "ISC",
   "dependencies": {
-    "redux": "^3.0.4",
-    "immutable": "^3.7.5",
     "lodash": "^4.6.1",
-    "classnames": "^2.2.3",
     "babel-plugin-lodash": "2.2.1",
     "express": "^4.12.3",
     "vue": "^1.0.21",
-    "revue": "^2.1.1"
+    "vuex": "^0.6.3 "
   },
   "devDependencies": {
     "babel": "^5.0.12",
