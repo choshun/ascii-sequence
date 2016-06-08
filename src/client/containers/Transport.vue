@@ -11,32 +11,36 @@
 <template>
 	<section class="transport">
     Transport!!?
-    <play-button></play-button>
-    <transport-time></transport-time>
-    <span class="nested" v-on:click="log">{{ test }}</span>
+
+    <section class="play-button">
+      {{ isPlaying }}
+      <button @click="togglePlay()">Play Button</button>
+    </section>
+
+    <section class="transport-time">
+      <input type="number" /> loop time
+    </section>
+
+    <!-- <play-button></play-button>?!?!?{{ play }}?!?!
+    <transport-time></transport-time> -->
   </section>
 </template>
 
 <script>
-  import store from '../store';
-  import PlayButton from '../components/PlayButton.vue';
   import TransportTime from '../components/TransportTime.vue';
+  import store from '../vuex/store';
+  import { togglePlay } from '../vuex/actions';
+  import { getIsPlaying } from '../vuex/getters';
 
   export default {
-    data() {
-      return {
-        transport: this.$select('transport')
+    store,
+    vuex: {
+      getters: {
+        isPlaying: getIsPlaying
+      },
+      actions: {
+        togglePlay
       }
-    },
-    methods: {
-      log: function() {
-        console.log('transport?', this.transport.toObject(), 'events?', this.events.toArray(), this.events.toObject(), this.events.toJS()); 
-        // need to loop through, since it's a collection of maps. then do .toArrray()
-      }
-    },
-    components: {
-      PlayButton,
-      TransportTime
     }
   }
 </script>
