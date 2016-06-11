@@ -5,7 +5,6 @@
   li[class*="event"] {
     background: green;
     height: 100%;
-    left: 30%;
     position: absolute;
     top: 0;
     transition: all .5s $ease;
@@ -22,7 +21,7 @@
 </style>
 
 <template>
-  <li class="event">
+  <li class="{{ event.key }}">
 
     {{ eventCSS }}
     layer {{ layer }} asd
@@ -35,25 +34,51 @@
   import store from '../vuex/store';
   import { clone, uniq, map, each, filter } from 'lodash';
 
+  class Event {
+    constructor() {
+      this.styleBlock = document.createElement('style');
+    }
+
+    // TODO: put in getter
+    initGridCSS(events) {
+      _.each(events, (item, index) => {
+        let left = this.createPosition(item.time),
+            key = item.key,
+            css = this.createCSS('left', left);
+
+        this.addGridStyleToHead(key, css);
+      });
+    }
+
+    addGridStyleToHead(className, css) {
+      // TODO: make .grid a constant
+      this.styleBlock.innerHTML = this.styleBlock.innerHTML + `.grid .${className} ${css}\n`;
+    }
+
+    createPosition(time) {
+      return time * 100 + '%';
+    }
+
+    createCSS(property, value) {
+      return `{ ${property}: ${value} }`;
+    }
+  }
+
+  var event = new Event();
+
   export default {
     store,
-    props: ['layer', 'event'],
+    init: () => {
+      document.head.appendChild(event.styleBlock);
+    },
+    props: ['event'],
     vuex: {
       getters: {
         sequence: store => store.sequence,
         eventCSS: store => {
-          console.log(store.sequence, 'this is an event hack!!');
+          event.initGridCSS(store.sequence);
         }
       }
-    },
-    methods: {
-      init: () => {
-        console.log(`c'mooooon`);
-      }
-    },
-    init: () => {
-      console.log('event');
-      // layer.initGridCSS(this.store.sequence.events);
     }
   }
 </script>
