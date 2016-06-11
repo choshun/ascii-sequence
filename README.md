@@ -2,7 +2,23 @@
 - $ npm run
 - $ npm run watch
 
+Vue
+https://vuejs.org/guide/
+http://vuex.vuejs.org/en/tutorial.html
 
+Grid responsible for getting layers
+Layer responsible for getting events/adding removing events
+Event responsible for choosing event data
+
+Transport responsible for tempo play/pause
+
+Scene responsible for sequence to destination playback (the result of the sequencer).
+
+StyleManager responsible for changing event data.
+
+There's no 'this' in the vue export default code so you can't pass store/scope, or properties to methods directly. If anything is dependant on scope put in a getter, and if a method is dependant on scope instead of passing it directly to the method, just dispatch an event, and the getter will update the view accordingly.
+
+Getters fire once onload, then every time the view changes. Getters are love, getters are life.
 
 so helpful:
 http://reactjsnews.com/your-first-redux-app
