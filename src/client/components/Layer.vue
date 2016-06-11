@@ -9,10 +9,10 @@
 </style>
 
 <template>
-  <li class="layer" @click="init()" >
+  <li class="layer">
     <ul>
       {{ layerCSS }}
-      <event v-for="event in sequence[layer]" track-by="$index" :layer="layer" :event="event" ></event>
+      <event v-for="event in sequence[layer]" track-by="$index" :event="event" ></event>
     </ul>
   </li>
 </template>
