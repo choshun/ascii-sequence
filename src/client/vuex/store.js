@@ -15,6 +15,14 @@ const state = {
   },
   sequence: [
 	  {
+      'layer': 2,
+      'time': 0.25,
+      'callback': 'addStyle',
+      'class': '.layer-1',
+      'data': 'basdlob: of css;\nleft: 100px',
+      'key': 'event-20-25'
+    },
+    {
 	    'layer': 1,
 	    'time': 0.25,
 	    'callback': 'addStyle',
