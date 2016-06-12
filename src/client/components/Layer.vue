@@ -10,6 +10,10 @@
 
 <template>
   <li class="layer" @click="addEvent($event, layer)">
+    <!--
+      Fires once at init, only way I could figure out passing store to a method that fires on init.
+      This bootstraps init store data for event css.
+     -->
     {{ initEventCSS }}
     <ul>
       <event v-for="event in sequence[layer]" track-by="$index" :event="event" ></event>
@@ -26,19 +30,18 @@
   class Layer {
     constructor() {
       this.styleBlock = document.getElementById('grid-css');
-
       this.initialized = false;
     }
 
     // TODO: put in getter
     createLayersFromEvents(sequence) {
       let eventsObject = _.clone(sequence),
-      uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
-      layersAndEvents = [];
+          uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
+          layersAndEvents = [];
 
       // Creates new object of Layers with events for ui.
       _.each(uniqueLayers, (item, index) => {
-        layersAndEvents.push(_.filter(eventsObject, {layer: index}));
+        layersAndEvents.push(_.filter(eventsObject, { layer: index }));
       });
 
       return layersAndEvents;
@@ -82,9 +85,9 @@
       return `event-${layer}${leftOffset}`.replace(/\./g, '-');
     }
 
-    addGridStyleToHead(className, css) {
+    addGridStyleToHead(key, css) {
       // TODO: make .grid a constant
-      this.styleBlock.innerHTML += `.grid .${className} ${css}\n`;
+      this.styleBlock.innerHTML += `.grid #${key} ${css}\n`;
     }
   }
 
@@ -103,14 +106,16 @@
       },
       actions: {
         addEvent: ({ dispatch }, event, layer) => {
-          let leftOffset = event.pageX / window.innerWidth,
-              newEvent = layerClass.createEvent(leftOffset, layer),
-              left = layerClass.createPosition(newEvent.time),
-              css = layerClass.createCSS('left', left);
+          if (!event.target.classList.contains('event')) {
+            let leftOffset = event.pageX / window.innerWidth,
+                newEvent = layerClass.createEvent(leftOffset, layer),
+                left = layerClass.createPosition(newEvent.time),
+                css = layerClass.createCSS('left', left);
 
             dispatch('ADD_EVENT', newEvent);
             layerClass.addGridStyleToHead(newEvent.key, css);
           }
+        }
       }
     },
     components: {
