@@ -39,15 +39,11 @@
         activeStyle: store => store.styleManager.active[0].key
       },
       actions: {
-        selectStyle: ({ dispatch }, event, eventData) => {
-          dispatch('SET_ACTIVE_STYLE', eventData.key);
-        }
+        selectStyle: ({ dispatch }, event, eventData) => dispatch('SET_ACTIVE_STYLE', eventData.key)
       }
     },
     methods: {
-      isActive: (activeStyle, eventClass) => {
-        return (activeStyle === eventClass) ? 'is-active' : '';
-      }
+      isActive: (activeStyle, eventClass) => (activeStyle === eventClass) ? 'is-active' : ''
     }
   }
 </script>

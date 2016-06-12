@@ -91,11 +91,13 @@
     }
   }
 
+  // TODO: doesn't seem very vuey, but can't think of a way
+  // to easily pass store to helper methods.
   const layerClass = new Layer();
 
   export default {
     store,
-    props: ['layer', 'sequence'],
+    props: ['layer'],
     init: () => {
       layerClass.styleBlock = document.getElementById('grid-css');
     },
@@ -112,8 +114,13 @@
                 left = layerClass.createPosition(newEvent.time),
                 css = layerClass.createCSS('left', left);
 
+            // Add the prepped event object.
             dispatch('ADD_EVENT', newEvent);
+
+            // Make new event active.
             dispatch('SET_ACTIVE_STYLE', newEvent.key);
+
+            // Add new event css to head.
             layerClass.addGridStyleToHead(newEvent.key, css);
           }
         }
