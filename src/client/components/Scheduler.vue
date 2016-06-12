@@ -8,7 +8,6 @@
 <script>
   import store from '../vuex/store';
   import Css from '../destinations/css.js';
-  import { clone, sortBy } from 'lodash';
 
   /**
    * @class Scheduler
@@ -45,7 +44,7 @@
       this.index = 0;
 
       /**
-       * Loop time verses trnsport current time.
+       * Loop time.
        * @type {Number}
        */
       this.measureTime = 0;

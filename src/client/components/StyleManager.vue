@@ -1,4 +1,4 @@
-<style>
+<style scoped lang="sass">
   
 </style>
 
