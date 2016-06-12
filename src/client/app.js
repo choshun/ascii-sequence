@@ -3,6 +3,7 @@ import Transport from './components/Transport.vue';
 import Grid from './components/Grid.vue';
 import StyleManager from './components/StyleManager.vue';
 import Scheduler from './components/Scheduler.vue';
+import Scene from './components/Scene.vue';
 
 new Vue({
   el: '#app',
@@ -10,7 +11,8 @@ new Vue({
     Transport,
     Grid,
     StyleManager,
-    Scheduler
+    Scheduler,
+    Scene
   }
 });
 
