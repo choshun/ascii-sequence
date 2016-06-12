@@ -10,11 +10,7 @@
 // TODO: BUG: clear the style tag at the right time (new loop)
 class Css {
   constructor() {
-    this.styleBlock = document.createElement('style');
-  }
-
-  init() {
-    document.head.appendChild(this.styleBlock);
+    this.styleBlock = document.getElementById('scene-css');
   }
 
   createClass(event) {

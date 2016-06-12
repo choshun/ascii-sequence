@@ -21,7 +21,7 @@ const state = {
       'layer': 2,
       'time': 0.25,
       'callback': 'addStyle',
-      'class': '.layer-1',
+      'class': '.layer-2',
       'data': 'basdlob: of css;\nleft: 100px',
       'key': 'event-20-25'
     },
@@ -30,15 +30,15 @@ const state = {
 	    'time': 0.25,
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
-	    'data': 'basdlob: of css;\nleft: 100px',
+	    'data': 'basdlob: of css;\nleft: 100px;',
 	    'key': 'event-10-25'
 	  },
 	  {
 	    'layer': 2,
 	    'time': 0.75,
 	    'callback': 'addStyle',
-	    'class': '.layer-0',
-	    'data': 'blob: of css;\nleft: 200px',
+	    'class': '.layer-2',
+	    'data': 'blob: of css;\nleft: 200px; top: 30px;',
 	    'key': 'event-00-75'
 	  },
 	  {
@@ -56,7 +56,15 @@ const state = {
 	    'class': '.layer-0',
 	    'data': 'assdlob: of css;\nleft: 50px',
 	    'key': 'event-00'
-	  }
+	  },
+    {
+      'layer': 2,
+      'time': 0.25,
+      'callback': 'addStyle',
+      'class': '.layer-2',
+      'data': 'basdlob: of css;\nleft: 150px; top: 50px;',
+      'key': 'event-10-25'
+    }
 	],
   layers: [
     {
