@@ -7,7 +7,6 @@
 <template>
   <section class="grid">
     Grid!!
-    {{ gridCSS }}
     <ul class="layers">
       <layer v-for="layer in layers" :layer="$index"></layer>
     </ul>
@@ -22,7 +21,7 @@
     store,
     vuex: {
       getters: {
-        layers: store => store.layers,
+        layers: store => store.layers
       }
     },
     components: {
