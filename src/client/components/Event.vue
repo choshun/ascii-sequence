@@ -22,11 +22,9 @@
 
 <template>
   <li class="{{ event.key }}">
-
-    {{ eventCSS }}
-    layer {{ layer }} asd
     {{ event.layer }}
     {{ event.time }}
+    {{ event.data }}
   </li>
 </template>
 
@@ -34,51 +32,8 @@
   import store from '../vuex/store';
   import { clone, uniq, map, each, filter } from 'lodash';
 
-  class Event {
-    constructor() {
-      this.styleBlock = document.createElement('style');
-    }
-
-    // TODO: put in getter
-    initGridCSS(events) {
-      _.each(events, (item, index) => {
-        let left = this.createPosition(item.time),
-            key = item.key,
-            css = this.createCSS('left', left);
-
-        this.addGridStyleToHead(key, css);
-      });
-    }
-
-    addGridStyleToHead(className, css) {
-      // TODO: make .grid a constant
-      this.styleBlock.innerHTML = this.styleBlock.innerHTML + `.grid .${className} ${css}\n`;
-    }
-
-    createPosition(time) {
-      return time * 100 + '%';
-    }
-
-    createCSS(property, value) {
-      return `{ ${property}: ${value} }`;
-    }
-  }
-
-  var event = new Event();
-
   export default {
     store,
-    init: () => {
-      document.head.appendChild(event.styleBlock);
-    },
-    props: ['event'],
-    vuex: {
-      getters: {
-        sequence: store => store.sequence,
-        eventCSS: store => {
-          event.initGridCSS(store.sequence);
-        }
-      }
-    }
+    props: ['event']
   }
 </script>
