@@ -13,13 +13,13 @@
     Transport!!?
 
     <section class="play-button">
-      {{ isPlaying }}
+      {{ getIsPlaying }}
       <button @click="togglePlay">Play Button</button>
     </section>
 
-    {{ time }}
-    <section class="transport-time">
-      <input :value="time" type="number" @input="updateTime" /> loop time
+    {{ getTime }}
+    <section class="transport-getTime">
+      <input :value="getTime" type="number" @input="updateTime" /> loop time
     </section>
 
   </section>
@@ -34,8 +34,8 @@
     store,
     vuex: {
       getters: {
-        isPlaying: getIsPlaying,
-        time: store => store.transport.time
+        getIsPlaying: getIsPlaying,
+        getTime: store => store.transport.time
       },
       actions: {
         togglePlay,
