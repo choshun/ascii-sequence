@@ -10,8 +10,11 @@ Vue.use(Vuex);
 
 const state = {
   transport: {
-  	playing: true,
-  	time: 5
+  	'playing': true, // Should be playing.
+    'start': 0, // Start of loop play as fraction of total time.
+    'end': 1, // End of loop play as fraction of total time.
+    'time': 5, // Total loop time in seconds.
+    'context': utils.getContext() // Audio context that keeps time.
   },
   sequence: [
 	  {
