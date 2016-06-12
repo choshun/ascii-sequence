@@ -96,6 +96,16 @@ const mutations = {
     state.styleManager.active = state.sequence.filter(event => {
       return event.key === activeKey;
     });
+  },
+  UPDATE_EVENT_DATA (state, data) {
+    // Returns the event which matches the styleManager's active event.
+    // see SET_ACTIVE_STYLE to see how active style is set.
+    let event = state.sequence.filter(event => {
+      return event.key === state.styleManager.active[0].key;
+    });
+
+    // Sets that event's data to dispatched event's style data.
+    event[0].data = data;
   }
 };
 
