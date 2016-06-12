@@ -68,8 +68,17 @@ const state = {
       'index': 2,
       'element': '>'
     }
-  ]
-}
+  ],
+  styleManager: {
+    active: [{
+      callback: 'addStyle',
+      data: 'dummy style, should be gotten from events store\nleft: 50px',
+      key: 'event-00-75',
+      layer: 0,
+      time: 0.75
+    }]
+  }
+};
 
 const mutations = {
   // A mutation receives the current state as the first argument
@@ -82,8 +91,13 @@ const mutations = {
   },
   ADD_EVENT (state, newEvent) {
     state.sequence.push(newEvent);
+  },
+  SET_ACTIVE_STYLE (state, activeKey) {
+    state.styleManager.active = state.sequence.filter(event => {
+      return event.key === activeKey;
+    });
   }
-}
+};
 
 export default new Vuex.Store({
   state,
