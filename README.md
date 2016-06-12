@@ -24,6 +24,14 @@ Getters fire once onload, then every time the store changes. Getters are love, g
 
 If you are handling a store, any filtering/native store handling will coerce the store property into an array. So just make all store stuff arrays (ie styleManager.active could just be an object, but we made it an array with one object cause it was borking).
 
+A good example of how vue can work unlike I'd expect (compared to es6 classes, or react extended component classes)
+"isActive"
+in Event.vue 
+when setting the active state.
+Normally "activeStyle" could be passed between a class with a constructor or property, instead I do a getter for active style, then pass THAT to the template, which THEN calls the isActive method with the getter'd store stuff. Same with the prop event. I can't pass event.key directly to the method, I have to register the prop, then again pass that to the template.
+It's pretty confusing, but it works! and only references the store, the dom is never really bound to anything, no classList.remove etc. and I guess the getters/actions/methods are shepharded to be more pure (no lateral calls, template as the one source of truth).
+It is what it is.
+
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
