@@ -79,6 +79,9 @@ const mutations = {
   },
   UPDATE_TIME (state, time) {
   	state.transport.time = time;
+  },
+  ADD_EVENT (state, newEvent) {
+    state.sequence.push(newEvent);
   }
 }
 
