@@ -113,6 +113,7 @@
                 css = layerClass.createCSS('left', left);
 
             dispatch('ADD_EVENT', newEvent);
+            dispatch('SET_ACTIVE_STYLE', newEvent.key);
             layerClass.addGridStyleToHead(newEvent.key, css);
           }
         }

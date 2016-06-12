@@ -21,7 +21,7 @@
 </style>
 
 <template>
-  <li id="{{ event.key }}" class="event" @click="selectStyle($event, event)">>
+  <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }}" @click="selectStyle($event, event)">
     {{ event.layer }}
     {{ event.time }}
     {{ event.data }}
@@ -35,10 +35,18 @@
     store,
     props: ['event'],
     vuex: {
+      getters: {
+        activeStyle: store => store.styleManager.active[0].key
+      },
       actions: {
         selectStyle: ({ dispatch }, event, eventData) => {
           dispatch('SET_ACTIVE_STYLE', eventData.key);
         }
+      }
+    },
+    methods: {
+      isActive: (activeStyle, eventClass) => {
+        return (activeStyle === eventClass) ? 'is-active' : '';
       }
     }
   }
