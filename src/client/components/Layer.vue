@@ -9,9 +9,9 @@
 </style>
 
 <template>
-  <li class="layer">
+  <li class="layer" @click="addEvent($event, layer)">
+    {{ initEventCSS }}
     <ul>
-      {{ layerCSS }}
       <event v-for="event in sequence[layer]" track-by="$index" :event="event" ></event>
     </ul>
   </li>
@@ -24,6 +24,12 @@
   import { clone, uniq, map, each, filter } from 'lodash';
 
   class Layer {
+    constructor() {
+      this.styleBlock = document.getElementById('grid-css');
+
+      this.initialized = false;
+    }
+
     // TODO: put in getter
     createLayersFromEvents(sequence) {
       let eventsObject = _.clone(sequence),
@@ -37,18 +43,74 @@
 
       return layersAndEvents;
     }
+
+    // TODO: put in getter maybe?
+    getInitEventCSS(events) {
+      if (this.initialized === false) {
+        _.each(events, (item, index) => {
+          let left = this.createPosition(item.time),
+              key = item.key,
+              css = this.createCSS('left', left);
+
+          this.addGridStyleToHead(key, css);
+        });
+      }
+
+      this.initialized = true;
+    }
+
+    createEvent(leftOffset, layer) {
+      return {
+        'layer': layer,
+        'time': leftOffset,
+        'callback': 'addStyle',
+        'class': `.layer-${layer}`,
+        'data': 'new data: of css;\nleft: 50px',
+        'key': this.createKey(leftOffset, layer)
+      };
+    }
+
+    createPosition(time) {
+      return time * 100 + '%';
+    }
+
+    createCSS(property, value) {
+      return `{ ${property}: ${value} }`;
+    }
+
+    createKey(leftOffset, layer) {
+      return `event-${layer}${leftOffset}`.replace(/\./g, '-');
+    }
+
+    addGridStyleToHead(className, css) {
+      // TODO: make .grid a constant
+      this.styleBlock.innerHTML += `.grid .${className} ${css}\n`;
+    }
   }
 
-  var layer = new Layer();
+  const layerClass = new Layer();
 
   export default {
     store,
     props: ['layer', 'sequence'],
+    init: () => {
+      layerClass.styleBlock = document.getElementById('grid-css');
+    },
     vuex: {
       getters: {
-        sequence: store => {
-          return layer.createLayersFromEvents(store.sequence);
-        }
+        sequence: store => layerClass.createLayersFromEvents(store.sequence),
+        initEventCSS: store => layerClass.getInitEventCSS(store.sequence)
+      },
+      actions: {
+        addEvent: ({ dispatch }, event, layer) => {
+          let leftOffset = event.pageX / window.innerWidth,
+              newEvent = layerClass.createEvent(leftOffset, layer),
+              left = layerClass.createPosition(newEvent.time),
+              css = layerClass.createCSS('left', left);
+
+            dispatch('ADD_EVENT', newEvent);
+            layerClass.addGridStyleToHead(newEvent.key, css);
+          }
       }
     },
     components: {
