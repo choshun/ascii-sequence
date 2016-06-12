@@ -21,7 +21,7 @@
 </style>
 
 <template>
-  <li class="{{ event.key }}">
+  <li id="{{ event.key }}" class="event" @click="selectStyle($event, event)">>
     {{ event.layer }}
     {{ event.time }}
     {{ event.data }}
@@ -30,10 +30,16 @@
 
 <script>
   import store from '../vuex/store';
-  import { clone, uniq, map, each, filter } from 'lodash';
 
   export default {
     store,
-    props: ['event']
+    props: ['event'],
+    vuex: {
+      actions: {
+        selectStyle: ({ dispatch }, event, eventData) => {
+          dispatch('SET_ACTIVE_STYLE', eventData.key);
+        }
+      }
+    }
   }
 </script>
