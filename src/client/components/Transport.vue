@@ -27,21 +27,17 @@
 
 <script>
   import store from '../vuex/store';
-  import { togglePlay } from '../vuex/actions';
-  import { getIsPlaying } from '../vuex/getters';
 
   export default {
     store,
     vuex: {
       getters: {
-        getIsPlaying: getIsPlaying,
+        getIsPlaying: state => state.transport.playing,
         getTime: store => store.transport.time
       },
       actions: {
-        togglePlay,
-        updateTime: ({ dispatch }, event) => {
-          dispatch('UPDATE_TIME', event.target.value);
-        }
+        togglePlay: ({ dispatch }) => dispatch('TOGGLEPLAY'),
+        updateTime: ({ dispatch }, event) => dispatch('UPDATE_TIME', event.target.value)
       }
     }
   }

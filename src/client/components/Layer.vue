@@ -24,7 +24,6 @@
 <script>
   import store from '../vuex/store';
   import Event from './Event.vue';
-  import { getEventsByLayer } from '../vuex/getters';
   import { clone, uniq, map, each, filter } from 'lodash';
 
   class Layer {
