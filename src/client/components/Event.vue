@@ -22,9 +22,6 @@
 
 <template>
   <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }}" @click="selectStyle($event, event)">
-    {{ event.layer }}
-    {{ event.time }}
-    {{ event.data }}
   </li>
 </template>
 

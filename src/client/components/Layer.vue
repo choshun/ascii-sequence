@@ -6,6 +6,10 @@
     opacity: .7;
     position: relative;
   }
+
+  .element {
+    padding-left: 20%;
+  }
 </style>
 
 <template>
@@ -14,6 +18,10 @@
       Fires once at init, only way I could figure out passing store to a method that fires on init.
       This bootstraps init store data for event css.
      -->
+
+    <span class="element">{{ element }}</span>
+    <!-- {{ element }} -->
+
     {{ initEventCSS }}
     <ul>
       <event v-for="event in sequence[layer]" track-by="$index" :event="event" ></event>
@@ -96,7 +104,7 @@
 
   export default {
     store,
-    props: ['layer'],
+    props: ['layer', 'element'],
     init: () => {
       layerClass.styleBlock = document.getElementById('grid-css');
     },
