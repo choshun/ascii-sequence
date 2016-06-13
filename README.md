@@ -59,7 +59,17 @@ TODO (forceranked):
 	- have a sense of preserved base classes
 	- trigger css classes in events
 	- have sass vars
+- backend
+	- save
+	- have some sense of persistence, do a call based on url to python store
+- measures
+	- be able to switch between measures with a small matrix thing... like a groove box
+	- quantize selection and events
+	- have an exported final version of switching between blocks of sequences
 
+- not so important, but could do
+	- localstorage
+	- service workers for offline
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
