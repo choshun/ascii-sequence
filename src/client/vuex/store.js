@@ -14,7 +14,8 @@ const state = {
     'start': 0, // Start of loop play as fraction of total time.
     'end': 1, // End of loop play as fraction of total time.
     'time': 5, // Total loop time in seconds.
-    'context': utils.getContext() // Audio context that keeps time.
+    'context': utils.getContext(), // Audio context that keeps time.,
+    'paused': 0 // Time paused to add to currentTime when playing
   },
   sequence: [
 	  {
@@ -99,10 +100,26 @@ const state = {
   }
 };
 
+let pauseStart = 0,
+    pauseDifference = 0;
+
 const mutations = {
   // A mutation receives the current state as the first argument
   // You can make any modifications you want inside this function
   TOGGLEPLAY (state) {
+    if (state.transport.playing) {
+      pauseStart = state.transport.context.currentTime;
+
+      console.log('pause time?', pauseStart);
+      // state.transport.paused = state.transport.context.currentTime;
+    } else {
+      pauseDifference += state.transport.context.currentTime - pauseStart;
+      console.log('pause diff?', pauseDifference);
+      state.transport.paused = pauseDifference;
+    }
+
+    // console.log('toggle paused', pauseTime, 'difference', state.transport.context.currentTime - pauseTime);
+
     state.transport.playing = !state.transport.playing;
   },
   UPDATE_TIME (state, time) {
