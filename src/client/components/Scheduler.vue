@@ -93,7 +93,7 @@
     }
   }
 
-  // TODO: maybe put contructor in data
+  // TODO: maybe put constructor in data
   const schedulerClass = new Scheduler();
 
   export default {

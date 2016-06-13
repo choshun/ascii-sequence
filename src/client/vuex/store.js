@@ -43,10 +43,10 @@ const state = {
 	  },
 	  {
 	    'layer': 1,
-	    'time': 0.55,
+	    'time': 0.45,
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
-	    'data': 'basdlob: of css;\nleft: 300px',
+	    'data': 'basdlob: of css;\nleft: 600px',
 	    'key': 'event-10-55'
 	  },
 	  {
@@ -54,9 +54,17 @@ const state = {
 	    'time': 0,
 	    'callback': 'addStyle',
 	    'class': '.layer-0',
-	    'data': 'assdlob: of css;\nleft: 50px',
+	    'data': 'assdlob: of css;\nleft: 50px; color: blue;',
 	    'key': 'event-00'
 	  },
+    {
+      'layer': 0,
+      'time': 0.5,
+      'callback': 'addStyle',
+      'class': '.layer-0',
+      'data': 'assdlob: of css;\nleft: 500px; color: red;',
+      'key': 'event-00-5'
+    },
     {
       'layer': 2,
       'time': 0.25,
