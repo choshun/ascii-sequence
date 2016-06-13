@@ -44,6 +44,22 @@ Normally "activeStyle" could be passed between a class with a constructor or pro
 
 It's pretty confusing, but it works! and only references the store, the dom is never really bound to anything, no classList.remove etc. and I guess the getters/actions/methods are shepharded to be more pure (no lateral calls, template as the one source of truth).
 
+TODO (forceranked):
+- get webpack to work with app.scss
+- Transport
+	- get canvas time indicator working
+	- get pause to stop and start at same event (in scheduler)
+	- get sub looping in transport
+- Grid
+	- get deleting event
+	- get moving/dragging event
+- get ui to not suck, use sequencer css (from other repo)
+- styleManager
+	- get sass renderer to work in style-manager
+	- have a sense of preserved base classes
+	- trigger css classes in events
+	- have sass vars
+
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
