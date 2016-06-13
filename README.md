@@ -45,9 +45,7 @@ Normally "activeStyle" could be passed between a class with a constructor or pro
 It's pretty confusing, but it works! and only references the store, the dom is never really bound to anything, no classList.remove etc. and I guess the getters/actions/methods are shepharded to be more pure (no lateral calls, template as the one source of truth).
 
 TODO (forceranked):
-- get webpack to work with app.scss
 - Transport
-	- get canvas time indicator working
 	- get pause to stop and start at same event (in scheduler)
 	- get sub looping in transport
 - Grid
@@ -70,6 +68,11 @@ TODO (forceranked):
 - not so important, but could do
 	- localstorage
 	- service workers for offline
+
+DONE
+- get webpack to work with app.scss, made everything a .vue, including app for better or worse. sass-loader was not happy with .vue loader
+- Transport
+	- get canvas time indicator working, had to put a timeout of 0 on the canvas binding. Apparently vue 2 doesn'tneedthis, there'sno need for componentDidMount stuff.
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
