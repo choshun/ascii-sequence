@@ -1,7 +1,7 @@
 {
-  "name": "redux-tutorial",
+  "name": "SQNC",
   "version": "0.0.1",
-  "description": "a todo app that you'd never want to use",
+  "description": "ASCII sequencer",
   "main": "index.js",
   "scripts": {
     "test": " ",
@@ -9,27 +9,34 @@
     "watch": "webpack --config config/webpack.js --watch"
   },
   "keywords": [
-    "test"
+    "sequencer",
+    "Enobled",
+    "Exalted",
+    "Brothers in Arms"
   ],
+  "repository": "https://github.com/choshun/ascii-sequence",
   "author": "Choshun Snyder",
   "license": "ISC",
   "dependencies": {
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2",
-    "react-redux": "^4.0.0",
-    "redux": "^3.0.4",
-    "immutable": "^3.7.5",
     "lodash": "^4.6.1",
-    "classnames": "^2.2.3",
     "babel-plugin-lodash": "2.2.1",
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "vue": "^1.0.21",
+    "vuex": "^0.6.3 "
   },
   "devDependencies": {
     "babel": "^5.0.12",
     "babel-core": "6.1.21",
     "babel-loader": "6.2.0",
+    "babel-plugin-transform-runtime": "^6.3.13",
     "babel-preset-es2015": "6.1.18",
+    "babel-runtime": "^5.8.34",
     "babel-preset-react": "6.1.18",
+    "css-loader": "^0.23.0",
+    "vue-hot-reload-api": "^1.2.2",
+    "vue-html-loader": "^1.0.0",
+    "vue-style-loader": "^1.0.0",
+    "vue-loader": "^7.2.0",
     "extract-text-webpack-plugin": "^0.9.1",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.0",

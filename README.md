@@ -1,71 +1,49 @@
+- Go to desired folder.
+- $ git clone https://github.com/choshun/ascii-sequence
 - $ npm install
 - $ npm run
 - $ npm run watch
+- Go to localhost:1337.
 
+This is an app using Vue for component rendering, and Vuex for page state management. It's a sequencer!
+- https://vuejs.org/guide/
+- http://vuex.vuejs.org/en/tutorial.html
 
+Grid.vue is responsible for getting layers.
+Layer.vue responsible for getting events/adding events.
+Event.vue responsible for choosing event data.
 
-so helpful:
-http://reactjsnews.com/your-first-redux-app
+Transport.vue is responsible for tempo play/pause.
 
-redux:
-https://egghead.io/series/getting-started-with-redux
-http://redux.js.org/docs/introduction/Ecosystem.html
+Scene.vue is responsible for sequence to destination playback (the result of the sequencer).
 
-react/jsx:
-https://facebook.github.io/react/docs/multiple-components.html
+StyleManager.vue is responsible for changing event data.
 
-immutable:
-https://facebook.github.io/immutable-js/
+Scheduler.vue (based off http://www.html5rocks.com/en/tutorials/audio/scheduling/) is responsible for firing events in state.sequence. This may or may not need to be a .vue.
 
-good example:
-https://github.com/andrewngu/sound-redux/blob/master/scripts/main.js
+/destinations/*.js is fired from scheduler, and executes scheduled callbacks with sequencer event data (in our case css).
 
-q's. 
-how do I combine stores/have more than just todo's in the store, ie layers, triggers, grid etc/
-A. combineReducer. Once this is done the store will have two children, change data parsing accordingly.
+NOTES/thoughts on vue:
 
-When I reduce, I may need to add more than one thing, hw do I pass more than one var to the item from the element?
-A. you can only pass state and action, but action can be an object, so pass as objects.
+There's no 'this' in the vue export default code so you can't pass store/scope, or properties to methods directly. If anything is dependant on scope put in a getter, and if a method is dependant on scope instead of passing it directly to the method, just dispatch an event which executes a mutation in store.js - the store has access to store :P, the getter in the component will update the view accordingly.
 
-How to I have nested components? putting layer in trigger isn't doing anything.
-https://facebook.github.io/react/docs/multiple-components.html
-A. Still fuzzy, but IT NEEDS TO BE CAPITOLIZED, or it won't be registered as a component.
-I should look more into props, it's looking like store is what's passed everywhere as of now. Maybe function mapStateToProps(grid) should help with my container aspirations (see below "next steps").
+Computed properties might address this?
 
-NOTES (from docs):
-All components must be capital cased. ie <MyComponent />, file-name MyComponent.jsx
-If you don't, IT WON'T RENDER.
+Getters fire once onload, then every time the store changes. Getters are love, getters are life.
 
-SUPER BIG
-What Components Should Have State?
-Most of your components should simply take some data from props and render it. However, sometimes you need to respond to user input, a server request or the passage of time. For this you use state.
+If you are handling a store, any filtering/native store handling will coerce the store property into an array. So just make all store stuff arrays (ie styleManager.active could just be an object, but we made it an array with one object cause it was borking if I didn't).
 
-Try to keep as many of your components as possible stateless. By doing this you'll isolate the state to its most logical place and minimize redundancy, making it easier to reason about your application.
+A good example of how vue can work unlike I'd expect (compared to es6 classes, or react extended component classes) is
 
-A common pattern is to create several stateless components that just render data, and have a stateful component above them in the hierarchy that passes its state to its children via props. The stateful component encapsulates all of the interaction logic, while the stateless components take care of rendering data in a declarative way.
+"isActive"
 
-http://facebook.github.io/react/docs/multiple-components.html
-The key should always be supplied directly to the components in the array, not to the container HTML child of each component in the array
+in Event.vue,
+when setting the active state.
 
-NOTES (from sucking)
-If you try to dispatch immediately there'll be an esoteric error cause it can't assign a key or something (mount cycle, kinda like $timeout, digest, and apply). If you set a timeout, it will work but then fire like an interval... I dun get it.
+Normally "activeStyle" could be passed between a class with a constructor or property, instead I do a getter for active style, then pass THAT to the template, which THEN calls the isActive vue method with the getter'd store property. Same with the prop "event". I can't pass event.key directly to the method, I have to register the prop, then again pass that to the template, which in turn fires the vue method.
 
-Next steps:
+It's pretty confusing, but it works! and only references the store, the dom is never really bound to anything, no classList.remove etc. and I guess the getters/actions/methods are shepharded to be more pure (no lateral calls, template as the one source of truth).
 
-2 models:
-Looking like I need a ui model grid -> layers, that populates the ui, the interactions will inform:
-A seperate sequence model, a flat sequence array of objects (Immutable.List), that gets ordered by time and consumed by scheduler.
-
-Have a containers folder that transforms stores into immutable stuff that just gets passed to child components, all changes should be done there for all its responsibilities.
-
-* This means mapStateToProps should only be in containers, the rest of the child elements are dumb.
-
-What gets stored or "dispatched" should be the quickest simplest information I'd need for the store before it's transformed by container stuff. IE, for a trigger: time, layer, callback, data. In this case time may need to be futzed with to have an actual time, DON'T DO IT, just add event.positionX, the containers will do what they need to do.
-
-More NOTES (from sucking)
-Event handling is strange. Everything is bound to root, and then delegated, so you can't really stop event propagation. Work around is seeing what the target is and only executing if it's the one you want (kinda meh, but oh well).
-
-You NEED mapStatesToData to use dispatch. Kinda strange cause connect NEEDS an object to connect to the Element, but a lot of the time I don't need that prop at all since I pass them explicitly in the tag. Seems kinda unneeded.
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
