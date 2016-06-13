@@ -47,16 +47,22 @@
     }
 
     draw(transport) {
-      this.context.clearRect(0, 0, this.width, this.height);
+      let time = transport.context.currentTime,
+          speed;
 
-      // Ratio of current time to total time 0-1 times canvas width.
-      let speed = ((transport.context.currentTime % transport.time) / transport.time) * this.width;
+      // console.log('at least pausedis correct?', transport.paused);
+
+      if (transport.playing) {
+        this.context.clearRect(0, 0, this.width, this.height);
+        // console.log('at same as paused?', transport.context.currentTime, transport.paused);
+        // Ratio of current time to total time 0-1 times canvas width.
+        speed = (((transport.context.currentTime - transport.paused) % transport.time) / transport.time) * this.width;
+      }
 
       this.context.beginPath();
       this.context.rect(speed, 0, 2, this.height);
       this.context.fillStyle = 'red';
       this.context.fill();
-
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
     }
