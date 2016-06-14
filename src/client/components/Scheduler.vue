@@ -57,39 +57,43 @@
      * http://www.html5rocks.com/en/tutorials/audio/scheduling/
      */
     schedule(sequence, transport) {
-      let nextEvent = sequence[this.index],
-          eventTime = nextEvent.time * transport.time;
+      if (transport.playing) {
+        let nextEvent = sequence[this.index],
+            eventTime = nextEvent.time * transport.time;
 
-      // See article above.
-      if ((eventTime + this.measureTime) < (transport.context.currentTime +
-        this.scheduleAheadTime)) {
 
-        let transportTime = parseFloat(transport.time),
-            length = sequence.length;
+        console.log('time', eventTime + this.measureTime);
 
-        // console.log('length', length, this.index, sequence[this.index].time);
+        // See article above.
+        if ((eventTime + this.measureTime + ((transport.paused % transport.time) - transport.time)) < (transport.context.currentTime +
+          this.scheduleAheadTime)) {
 
-        this.index = ((this.index + 1) % length);
-        let newMeasure = ((this.index - 1) === length);
+          let transportTime = parseFloat(transport.time),
+              length = sequence.length;
 
-        // TODO: keep track of where we paused and played
-        if (transport.playing) {
+          // console.log('length', length, this.index, sequence[this.index].time);
+
+          this.index = ((this.index + 1) % length);
+          let newMeasure = ((this.index - 1) === length);
+
+          // TODO: keep track of where we paused and played
+
           // Fires event callback.
           this.destination[nextEvent.callback](nextEvent, newMeasure);
           // console.log('fire');
+
+          if (this.index === 0) {
+            this.measureTime = (((Math.floor((transport.context.currentTime +
+                this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
+            // console.log('new');
+          }
         }
 
-        if (this.index === 0) {
-          this.measureTime = (((Math.floor((transport.context.currentTime +
-              this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
-          // console.log('new');
-        }
+        // Never not polling.
+        window.setTimeout(() => {
+          this.schedule(sequence, transport);
+        }, this.lookahead);
       }
-
-      // Never not polling.
-      window.setTimeout(() => {
-        this.schedule(sequence, transport);
-      }, this.lookahead);
     }
   }
 

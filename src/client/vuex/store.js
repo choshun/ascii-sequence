@@ -106,11 +106,12 @@ let pauseStart = 0,
 const mutations = {
   // A mutation receives the current state as the first argument
   // You can make any modifications you want inside this function
+  // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
   TOGGLEPLAY (state) {
     if (state.transport.playing) {
       pauseStart = state.transport.context.currentTime;
 
-      console.log('pause time?', pauseStart);
+      // console.log('pause time?', pauseStart);
       // state.transport.paused = state.transport.context.currentTime;
     } else {
       pauseDifference += state.transport.context.currentTime - pauseStart;
