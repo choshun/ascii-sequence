@@ -50,19 +50,17 @@
       let time = transport.context.currentTime,
           speed;
 
-      // console.log('at least pausedis correct?', transport.paused);
-
       if (transport.playing) {
         this.context.clearRect(0, 0, this.width, this.height);
-        // console.log('at same as paused?', transport.context.currentTime, transport.paused);
-        // Ratio of current time to total time 0-1 times canvas width.
+        // Ratio of current time to total time 0-1, times canvas width.
         speed = (((transport.context.currentTime - transport.paused) % transport.time) / transport.time) * this.width;
+
+        this.context.beginPath();
+        this.context.rect(speed, 0, 2, this.height);
+        this.context.fillStyle = 'red';
+        this.context.fill();
       }
 
-      this.context.beginPath();
-      this.context.rect(speed, 0, 2, this.height);
-      this.context.fillStyle = 'red';
-      this.context.fill();
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
     }
