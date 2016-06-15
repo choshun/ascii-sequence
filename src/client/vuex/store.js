@@ -9,13 +9,6 @@ utils.createContext();
 Vue.use(Vuex);
 
 const state = {
-  transport: {
-  	'playing': true, // Should be playing.
-    'start': 0, // Start of loop play as fraction of total time.
-    'end': 1, // End of loop play as fraction of total time.
-    'time': 5, // Total loop time in seconds.
-    'context': utils.getContext() // Audio context that keeps time.
-  },
   sequence: [
 	  {
       'layer': 2,
@@ -39,7 +32,7 @@ const state = {
 	    'callback': 'addStyle',
 	    'class': '.layer-2',
 	    'data': 'blob: of css;\nleft: 200px; top: 30px;',
-	    'key': 'event-00-75'
+	    'key': 'event-20-75'
 	  },
 	  {
 	    'layer': 1,
@@ -96,13 +89,30 @@ const state = {
       layer: 0,
       time: 0.75
     }]
+  },
+  transport: {
+    'playing': true, // Should be playing.
+    'start': 0, // Start of loop play as fraction of total time.
+    'end': 1, // End of loop play as fraction of total time.
+    'time': 5, // Total loop time in seconds.
+    'context': utils.getContext(), // Audio context that keeps time.
+    'pauseStart': 0, // "context.currentTime" when sequence paused.
+    'paused': 0 // Total time paused.
   }
 };
 
+// let pauseStart = 0,
+//     pauseDifference = 0;
+
 const mutations = {
-  // A mutation receives the current state as the first argument
-  // You can make any modifications you want inside this function
+  // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
   TOGGLEPLAY (state) {
+    if (state.transport.playing) {
+      state.transport.pauseStart = state.transport.context.currentTime;
+    } else {
+      state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
+    }
+
     state.transport.playing = !state.transport.playing;
   },
   UPDATE_TIME (state, time) {

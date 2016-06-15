@@ -46,7 +46,6 @@ It's pretty confusing, but it works! and only references the store, the dom is n
 
 TODO (forceranked):
 - Transport
-	- get pause to stop and start at same event (in scheduler)
 	- get sub looping in transport
 - Grid
 	- get deleting event
@@ -63,6 +62,7 @@ TODO (forceranked):
 - measures
 	- be able to switch between measures with a small matrix thing... like a groove box
 	- quantize selection and events
+	- measures can have unique times
 	- have an exported final version of switching between blocks of sequences
 
 - not so important, but could do
@@ -70,9 +70,14 @@ TODO (forceranked):
 	- service workers for offline
 
 DONE
-- get webpack to work with app.scss, made everything a .vue, including app for better or worse. sass-loader was not happy with .vue loader
+- get webpack to work with app.scss
+made everything a .vue, including app for better or worse. sass-loader was not happy with .vue loader
 - Transport
-	- get canvas time indicator working, had to put a timeout of 0 on the canvas binding. Apparently vue 2 doesn'tneedthis, there'sno need for componentDidMount stuff.
+	- get canvas time indicator working
+	had to put a timeout of 0 on the canvas binding. Apparently vue 2 doesn'tneedthis, there'sno need for componentDidMount stuff.
+	- get pause to stop and start at same event (in scheduler)
+	Got it to work with some bugs, added TODO's in scheduler. A lot of it has to do with looping vs pausing vs changing total loop time. Mostly looping and pausing though. The break through was not firing new measure on last event of measure, but when currentTime modded to 0... it also had to consider paused elapsed time.
+	Ideally scheduler wouldn't need to worry about pause time at all, so maybe expose effectiveTime from store and not actual context time? No clue. Just extremely happy it works to some degree.
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer

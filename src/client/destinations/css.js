@@ -18,8 +18,8 @@ class Css {
     return `.scene ${event.class} {\n${event.data}\n}`;
   }
 
-  addStyle(event, newMeasure) {
-    if (newMeasure) {
+  addStyle(event, reset) {
+    if (reset) {
       this.styleBlock.innerHTML = '';
     }
 
