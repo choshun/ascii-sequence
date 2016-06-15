@@ -48,6 +48,13 @@
        * @type {Number}
        */
       this.measureTime = 0;
+
+      this.newMeasure = false;
+      this.checkNewMeasure = false;
+      this.oldContextTime = 0;
+      this.stopFiring = false;
+
+      this.effectiveTime = 0;
     }
 
     /**
@@ -56,38 +63,67 @@
      * It's a scheduler, so there's a lookahead and all that other good stuff:
      * http://www.html5rocks.com/en/tutorials/audio/scheduling/
      */
+
+    // TODO: SO something happens after I play/pause after last event, that fixes the wobbly if I pause play super quick. Maybe on each event fire do that so it eventually fixes itself
+    // TODO: when I change time make it so the time indicator doesn't change, might shed light on how it fixes itself only on new measure.
     schedule(sequence, transport) {
       if (transport.playing) {
+        this.effectiveTime = transport.context.currentTime - transport.paused;
+
         let nextEvent = sequence[this.index],
-            eventTime = nextEvent.time * transport.time;
+            eventTime = nextEvent.time * transport.time,
+            contextTime = (this.effectiveTime % transport.time);
 
+        // console.log(contextTime, '<', this.oldContextTime, contextTime < this.oldContextTime);
 
-        console.log('time', eventTime + this.measureTime);
+        // This basically will fire after mod happens, so I know it's a new measure. When I pause old time falls out of sync, so I subtract paused to match effective time.
+        if (!transport.playing) {
+          this.oldContextTime -= transport.paused;
+        }
+
+        if (this.checkNewMeasure && contextTime < this.oldContextTime) {
+          // Set add measure time after mod 0;
+          this.newMeasure = true;
+
+          // TODO: rename to not a negative.
+          this.stopFiring = false;
+        }
 
         // See article above.
-        if ((eventTime + this.measureTime + ((transport.paused % transport.time) - transport.time)) < (transport.context.currentTime +
+        // TODO: document this better
+        // If event time plus elapsed time, plus paused time mod time (to keep measure elapsed time matched with context time - might be fixed using effective time somehow?), is less than the current time with a look ahead.
+        if (!this.stopFiring && (eventTime + this.measureTime + ((transport.paused % transport.time) )) < (transport.context.currentTime +
           this.scheduleAheadTime)) {
 
           let transportTime = parseFloat(transport.time),
               length = sequence.length;
 
-          // console.log('length', length, this.index, sequence[this.index].time);
-
           this.index = ((this.index + 1) % length);
-          let newMeasure = ((this.index - 1) === length);
-
-          // TODO: keep track of where we paused and played
+          let reset = ((this.index - 1) === length);
 
           // Fires event callback.
-          this.destination[nextEvent.callback](nextEvent, newMeasure);
-          // console.log('fire');
+          this.destination[nextEvent.callback](nextEvent, reset);
 
+          // At last event in loop, stop firing events, and check when mod currentTime mods to zero.
           if (this.index === 0) {
-            this.measureTime = (((Math.floor((transport.context.currentTime +
-                this.scheduleAheadTime) / transportTime)) * transportTime) + transportTime);
-            // console.log('new');
+            // console.log('index zero');
+            this.checkNewMeasure = true;
+            this.stopFiring = true;
+          }
+
+          // If we're at a new currentTime mod zero, add to measure time.
+          // Take currentTime divided by measure time and floor it to get number of measures. Ie time floor(23(s) / 5) = 4 elapsed measures, * 5 to get 20s to add at start of a loop to keep loop events with total elapsed time.
+          if (this.newMeasure) {
+            this.measureTime = (((Math.floor(((transport.context.currentTime) +
+                this.scheduleAheadTime) / transportTime)) * transportTime));
+
+            console.log('NEW!!!!!', this.measureTime);
+            this.newMeasure = false;
+            this.checkNewMeasure = false;
           }
         }
+
+        this.oldContextTime = transport.context.currentTime % transport.time;
 
         // Never not polling.
         window.setTimeout(() => {
