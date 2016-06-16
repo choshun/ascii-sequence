@@ -48,15 +48,20 @@
 
     draw(transport) {
       let time = transport.context.currentTime,
-          speed;
+          position;
 
       if (transport.playing) {
         this.context.clearRect(0, 0, this.width, this.height);
+
         // Ratio of current time to total time 0-1, times canvas width.
-        speed = (((transport.context.currentTime - transport.paused) % transport.time) / transport.time) * this.width;
+        let positionRatio = ((((transport.context.currentTime - transport.paused) % (transport.time * transport.duration)) / transport.time) * this.width),
+            endMod = this.width / ( 1 / transport.duration),
+            startMod = this.width / ( 1 / transport.start);
+
+        position = startMod + positionRatio % endMod;
 
         this.context.beginPath();
-        this.context.rect(speed, 0, 2, this.height);
+        this.context.rect(position, 0, 2, this.height);
         this.context.fillStyle = 'red';
         this.context.fill();
       }
@@ -79,7 +84,8 @@
         // the main deal is if the directive is bound to fire when context.currentTime changes,
         // I could see it firing waaaay too much,
         // when this way checks the transport value when it can
-        upDateTime: store => timeIndicatorClass.init(store.transport)
+        upDateTime: store => timeIndicatorClass.init(store.transport),
+        getDuration: store => store.transport.duration
       }
     },
     components: {

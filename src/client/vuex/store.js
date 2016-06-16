@@ -93,7 +93,7 @@ const state = {
   transport: {
     'playing': true, // Should be playing.
     'start': 0, // Start of loop play as fraction of total time.
-    'end': 1, // End of loop play as fraction of total time.
+    'duration': 0.7, // duration of loop play as fraction of total time.
     'time': 5, // Total loop time in seconds.
     'context': utils.getContext(), // Audio context that keeps time.
     'pauseStart': 0, // "context.currentTime" when sequence paused.
@@ -106,6 +106,7 @@ const state = {
 
 const mutations = {
   // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
+  // TODO: this if else is no bueno, make more actions, should only set stuff here.
   TOGGLEPLAY (state) {
     if (state.transport.playing) {
       state.transport.pauseStart = state.transport.context.currentTime;
@@ -117,6 +118,12 @@ const mutations = {
   },
   UPDATE_TIME (state, time) {
   	state.transport.time = time;
+  },
+  UPDATE_START (state, start) {
+    state.transport.start = start;
+  },
+  UPDATE_DURATION (state, duration) {
+    state.transport.duration = duration;
   },
   ADD_EVENT (state, newEvent) {
     state.sequence.push(newEvent);
