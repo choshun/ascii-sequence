@@ -91,9 +91,9 @@ const state = {
     }]
   },
   transport: {
-    'playing': true, // Should be playing.
-    'start': 0, // Start of loop play as fraction of total time.
-    'duration': 0.7, // duration of loop play as fraction of total time.
+    'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
+    'start': 0.0, // Start of loop play as fraction of total time.
+    'duration': 0.6, // duration of loop play as fraction of total time.
     'time': 5, // Total loop time in seconds.
     'context': utils.getContext(), // Audio context that keeps time.
     'pauseStart': 0, // "context.currentTime" when sequence paused.

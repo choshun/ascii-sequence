@@ -75,12 +75,21 @@
         // !TODO: Anywhere "SUBLOOP" is found should again be obfustated by a getter. I really shouldn't care if it's a sub loop, whole loop, whole song etc.
         // !TODO: Put as little as possible in the schedule poll. Hopefully refactor of effective to just be the value will help.
         this.effectiveTime = (transport.context.currentTime - transport.paused);
-        this.effectiveTransportTime = (transport.time * (transport.duration - transport.start));
+        this.effectiveTransportTime = (transport.time * (transport.duration));
+        this.effectiveIndex = this.getsequenceStart(sequence, (transport.start)) + this.index;
 
+        // console.log('index with start?', this.getsequenceStart(sequence, transport.start), this.effectiveIndex, this.index);
+
+        // SUBLOOP: start
         let nextEvent = sequence[this.index],
+            // nextEvent = sequence[this.effectiveIndex],
             eventTime = nextEvent.time * transport.time,
             // SUBLOOP: this.oldContextTime vs newEvent, needs to mod at 2.5 (5 * .5) to fire this.newMeasure = true
             contextTime = (this.effectiveTime % this.effectiveTransportTime);
+
+        // console.log('with start', (this.index + this.getsequenceStart(sequence, transport.start) - 1), this.index);
+
+        // console.log('duration?', this.effectiveTransportTime);
 
         // This will fire after mod happens, so I know it's a new measure. When I pause old time falls out of sync, so I subtract paused to match effective time.
         if (!transport.playing) {
@@ -100,16 +109,26 @@
         if (this.fire && (eventTime + this.measureTime + ((transport.paused % transport.time))) < ((transport.context.currentTime +
           this.scheduleAheadTime))) {
 
-          let transportTime = parseFloat(transport.time),
-              filtered = this.getsequenceLength(sequence, transport.start, (transport.duration - transport.start)),
-              length = sequence.length,
-              effectiveLength = (filtered === -1) ? sequence.length : filtered;
+          // TODO: start
+          // get this.getsequenceStart to add to index, so first index for nextEvent is not the first,
+          // test contextTime vs eventTime, I may need to subtract start time
+          // console.log('index?', this.index);
 
-          // console.log('effective!', effectiveLength);
+          // console.log('eventTime?', eventTime + this.measureTime + ((transport.paused % transport.time)), '<', ((transport.context.currentTime +
+          // this.scheduleAheadTime)));
+
+          let transportTime = parseFloat(transport.time),
+              // SUBLOOP: end index
+              filteredEnd = this.getsequenceLength(sequence, (transport.duration + transport.start)),
+              // filteredStart = this.getsequenceStart(sequence, transport.start),
+              length = sequence.length,
+              effectiveDuration = (filteredEnd === -1) ? sequence.length : filteredEnd;
+
+          // console.log('start index!', filteredStart, effectiveDuration);
 
           // SUBLOOP: only one event after .5, so last is second to last event
-          this.index = ((this.index + 1) % (effectiveLength));
-          let reset = ((this.index - 1) === effectiveLength);
+          this.index = ((this.index + 1) % (effectiveDuration));
+          let reset = ((this.index - 1) === effectiveDuration);
 
           // Fires event callback.
           this.destination[nextEvent.callback](nextEvent, reset);
@@ -144,9 +163,16 @@
       }
     }
 
-    getsequenceLength(sequence, start, duration) {
+    getsequenceLength(sequence, duration) {
       return _.findIndex(sequence, (sequence) => {
         return sequence.time > duration;
+      });
+    }
+
+    getsequenceStart(sequence, start) {
+      return _.findIndex(sequence, (sequence) => {
+        // console.log(sequence.time, '>', start, sequence.time > start);
+        return sequence.time >= start;
       });
     }
   }
