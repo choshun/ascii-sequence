@@ -8,7 +8,7 @@
 <script>
   import store from '../vuex/store';
   import Css from '../destinations/css.js';
-  import { findIndex } from 'lodash';
+  import { clone, cloneDeep, findIndex, slice, forEach } from 'lodash';
 
   /**
    * @class Scheduler
@@ -30,7 +30,7 @@
        * Interval to try and refire schedule.
        * @type {Number} in ms
        */
-      this.lookahead = 30;
+      this.lookahead = 200;
 
       /**
        * Time to look ahead in sequence to schedule.
@@ -52,6 +52,7 @@
 
       this.newMeasure = false;
       this.checkNewMeasure = false;
+
       this.oldContextTime = 0;
       this.fire = true;
 
@@ -70,38 +71,41 @@
 
     schedule(sequence, transport) {
       if (transport.playing) {
-        // !TODO: effectiveTime, and effectiveTransportTime, should just be in the getter, or store (prolly getter). This scheduler shouldn't care.
+
         // !TODO: Prolly mentioned this before, but this shouldn't care about pause/pause time either. 
         // !TODO: Anywhere "SUBLOOP" is found should again be obfustated by a getter. I really shouldn't care if it's a sub loop, whole loop, whole song etc.
         // !TODO: Put as little as possible in the schedule poll. Hopefully refactor of effective to just be the value will help.
         this.effectiveTime = (transport.context.currentTime - transport.paused);
-        this.effectiveTransportTime = (transport.time * (transport.duration));
-        this.effectiveIndex = this.getsequenceStart(sequence, (transport.start)) + this.index;
-
-        // console.log('index with start?', this.getsequenceStart(sequence, transport.start), this.effectiveIndex, this.index);
 
         // SUBLOOP: start
         let nextEvent = sequence[this.index],
-            // nextEvent = sequence[this.effectiveIndex],
             eventTime = nextEvent.time * transport.time,
             // SUBLOOP: this.oldContextTime vs newEvent, needs to mod at 2.5 (5 * .5) to fire this.newMeasure = true
-            contextTime = (this.effectiveTime % this.effectiveTransportTime);
+            contextTime = (this.effectiveTime % transport.effectiveTransportTime);
 
-        // console.log('with start', (this.index + this.getsequenceStart(sequence, transport.start) - 1), this.index);
-
-        // console.log('duration?', this.effectiveTransportTime);
+        // console.log('duration?', transport.effectiveTransportTime);
 
         // This will fire after mod happens, so I know it's a new measure. When I pause old time falls out of sync, so I subtract paused to match effective time.
         if (!transport.playing) {
           this.oldContextTime -= transport.paused;
         }
-
-        // console.log(this.checkNewMeasure, contextTime, '<', this.oldContextTime, contextTime < (this.oldContextTime));
+        
         if (this.checkNewMeasure && contextTime < (this.oldContextTime)) {
           // Set add measure time after mod 0;
           this.newMeasure = true;
           this.fire = true;
         }
+
+        console.log('fire!', eventTime + this.measureTime, transport.context.currentTime +
+        this.scheduleAheadTime);
+
+        // SUBLOOP
+        // if (this.newMeasure) {
+        //   this.measureTime = (((Math.floor(((transport.context.currentTime) +
+        //       this.scheduleAheadTime) / transport.effectiveTransportTime)) * transport.effectiveTransportTime));
+
+        //   // console.log('NEW!!!!!', this.measureTime);
+        // }
 
         // See article above.
         // TODO: document this better
@@ -109,29 +113,14 @@
         if (this.fire && (eventTime + this.measureTime + ((transport.paused % transport.time))) < ((transport.context.currentTime +
           this.scheduleAheadTime))) {
 
-          // TODO: start
-          // get this.getsequenceStart to add to index, so first index for nextEvent is not the first,
-          // test contextTime vs eventTime, I may need to subtract start time
-          // console.log('index?', this.index);
-
-          // console.log('eventTime?', eventTime + this.measureTime + ((transport.paused % transport.time)), '<', ((transport.context.currentTime +
-          // this.scheduleAheadTime)));
-
-          let transportTime = parseFloat(transport.time),
-              // SUBLOOP: end index
-              filteredEnd = this.getsequenceLength(sequence, (transport.duration + transport.start)),
-              // filteredStart = this.getsequenceStart(sequence, transport.start),
-              length = sequence.length,
-              effectiveDuration = (filteredEnd === -1) ? sequence.length : filteredEnd;
-
-          // console.log('start index!', filteredStart, effectiveDuration);
-
-          // SUBLOOP: only one event after .5, so last is second to last event
-          this.index = ((this.index + 1) % (effectiveDuration));
-          let reset = ((this.index - 1) === effectiveDuration);
+          let length = sequence.length;
 
           // Fires event callback.
           this.destination[nextEvent.callback](nextEvent, reset);
+
+          // SUBLOOP: only one event after .5, so last is second to last event
+          this.index = ((this.index + 1) % length);
+          let reset = ((this.index - 1) === length);
 
           // At last event in loop, stop firing events, and check when mod currentTime mods to zero.
           if (this.index === 0) {
@@ -145,16 +134,16 @@
           // SUBLOOP
           if (this.newMeasure) {
             this.measureTime = (((Math.floor(((transport.context.currentTime) +
-                this.scheduleAheadTime) / this.effectiveTransportTime)) * this.effectiveTransportTime));
+                this.scheduleAheadTime) / transport.effectiveTransportTime)) * transport.effectiveTransportTime));
 
-            console.log('NEW!!!!!', this.measureTime);
+            // console.log('NEW!!!!!', this.measureTime);
             this.newMeasure = false;
             this.checkNewMeasure = false;
           }
         }
 
         // SUBLOOP
-        this.oldContextTime = transport.context.currentTime % this.effectiveTransportTime;
+        this.oldContextTime = transport.context.currentTime % transport.effectiveTransportTime;
 
         // Never not polling.
         window.setTimeout(() => {
@@ -165,7 +154,7 @@
 
     getsequenceLength(sequence, duration) {
       return _.findIndex(sequence, (sequence) => {
-        return sequence.time > duration;
+        return sequence.time >= duration;
       });
     }
 
@@ -174,6 +163,21 @@
         // console.log(sequence.time, '>', start, sequence.time > start);
         return sequence.time >= start;
       });
+    }
+
+    offsetEventStarts(sequence, start) {
+      // console.log('before offset?', sequence, start);
+
+      let offsetSequence = [];
+      _.forEach(_.cloneDeep(sequence), (event) => {
+        // console.log('time before', event.time);
+        event.time -= start;
+        // console.log('time after', event.time);
+        offsetSequence.push(event);
+      });
+
+      // console.log('offset?', offsetSequence);
+      return offsetSequence;
     }
   }
 
@@ -184,11 +188,91 @@
     store,
     vuex: {
       getters: {
+        test: store => {
+          return store.transport.time;
+        },
+        // TODO: schedule should return truncated version, ie if start and duration are 0.1 and 0.5, only return event between with changed event times
+
+        // rules, 
+        // sequence is only the filtered by duration sequence
+        // sequence event times are augmented by start
+        // context.currentTime is never fucked with
+        // only transport computed times, ie time = efectiveTime, 
+        // measureTime, is realTime and accounts for %, transport.pause etc
+
         // For whatever reason using lodash made store.sequence sync horribly when I used _.sort
-        schedule: store => schedulerClass.schedule(store.sequence.sort((a, b) => {
-              return a.time - b.time;
-            }), store.transport)
+        schedule: store => {
+          let transport = store.transport,
+              sequence = _.cloneDeep(store.sequence);
+
+
+
+          // Prep transport.
+          let effectiveTransport = transport;
+          effectiveTransport.effectiveTransportTime = (transport.time * transport.duration);
+
+          // Prep sequence.
+          let sortedSequence = sequence.sort((a, b) => {
+            return a.time - b.time;
+          });
+
+          // Need sequence to be sorted to get correct index of first and last.
+          let checkLastIndex = schedulerClass.getsequenceLength(sequence, (transport.duration + transport.start));
+          // console.log('last index', checkLastIndex);
+
+          let lastIndex = (checkLastIndex !== -1) ? checkLastIndex : sequence.length;
+
+          let firstIndex = schedulerClass.getsequenceStart(sequence, (transport.start));
+          // console.log('first?', firstIndex);
+
+          // console.log('sortedSequence');
+          // console.table(sortedSequence);
+
+          let slicedSequence = _.slice(sortedSequence, firstIndex, lastIndex);
+          // console.log('slicedSequence');
+          // console.table(slicedSequence);
+
+          let offsetSequence = schedulerClass.offsetEventStarts(slicedSequence, transport.start);
+          // console.log('offsetSequence');
+          // console.table(offsetSequence);
+
+
+          // console.log(sequence, effectiveSequence);
+
+          // console.log('last index time?', lastIndex, 'passed time', (transport.duration + transport.start));
+
+          // console.log('first index time?', firstIndex, 'passed time', (transport.start));
+
+          schedulerClass.schedule(offsetSequence, transport);
+        }
+        // TODO:, make pauseTime a contructor and do adding pause time logic in getter
+
+    
       }
+    },
+
+    init: () => {
+      // console.log('init', store.dispatch);
+
+      // store.watch('sequence', () => {
+      //   console.log('watch');
+      // });
+    },
+
+    created: () => {
+      // https://github.com/vuejs/vuex/blob/master/examples/shopping-cart/components/ProductList.vue
+      // if "this" worked I'd be so happy
+
+      console.log('this?!?!?', this);
+    },
+
+    methods: {
+
+      // schedule: (sequence, transport) => {
+      //   console.log('sequence?', sequence, transport.context.currentTime);
+
+      //   console.log('access to schedule?', this);
+      // }
     }
   }
 </script>

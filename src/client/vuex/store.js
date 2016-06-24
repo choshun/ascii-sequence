@@ -19,20 +19,28 @@ const state = {
       'key': 'event-20-25'
     },
     {
+      'layer': 2,
+      'time': 0.55,
+      'callback': 'addStyle',
+      'class': '.layer-2',
+      'data': 'basdlob: of css;\nleft: 500px',
+      'key': 'event-20-55'
+    },
+    {
 	    'layer': 1,
-	    'time': 0.25,
+	    'time': 0.27,
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
 	    'data': 'basdlob: of css;\nleft: 100px;',
 	    'key': 'event-10-25'
 	  },
 	  {
-	    'layer': 2,
+	    'layer': 1,
 	    'time': 0.75,
 	    'callback': 'addStyle',
-	    'class': '.layer-2',
+	    'class': '.layer-1',
 	    'data': 'blob: of css;\nleft: 200px; top: 30px;',
-	    'key': 'event-20-75'
+	    'key': 'event-10-75'
 	  },
 	  {
 	    'layer': 1,
@@ -57,14 +65,6 @@ const state = {
       'class': '.layer-0',
       'data': 'assdlob: of css;\nleft: 500px; color: red;',
       'key': 'event-00-5'
-    },
-    {
-      'layer': 2,
-      'time': 0.25,
-      'callback': 'addStyle',
-      'class': '.layer-2',
-      'data': 'basdlob: of css;\nleft: 150px; top: 50px;',
-      'key': 'event-10-25'
     }
 	],
   layers: [
@@ -91,18 +91,15 @@ const state = {
     }]
   },
   transport: {
-    'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
-    'start': 0.0, // Start of loop play as fraction of total time.
-    'duration': 0.6, // duration of loop play as fraction of total time.
+    'playing': true, // Should be playing. // TODO: if playing onload = false add to pause time
+    'start': 0.10, // Start of loop play as fraction of total time.
+    'duration': 1.0, // duration of loop play as fraction of total time.
     'time': 5, // Total loop time in seconds.
     'context': utils.getContext(), // Audio context that keeps time.
     'pauseStart': 0, // "context.currentTime" when sequence paused.
     'paused': 0 // Total time paused.
   }
 };
-
-// let pauseStart = 0,
-//     pauseDifference = 0;
 
 const mutations = {
   // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
