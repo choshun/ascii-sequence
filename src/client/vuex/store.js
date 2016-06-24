@@ -109,8 +109,8 @@ const mutations = {
 
     if (!state.transport.playing) {
       state.transport.pauseStart = state.transport.context.currentTime;
-      console.log('play?')
     } else {
+      console.log('play?');
       state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
     }
   },
