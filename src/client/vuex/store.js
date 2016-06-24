@@ -105,13 +105,14 @@ const mutations = {
   // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
   // TODO: this if else is no bueno, make more actions, should only set stuff here.
   TOGGLEPLAY (state) {
-    if (state.transport.playing) {
+    state.transport.playing = !state.transport.playing;
+
+    if (!state.transport.playing) {
       state.transport.pauseStart = state.transport.context.currentTime;
+      console.log('play?')
     } else {
       state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
     }
-
-    state.transport.playing = !state.transport.playing;
   },
   UPDATE_TIME (state, time) {
   	state.transport.time = time;
