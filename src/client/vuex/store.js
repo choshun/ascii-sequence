@@ -97,7 +97,7 @@ const state = {
     'time': 5, // Total loop time in seconds.
     'context': utils.getContext(), // Audio context that keeps time.
     'pauseStart': 0, // "context.currentTime" when sequence paused.
-    'paused': 0 // Total time paused.
+    'paused': 0, // Total time paused.
   }
 };
 
@@ -109,8 +109,14 @@ const mutations = {
 
     if (!state.transport.playing) {
       state.transport.pauseStart = state.transport.context.currentTime;
+      utils.deleteContext();
+      // state.transport.context = '';
+      
+      state.transport.context = utils.getContext();
     } else {
       console.log('play?');
+      utils.createContext();
+      state.transport.context = utils.getContext();
       state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
     }
   },

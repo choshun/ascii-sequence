@@ -44,12 +44,6 @@
        */
       this.index = 0;
 
-      /**
-       * Loop time.
-       * @type {Number}
-       */
-      this.measureTime = 0;
-
       this.newMeasure = false;
       this.checkNewMeasure = false;
 
@@ -75,7 +69,7 @@
         // !TODO: Prolly mentioned this before, but this shouldn't care about pause/pause time either. 
         // !TODO: Anywhere "SUBLOOP" is found should again be obfustated by a getter. I really shouldn't care if it's a sub loop, whole loop, whole song etc.
         // !TODO: Put as little as possible in the schedule poll. Hopefully refactor of effective to just be the value will help.
-        this.effectiveTime = (transport.context.currentTime - transport.paused);
+        this.effectiveTime = (transport.context.currentTime);
 
         // SUBLOOP: start
         let nextEvent = sequence[this.index],
@@ -87,7 +81,9 @@
 
         // This will fire after mod happens, so I know it's a new measure. When I pause old time falls out of sync, so I subtract paused to match effective time.
         if (!transport.playing) {
-          this.oldContextTime -= transport.paused;
+          this.oldContextTime;
+        } else {
+          console.log('schedule play!!!');
         }
         
         if (this.checkNewMeasure && contextTime < (this.oldContextTime)) {
@@ -110,7 +106,7 @@
         // See article above.
         // TODO: document this better
         // If event time plus elapsed time, plus paused time mod time (to keep measure elapsed time matched with context time - might be fixed using effective time somehow?), is less than the current time with a look ahead.
-        if (this.fire && (eventTime + this.measureTime + ((transport.paused % transport.time))) < ((transport.context.currentTime +
+        if (this.fire && (eventTime + this.measureTime) < ((transport.context.currentTime +
           this.scheduleAheadTime))) {
 
           let length = sequence.length;
@@ -130,7 +126,9 @@
 
           // If we're at a new currentTime mod zero, add to measure time.
           // Take currentTime divided by measure time and floor it to get number of measures. Ie time floor(23(s) / 5) = 4 elapsed measures, * 5 to get 20s to add at start of a loop to keep loop events with context.currentTime.
-
+          
+            console.log('zero after pause?', transport.context.currentTime);
+          
           // SUBLOOP
           if (this.newMeasure) {
             this.measureTime = (((Math.floor(((transport.context.currentTime) +

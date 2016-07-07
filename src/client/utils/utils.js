@@ -10,6 +10,10 @@ class Utils {
     this.context;
   }
 
+  deleteContext() {
+    delete this.context;
+  }
+
   getContext() {
     return this.context;
   }
