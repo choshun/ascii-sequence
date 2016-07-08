@@ -7,17 +7,23 @@ class Utils {
    * @constructor Utils
    */
   constructor() {
+    // Transport current context.
     this.context;
   }
 
-  deleteContext() {
-    delete this.context;
+  togglePlay(state) {
+    (state.transport.playing) ? this.context.resume() :
+        this.context.suspend();
   }
 
   getContext() {
+    if (this.context === undefined) {
+      this.createContext();
+    }
+
     return this.context;
   }
-  // should init immediately
+
   createContext() {
     if (this.context === undefined) {
       var contextClass = window.AudioContext ||
