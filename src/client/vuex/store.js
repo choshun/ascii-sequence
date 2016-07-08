@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-// TODO: Should prolly put this in transport.vue
-import Utils from '../utils/utils.js';
-const utils = new Utils();
-utils.createContext();
-
 Vue.use(Vuex);
 
 const state = {
@@ -91,34 +86,18 @@ const state = {
     }]
   },
   transport: {
-    'playing': true, // Should be playing. // TODO: if playing onload = false add to pause time
-    'start': 0.10, // Start of loop play as fraction of total time.
-    'duration': 1.0, // duration of loop play as fraction of total time.
-    'time': 5, // Total loop time in seconds.
-    'context': utils.getContext(), // Audio context that keeps time.
-    'pauseStart': 0, // "context.currentTime" when sequence paused.
-    'paused': 0, // Total time paused.
+    'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
+    'start': 0.1, // Start of loop play as fraction of total time.
+    'duration': 0.8, // duration of loop play as fraction of total time.
+    'time': 4, // Total loop time in seconds. TODO: rename to loop time.
+    'context': {} // Audio context that keeps time.
   }
 };
 
 const mutations = {
-  // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
-  // TODO: this if else is no bueno, make more actions, should only set stuff here.
-  TOGGLEPLAY (state) {
+  TOGGLE_PLAY (state, context) {
     state.transport.playing = !state.transport.playing;
-
-    if (!state.transport.playing) {
-      state.transport.pauseStart = state.transport.context.currentTime;
-      utils.deleteContext();
-      // state.transport.context = '';
-      
-      state.transport.context = utils.getContext();
-    } else {
-      console.log('play?');
-      utils.createContext();
-      state.transport.context = utils.getContext();
-      state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
-    }
+    state.transport.context = context;
   },
   UPDATE_TIME (state, time) {
   	state.transport.time = time;
