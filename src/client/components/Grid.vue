@@ -53,9 +53,10 @@
       if (transport.playing) {
         this.context.clearRect(0, 0, this.width, this.height);
 
+        // TODO: Maybe put this var in a placethat onlyupdates when trasport changes (only currentTime changes).
         // Ratio of current time to total time 0-1, times canvas width.
-        let positionRatio = ((((transport.context.currentTime - transport.paused) % (transport.time * transport.duration)) / transport.time) * this.width),
-            endMod = this.width / ( 1 / transport.duration),
+        let positionRatio = ((transport.context.currentTime % (transport.time * transport.duration)) / transport.time) * this.width;
+        let endMod = this.width / ( 1 / transport.duration),
             startMod = this.width / ( 1 / transport.start);
 
         position = startMod + positionRatio % endMod;
