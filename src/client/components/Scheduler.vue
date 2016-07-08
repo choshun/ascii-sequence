@@ -51,6 +51,7 @@
       this.fire = true;
 
       this.effectiveTime = 0;
+      this.measureTime = 0;
     }
 
     /**
@@ -64,27 +65,17 @@
     // TODO: when I change time make it so the time indicator doesn't change, might shed light on how it fixes itself only on new measure.
 
     schedule(sequence, transport) {
-      if (transport.playing) {
+      let nextEvent = sequence[this.index];
 
-        // !TODO: Prolly mentioned this before, but this shouldn't care about pause/pause time either. 
-        // !TODO: Anywhere "SUBLOOP" is found should again be obfustated by a getter. I really shouldn't care if it's a sub loop, whole loop, whole song etc.
+      if (transport.playing && nextEvent) {
         // !TODO: Put as little as possible in the schedule poll. Hopefully refactor of effective to just be the value will help.
         this.effectiveTime = (transport.context.currentTime);
 
         // SUBLOOP: start
-        let nextEvent = sequence[this.index],
-            eventTime = nextEvent.time * transport.time,
+        let eventTime = nextEvent.time * transport.time,
             // SUBLOOP: this.oldContextTime vs newEvent, needs to mod at 2.5 (5 * .5) to fire this.newMeasure = true
             contextTime = (this.effectiveTime % transport.effectiveTransportTime);
 
-        // console.log('duration?', transport.effectiveTransportTime);
-
-        // This will fire after mod happens, so I know it's a new measure. When I pause old time falls out of sync, so I subtract paused to match effective time.
-        if (!transport.playing) {
-          this.oldContextTime;
-        } else {
-          console.log('schedule play!!!');
-        }
         
         if (this.checkNewMeasure && contextTime < (this.oldContextTime)) {
           // Set add measure time after mod 0;
@@ -92,47 +83,33 @@
           this.fire = true;
         }
 
-        console.log('fire!', eventTime + this.measureTime, transport.context.currentTime +
-        this.scheduleAheadTime);
-
-        // SUBLOOP
-        // if (this.newMeasure) {
-        //   this.measureTime = (((Math.floor(((transport.context.currentTime) +
-        //       this.scheduleAheadTime) / transport.effectiveTransportTime)) * transport.effectiveTransportTime));
-
-        //   // console.log('NEW!!!!!', this.measureTime);
-        // }
+        // console.log('fire!', eventTime + this.measureTime, transport.context.currentTime +
+        // this.scheduleAheadTime);
 
         // See article above.
         // TODO: document this better
         // If event time plus elapsed time, plus paused time mod time (to keep measure elapsed time matched with context time - might be fixed using effective time somehow?), is less than the current time with a look ahead.
-        if (this.fire && (eventTime + this.measureTime) < ((transport.context.currentTime +
-          this.scheduleAheadTime))) {
+        if (this.fire && (eventTime + this.measureTime) < (transport.context.currentTime +
+          this.scheduleAheadTime)) {
 
           let length = sequence.length;
-
+          let reset = (this.index === length);
           // Fires event callback.
           this.destination[nextEvent.callback](nextEvent, reset);
 
-          // SUBLOOP: only one event after .5, so last is second to last event
           this.index = ((this.index + 1) % length);
-          let reset = ((this.index - 1) === length);
 
           // At last event in loop, stop firing events, and check when mod currentTime mods to zero.
+          // TODO: this doesn't work if first event
+          // isn't at 0.
           if (this.index === 0) {
             this.checkNewMeasure = true;
             this.fire = false;
           }
 
-          // If we're at a new currentTime mod zero, add to measure time.
-          // Take currentTime divided by measure time and floor it to get number of measures. Ie time floor(23(s) / 5) = 4 elapsed measures, * 5 to get 20s to add at start of a loop to keep loop events with context.currentTime.
-          
-            console.log('zero after pause?', transport.context.currentTime);
-          
           // SUBLOOP
           if (this.newMeasure) {
-            this.measureTime = (((Math.floor(((transport.context.currentTime) +
-                this.scheduleAheadTime) / transport.effectiveTransportTime)) * transport.effectiveTransportTime));
+            this.measureTime += transport.effectiveTransportTime;
 
             // console.log('NEW!!!!!', this.measureTime);
             this.newMeasure = false;
@@ -186,9 +163,6 @@
     store,
     vuex: {
       getters: {
-        test: store => {
-          return store.transport.time;
-        },
         // TODO: schedule should return truncated version, ie if start and duration are 0.1 and 0.5, only return event between with changed event times
 
         // rules, 
@@ -243,18 +217,7 @@
 
           schedulerClass.schedule(offsetSequence, transport);
         }
-        // TODO:, make pauseTime a contructor and do adding pause time logic in getter
-
-    
       }
-    },
-
-    init: () => {
-      // console.log('init', store.dispatch);
-
-      // store.watch('sequence', () => {
-      //   console.log('watch');
-      // });
     },
 
     created: () => {
@@ -262,15 +225,6 @@
       // if "this" worked I'd be so happy
 
       console.log('this?!?!?', this);
-    },
-
-    methods: {
-
-      // schedule: (sequence, transport) => {
-      //   console.log('sequence?', sequence, transport.context.currentTime);
-
-      //   console.log('access to schedule?', this);
-      // }
     }
   }
 </script>
