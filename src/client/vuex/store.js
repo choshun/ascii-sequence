@@ -87,8 +87,8 @@ const state = {
   },
   transport: {
     'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
-    'start': 0.1, // Start of loop play as fraction of total time.
-    'duration': 0.8, // duration of loop play as fraction of total time.
+    'start': 0, // Start of loop play as fraction of total time.
+    'duration': 1, // duration of loop play as fraction of total time.
     'time': 4, // Total loop time in seconds. TODO: rename to loop time.
     'context': {} // Audio context that keeps time.
   }
