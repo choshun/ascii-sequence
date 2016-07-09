@@ -12,6 +12,12 @@ class Utils {
   }
 
   togglePlay(state) {
+    if (this.context === undefined) {
+      this.createContext();
+    }
+
+    console.log('pause?', this.context.state);
+
     (state.transport.playing) ? this.context.resume() :
         this.context.suspend();
   }
@@ -22,6 +28,20 @@ class Utils {
     }
 
     return this.context;
+  }
+
+  getTranslatedContext(transport, modifier = 1) {
+    if (this.context === undefined) {
+      this.createContext();
+    }
+
+    // TODO: internalize context, don't have it in transport.
+    let ratio = ((transport.context.currentTime % (transport.time * transport.duration)) / transport.time) * modifier;
+    let endMod = modifier / ( 1 / transport.duration),
+        startMod = modifier / ( 1 / transport.start);
+
+    // console.log('shwa?', startMod + ratio % endMod);    
+    return startMod + ratio % endMod;
   }
 
   createContext() {

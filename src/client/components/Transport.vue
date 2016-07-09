@@ -18,8 +18,8 @@
     duration {{ getDuration }}
     <section class="transport-getTime">
       <input :value="getTime" type="number" @input="updateTime" /> loop time
-      <input :value="getStart" type="number" @input="updateStart" /> loop start
-      <input :value="getDuration" type="number" step="any" @input="updateDuration" /> loop end
+      <input :value="getStart" type="number" @input="updateStart" step="0.1" /> loop start
+      <input :value="getDuration" type="number" step="0.1"  @input="updateDuration" /> loop end
     </section>
 
   </section>
@@ -27,9 +27,9 @@
 
 <script>
   import store from '../vuex/store';
-  import Utils from '../utils/utils.js';
+  import ContextUtils from '../utils/context-utils.js';
 
-  const utils = new Utils();
+  const contextUtils = new ContextUtils();
 
   export default {
     store,
@@ -42,9 +42,12 @@
       },
       actions: {
         togglePlay: ({ dispatch, state }) => {
-          const context = utils.getContext();
+          // TODO delete next line, actual
+          // context will never be exposed, only through context-utils
+          // getTranslatedContext.
+          const context = contextUtils.getContext();
           dispatch('TOGGLE_PLAY', context);
-          utils.togglePlay(state);
+          contextUtils.togglePlay(state);
         },
         updateTime: ({ dispatch }, event) => dispatch('UPDATE_TIME', event.target.value),
         updateStart: ({ dispatch }, event) => dispatch('UPDATE_START', event.target.value),
