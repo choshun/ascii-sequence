@@ -19,6 +19,10 @@ class Css {
   }
 
   addStyle(event, reset) {
+    // console.log('fired you doggy homeskillet');
+
+    // console.table(event);
+
     if (reset) {
       this.styleBlock.innerHTML = '';
     }

@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-// TODO: Should prolly put this in transport.vue
-import Utils from '../utils/utils.js';
-const utils = new Utils();
-utils.createContext();
-
 Vue.use(Vuex);
 
 const state = {
@@ -19,20 +14,28 @@ const state = {
       'key': 'event-20-25'
     },
     {
+      'layer': 2,
+      'time': 0.55,
+      'callback': 'addStyle',
+      'class': '.layer-2',
+      'data': 'basdlob: of css;\nleft: 500px',
+      'key': 'event-20-55'
+    },
+    {
 	    'layer': 1,
-	    'time': 0.25,
+	    'time': 0.27,
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
 	    'data': 'basdlob: of css;\nleft: 100px;',
 	    'key': 'event-10-25'
 	  },
 	  {
-	    'layer': 2,
+	    'layer': 1,
 	    'time': 0.75,
 	    'callback': 'addStyle',
-	    'class': '.layer-2',
+	    'class': '.layer-1',
 	    'data': 'blob: of css;\nleft: 200px; top: 30px;',
-	    'key': 'event-20-75'
+	    'key': 'event-10-75'
 	  },
 	  {
 	    'layer': 1,
@@ -57,14 +60,6 @@ const state = {
       'class': '.layer-0',
       'data': 'assdlob: of css;\nleft: 500px; color: red;',
       'key': 'event-00-5'
-    },
-    {
-      'layer': 2,
-      'time': 0.25,
-      'callback': 'addStyle',
-      'class': '.layer-2',
-      'data': 'basdlob: of css;\nleft: 150px; top: 50px;',
-      'key': 'event-10-25'
     }
 	],
   layers: [
@@ -91,30 +86,18 @@ const state = {
     }]
   },
   transport: {
-    'playing': true, // Should be playing.
+    'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
     'start': 0, // Start of loop play as fraction of total time.
-    'duration': 0.7, // duration of loop play as fraction of total time.
-    'time': 5, // Total loop time in seconds.
-    'context': utils.getContext(), // Audio context that keeps time.
-    'pauseStart': 0, // "context.currentTime" when sequence paused.
-    'paused': 0 // Total time paused.
+    'duration': 1, // duration of loop play as fraction of total time.
+    'time': 4, // Total loop time in seconds. TODO: rename to loop time.
+    'context': {} // Audio context that keeps time.
   }
 };
 
-// let pauseStart = 0,
-//     pauseDifference = 0;
-
 const mutations = {
-  // TODO: somehow make transport and scheduler just get a currentTime with a pause, this is confusing and will only get worse with sublooping
-  // TODO: this if else is no bueno, make more actions, should only set stuff here.
-  TOGGLEPLAY (state) {
-    if (state.transport.playing) {
-      state.transport.pauseStart = state.transport.context.currentTime;
-    } else {
-      state.transport.paused += state.transport.context.currentTime - state.transport.pauseStart;
-    }
-
+  TOGGLE_PLAY (state, context) {
     state.transport.playing = !state.transport.playing;
+    state.transport.context = context;
   },
   UPDATE_TIME (state, time) {
   	state.transport.time = time;

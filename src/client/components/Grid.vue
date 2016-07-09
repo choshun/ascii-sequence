@@ -31,6 +31,9 @@
       this.canvas;
       this.width;
       this.height;
+      this.positionPercent = 0;
+      this.oldPositionPercent = 0;
+      this.position = 0;
     }
 
     init(transport) {
@@ -47,21 +50,35 @@
     }
 
     draw(transport) {
-      let time = transport.context.currentTime,
-          position;
+      let time = transport.context.currentTime;
 
       if (transport.playing) {
+        let endMod = this.width / ( 1 / transport.duration),
+            startMod = this.width / ( 1 / transport.start),
+            delta;
+
         this.context.clearRect(0, 0, this.width, this.height);
+        
+        // Percentage of currentTime vs transport measure time.
+        this.positionPercent = ((transport.context.currentTime % (transport.time * transport.duration)) / transport.time) * 100;
 
-        // Ratio of current time to total time 0-1, times canvas width.
-        let positionRatio = ((((transport.context.currentTime - transport.paused) % (transport.time * transport.duration)) / transport.time) * this.width),
-            endMod = this.width / ( 1 / transport.duration),
-            startMod = this.width / ( 1 / transport.start);
+        // The amount to change per tick.
+        delta = (this.positionPercent - this.oldPositionPercent);
 
-        position = startMod + positionRatio % endMod;
+        // Don't progress when transport measure time changes.
+        // This fixes a wobble. If I don't have this the position
+        // will change drastically because the mod in positionPercent changes;
+        // the delta will be really big thus making the indicator jump
+        // when we just want it to slightly move faster or slower.
+        if (Math.abs(delta) < 1) {
+          this.position += ((this.width / 100) * delta);
+          this.position %= endMod;
+        }
+
+        this.oldPositionPercent = this.positionPercent;
 
         this.context.beginPath();
-        this.context.rect(position, 0, 2, this.height);
+        this.context.rect(this.position, 0, 2, this.height);
         this.context.fillStyle = 'red';
         this.context.fill();
       }
@@ -85,7 +102,6 @@
         // I could see it firing waaaay too much,
         // when this way checks the transport value when it can
         upDateTime: store => timeIndicatorClass.init(store.transport),
-        getDuration: store => store.transport.duration
       }
     },
     components: {

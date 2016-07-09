@@ -27,18 +27,25 @@
 
 <script>
   import store from '../vuex/store';
+  import Utils from '../utils/utils.js';
+
+  const utils = new Utils();
 
   export default {
     store,
     vuex: {
       getters: {
-        getIsPlaying: state => state.transport.playing,
+        getIsPlaying: store => store.transport.playing,
         getTime: store => store.transport.time,
         getStart: store => store.transport.start,
         getDuration: store => store.transport.duration
       },
       actions: {
-        togglePlay: ({ dispatch }) => dispatch('TOGGLEPLAY'),
+        togglePlay: ({ dispatch, state }) => {
+          const context = utils.getContext();
+          dispatch('TOGGLE_PLAY', context);
+          utils.togglePlay(state);
+        },
         updateTime: ({ dispatch }, event) => dispatch('UPDATE_TIME', event.target.value),
         updateStart: ({ dispatch }, event) => dispatch('UPDATE_START', event.target.value),
         updateDuration: ({ dispatch }, event) => dispatch('UPDATE_DURATION', event.target.value)
