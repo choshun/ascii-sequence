@@ -72,11 +72,9 @@
             this.length = sequence.length;
             let reset = (this.index === this.length);
             // Fires event callback.
-            if (this.index !== -1) {
-              this.destination[nextEvent.callback](nextEvent, reset);
+            this.destination[nextEvent.callback](nextEvent, reset);
 
-              this.firedEventTime = eventTime;
-            }
+            this.firedEventTime = eventTime;
           }
         }
 
