@@ -1,12 +1,15 @@
 <style scoped lang="sass">
 	.grid {
+    overflow: visible;
 		position: relative;
 	}
 
   .time-indicator {
     background-color: blue;
+    height: 100%;
     opacity: .5;
     position: absolute;
+    margin-top: -20px;
     width: 100%;
   }
 </style>
