@@ -57,17 +57,28 @@
 
       if (transport.playing) {
         this.context.clearRect(0, 0, this.width, this.height);
-
-        this.position = contextUtils.getTranslatedContext(transport, this.width);
-
-        this.context.beginPath();
-        this.context.rect(this.position, 0, 2, this.height);
-        this.context.fillStyle = 'red';
-        this.context.fill();
+        this.drawSubLoop(transport);
+        this.drawIndicator(transport);
       }
 
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
+    }
+
+    drawSubLoop(transport) {
+      this.context.beginPath();
+      this.context.rect(parseFloat(transport.start) * this.width, 0,  parseFloat(transport.duration) * this.width, this.height);
+      this.context.fillStyle = 'green';
+      this.context.fill();
+    }
+
+    drawIndicator(transport) {
+      this.position = contextUtils.getTranslatedContext(transport, this.width);
+
+      this.context.beginPath();
+      this.context.rect(this.position, 0, 2, this.height);
+      this.context.fillStyle = 'red';
+      this.context.fill();
     }
   }
 
