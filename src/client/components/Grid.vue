@@ -16,12 +16,15 @@
 
 <template>
   <section class="grid">
-    <canvas id="time-indicator" class="time-indicator">{{ upDateTime }}</canvas>
+    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)"class="time-indicator">{{ upDateTime }}</canvas>
 
     <ul class="layers">
       <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
     </ul>
   </section>
+  asdads
+<button @click="clearLoop()">CLEAR LOOP</button>
+asdads
 </template>
 
 <script>
@@ -40,6 +43,7 @@
       this.positionPercent = 0;
       this.oldPositionPercent = 0;
       this.position = 0;
+      this.eventStart = 0;
     }
 
     init(transport) {
@@ -57,12 +61,10 @@
 
     draw(transport) {
       let time = transport.context.currentTime;
+      this.context.clearRect(0, 0, this.width, this.height);
 
-      if (transport.playing) {
-        this.context.clearRect(0, 0, this.width, this.height);
-        this.drawSubLoop(transport);
-        this.drawIndicator(transport);
-      }
+      this.drawSubLoop(transport);
+      this.drawIndicator(transport);
 
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
@@ -99,6 +101,42 @@
         // I could see it firing waaaay too much,
         // when this way checks the transport value when it can
         upDateTime: store => timeIndicatorClass.init(store.transport),
+      },
+      actions: {
+        updateTimeIndicator: ({ dispatch, state }, event) => {
+          let start = 0,
+              duration = 0,
+              canvas = event.target,
+              width = canvas.clientWidth;
+
+          const EDITING_CLASS = '_editing';
+
+          if (event.type === 'mousedown') {
+            timeIndicatorClass.eventStart = event.clientX / width;
+            event.target.classList.add(EDITING_CLASS);
+          }
+
+          if (event.type === 'mousemove' && event.target.classList.contains(EDITING_CLASS)) {
+            duration = event.clientX / width - timeIndicatorClass.eventStart;
+
+            if (duration > 0.05) {
+              dispatch('UPDATE_DURATION', duration);
+              dispatch('UPDATE_START', timeIndicatorClass.eventStart);
+            }
+          }
+
+          if (event.type === 'mouseup') {
+            event.target.classList.remove(EDITING_CLASS);
+
+            if (timeIndicatorClass.eventStart - event.clientX < 0.01) {
+              console.log('move!!!!');
+            }
+          }
+        },
+        clearLoop: ({ dispatch }) => {
+          dispatch('UPDATE_START', 0);
+          dispatch('UPDATE_DURATION', 1);
+        }
       }
     },
     components: {
