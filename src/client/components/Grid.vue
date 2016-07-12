@@ -129,7 +129,9 @@ asdads
             event.target.classList.remove(EDITING_CLASS);
 
             if (timeIndicatorClass.eventStart - event.clientX < 0.01) {
-              console.log('move!!!!');
+              if (state.transport.context) {
+                dispatch('UPDATE_TIME_OFFSET', (event.clientX / width) - contextUtils.getTranslatedContext(state.transport));
+              }
             }
           }
         },

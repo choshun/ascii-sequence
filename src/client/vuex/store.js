@@ -90,6 +90,7 @@ const state = {
     'start': 0, // Start of loop play as fraction of total time.
     'duration': 0.6, // duration of loop play as fraction of total time.
     'time': 4, // Total loop time in seconds. TODO: rename to loop time.
+    'offset': 0,
     'context': {} // Audio context that keeps time.
   }
 };
@@ -107,6 +108,10 @@ const mutations = {
   },
   UPDATE_DURATION (state, duration) {
     state.transport.duration = duration;
+  },
+  UPDATE_TIME_OFFSET (state, offset) {
+    state.transport.offset += offset;
+    console.log('offset yo', state.transport.offset);
   },
   ADD_EVENT (state, newEvent) {
     state.sequence.push(newEvent);
