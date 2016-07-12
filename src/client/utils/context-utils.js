@@ -31,7 +31,8 @@ class Utils {
   getTranslatedContext(transport, modifier = 1) {
     // TODO: internalize context, don't have it in transport.
     // Need to address instantiating 3 of these utils.
-    let ratio = ((transport.context.currentTime % (transport.time * transport.duration)) / transport.time) * modifier;
+    let currentTime = (transport.context.currentTime) ? transport.context.currentTime : 0;
+    let ratio = ((currentTime % (transport.time * transport.duration)) / transport.time) * modifier;
     let endMod = modifier / (1 / transport.duration),
         startMod = modifier / (1 / transport.start);
 

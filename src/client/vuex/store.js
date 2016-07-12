@@ -111,7 +111,6 @@ const mutations = {
   },
   UPDATE_TIME_OFFSET (state, offset) {
     state.transport.offset += offset;
-    console.log('offset yo', state.transport.offset);
   },
   ADD_EVENT (state, newEvent) {
     state.sequence.push(newEvent);
