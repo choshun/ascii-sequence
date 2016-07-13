@@ -2,24 +2,30 @@
 	.grid {
     overflow: visible;
 		position: relative;
+    margin-bottom: 2em;
 	}
+
+  .layers {
+    margin-top: 1em;
+  }
 
   .time-indicator {
     background-color: blue;
-    height: 100%;
+    height: 110%;
     opacity: .5;
+    margin-bottom: 2em;
     position: absolute;
-    margin-top: -20px;
+    margin-top: -1em;
     width: 100%;
   }
 </style>
 
 <template>
-  <section class="grid">
-    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)"class="time-indicator">{{ upDateTime }}</canvas>
+  <section class="grid" id="grid">
+    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)" class="time-indicator">{{ upDateTime }}</canvas>
 
     <ul class="layers">
-      <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
+      <layer @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)" v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
     </ul>
   </section>
   asdads
@@ -113,10 +119,11 @@ asdads
 
           if (event.type === 'mousedown') {
             timeIndicatorClass.eventStart = event.clientX / width;
-            event.target.classList.add(EDITING_CLASS);
+            event.target.parentNode.classList.add(EDITING_CLASS);
           }
 
-          if (event.type === 'mousemove' && event.target.classList.contains(EDITING_CLASS)) {
+
+          if (event.type === 'mousemove' && event.target.parentNode.classList.contains(EDITING_CLASS) || event.target.parentNode.parentNode.classList.contains(EDITING_CLASS)) {
             duration = event.clientX / width - timeIndicatorClass.eventStart;
 
             if (duration > 0.05) {
@@ -126,10 +133,11 @@ asdads
           }
 
           if (event.type === 'mouseup') {
-            event.target.classList.remove(EDITING_CLASS);
+            event.target.parentNode.classList.remove(EDITING_CLASS);
+            event.target.parentNode.parentNode.classList.remove(EDITING_CLASS);
 
             if (timeIndicatorClass.eventStart - event.clientX < 0.01) {
-              if (state.transport.context) {
+              if (event.clientX / width > state.transport.start && event.clientX / width < state.transport.start + state.transport.duration) {
                 dispatch('UPDATE_TIME_OFFSET', (event.clientX / width) - contextUtils.getTranslatedContext(state.transport));
               }
             }
