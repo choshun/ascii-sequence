@@ -14,8 +14,6 @@
       {{ getIsPlaying }}
       <button @click="togglePlay">Play Button</button>
     </section>
-
-    duration {{ getDuration }}
     <section class="transport-getTime">
       <input :value="getTime" type="number" @input="updateTime" /> loop time
       <input :value="getStart" type="number" @input="updateStart" step="0.1" /> loop start

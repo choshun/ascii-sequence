@@ -1,5 +1,11 @@
 <style scoped lang="sass">
-	.grid {
+	/*.grid,
+  .time-indicator {
+    left: 10%;
+    width: 90%;
+  }*/
+
+  .grid {
     bottom: 1em;
     overflow: visible;
 		position: fixed;
@@ -81,7 +87,6 @@
       this.context.globalAlpha = 0.15;
       this.context.beginPath();
       this.context.rect(parseFloat(transport.start) * this.width, 0,  parseFloat(transport.duration) * this.width, this.height);
-      
 
       this.context.fillStyle = gradient;
       this.context.fill();

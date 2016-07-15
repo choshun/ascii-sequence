@@ -19,7 +19,7 @@
   main,
   section,
   ul {
-    color: red;
+    color: #653737;
     font-family: "Raleway";
     font-weight: 200;
     margin: 0;
@@ -46,14 +46,17 @@
   input,
   textarea,
   button {
-    border: 0;
-    background-color: rgba(148, 27, 27, 0.0);
-    font-size: 1.2em;
-    color: #fff;
+    border: 0px solid #653737;
+    background-color: #000000;
+    font-size: 0.9em;
+    color: transparent;
     font-family: "Raleway";
-    font-weight: 200;
+    font-weight: 800;
+    outline-color: #0aa8cc;
     padding: 0.8em;
     text-align: left;
+    text-stroke: 1px white;
+    text-shadow: 1px 1px 0 rgba(0, 220, 255, 0.75);
   }
 
   textarea {
