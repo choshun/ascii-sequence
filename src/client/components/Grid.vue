@@ -1,14 +1,15 @@
 <style scoped lang="sass">
 	.grid {
+    bottom: 1em;
     overflow: visible;
-		position: relative;
+		position: fixed;
+    z-index: 2;
 	}
 
   .time-indicator {
-    background-color: blue;
-    height: 100%;
-    opacity: .5;
-    position: absolute;
+    bottom: 0;
+    height: 22em;
+    position: fixed;
     margin-top: -20px;
     width: 100%;
   }
@@ -22,9 +23,8 @@
       <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
     </ul>
   </section>
-  asdads
-<button @click="clearLoop()">CLEAR LOOP</button>
-asdads
+  <button @click="clearLoop()">clear</button>
+
 </template>
 
 <script>
@@ -65,25 +65,58 @@ asdads
 
       this.drawSubLoop(transport);
       this.drawIndicator(transport);
+      this.drawLoopManipulator();
 
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
     }
 
     drawSubLoop(transport) {
+      let gradient = this.context.createLinearGradient(0, 0, 0, this.height);
+
+      gradient.addColorStop(0.3, 'transparent'); 
+      gradient.addColorStop(1, '#8ED6FF'); 
+
+      this.context.globalAlpha = 0.2;
       this.context.beginPath();
       this.context.rect(parseFloat(transport.start) * this.width, 0,  parseFloat(transport.duration) * this.width, this.height);
-      this.context.fillStyle = 'green';
+  
+      this.context.fillStyle = gradient;
       this.context.fill();
     }
 
     drawIndicator(transport) {
+      let gradient = this.context.createLinearGradient(0, 0, 0, this.height);
+      gradient.addColorStop(0, 'transparent');
+      gradient.addColorStop(0.5, '#8ED6FF');
+      gradient.addColorStop(1, '#8ED6FF');
+
       this.position = contextUtils.getTranslatedContext(transport, this.width);
 
+      this.context.globalAlpha = 0.8;
       this.context.beginPath();
-      this.context.rect(this.position, 0, 2, this.height);
-      this.context.fillStyle = 'red';
+      
+      this.context.rect(this.position, -16, 2, this.height);
+      this.context.fillStyle = gradient;
+      
       this.context.fill();
+      // this.context.restore();
+    }
+
+    // Commented out for now. Region where youcan move indicator/make loops.
+    drawLoopManipulator() {
+      let height = 20;
+      let gradient = this.context.createLinearGradient(0, 0, 0, height);
+
+      gradient.addColorStop(0, '#8ED6FF');
+      gradient.addColorStop(1, 'transparent');
+
+      this.context.save();
+      this.context.globalAlpha = 0.5;
+      this.context.fillStyle = gradient;
+      // this.context.fillRect(0, 0, this.width, height);
+      this.context.restore();
+      // this.context.fill();
     }
   }
 
