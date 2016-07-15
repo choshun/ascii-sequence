@@ -1,19 +1,23 @@
 <style scoped lang="sass">
 	$ease: cubic-bezier(.23, 1, .32, 1);
-  $width: 10;
+  $width: 5;
 
   li[class*="event"] {
-    background: green;
-    height: 100%;
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 1) 0%, rgba(35, 128, 91, 0.8) 100%);
+    border: 1px solid rgb(10, 168, 204);
+    height: 101%;
     position: absolute;
-    top: 0;
+    bottom: 0;
     transition: all .5s $ease;
-    width: 10px;
+    width: $width * 1px;
     margin-left: $width/2 * -1px;
     z-index: 2;
 
     &.is-active {
-      height: 120%;
+      // background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(35, 128, 91, 0.8) 100%);
+      // border:1px solid transparent;
+      height: 150%;
+      bottom: -10%;
       margin-left: ($width) * -1px;
       width: ($width * 2) * 1px;
     }

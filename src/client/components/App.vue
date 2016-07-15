@@ -19,11 +19,13 @@
   main,
   section,
   ul {
+    color: red;
+    font-family: "Raleway";
+    font-weight: 200;
     margin: 0;
     padding: 0;
     width: 100%;
     z-index: 1;
-    overflow: hidden;
   }
 
   body,
@@ -39,6 +41,24 @@
     -webkit-margin-end: 0;
     -webkit-margin-start: 0;
     -webkit-padding-start: 0;
+  }
+
+  input,
+  textarea,
+  button {
+    border: 0;
+    background-color: rgba(148, 27, 27, 0.0);
+    font-size: 1.2em;
+    color: #fff;
+    font-family: "Raleway";
+    font-weight: 200;
+    padding: 0.8em;
+    text-align: left;
+  }
+
+  textarea {
+    height: 5em;
+    width: 100%;
   }
 </style>
 

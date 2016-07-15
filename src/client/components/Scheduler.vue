@@ -1,6 +1,5 @@
 <template>
   <section class="scheduler">
-    Scheduler!!! :D
     {{ schedule }}
   </section>
 </template>
@@ -112,13 +111,6 @@
           schedulerClass.schedule(sortedSequence, transport);
         }
       }
-    },
-
-    created: () => {
-      // https://github.com/vuejs/vuex/blob/master/examples/shopping-cart/components/ProductList.vue
-      // if "this" worked I'd be so happy
-
-      console.log('this?!?!?');
     }
   }
 </script>

@@ -7,8 +7,9 @@
 
     .scene-item {
       font-size: 4em;
-      position: absolute;
+      position: fixed;
       transition: all .5s $ease;
+      top: 0;
     }
     
   }
