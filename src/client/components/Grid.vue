@@ -23,13 +23,13 @@
 
 <template>
   <section class="grid">
-    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)"class="time-indicator">{{ upDateTime }}</canvas>
+    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event), clearLoop($event)"class="time-indicator">{{ upDateTime }}</canvas>
 
     <ul class="layers">
       <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
     </ul>
   </section>
-  <button @click="clearLoop()">clear</button>
+  <!-- <button @click="clearLoop()">clear</button> -->
 
 </template>
 
@@ -187,9 +187,15 @@
             }
           }
         },
-        clearLoop: ({ dispatch }) => {
-          dispatch('UPDATE_START', 0);
-          dispatch('UPDATE_DURATION', 1);
+        clearLoop: ({ dispatch, state }, event) => {
+          let width = timeIndicatorClass.width,
+              clientX = event.clientX / width;
+
+          if (event.target.classList.contains('time-indicator') && (clientX < state.transport.start || clientX > state.transport.start + state.transport.duration)) {
+            dispatch('UPDATE_START', 0);
+            dispatch('UPDATE_DURATION', 1);
+          }
+          
         }
       }
     },
