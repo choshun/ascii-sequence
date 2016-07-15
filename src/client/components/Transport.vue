@@ -1,25 +1,27 @@
 <style scoped lang="sass">
 	.transport {
-	  color: red;
+    padding: .5em 0 0 2em;
+  }
 
-	  .nested {
-	  	color: green;
-	  }
-	}
+  .play-button {
+    background-color: rgba(0, 255, 159, 0.65);
+
+    &.is-playing {
+      background-color: transparent;
+      border-width: 10px 0 10px 20px;
+      border-color: transparent transparent transparent rgba(0, 255, 159, 0.65);
+      padding: 0;
+    }
+  }
 </style>
 
 <template>
 	<section class="transport">
-    <section class="play-button">
-      {{ getIsPlaying }}
-      <button @click="togglePlay">Play Button</button>
-    </section>
-    <section class="transport-getTime">
-      <input :value="getTime" type="number" @input="updateTime" /> loop time
-      <input :value="getStart" type="number" @input="updateStart" step="0.1" /> loop start
-      <input :value="getDuration" type="number" step="0.1"  @input="updateDuration" /> loop end
-    </section>
-
+    <button class= "play-button {{ isPlaying(getIsPlaying) }}" @click="togglePlay"></button>
+  
+    <input :value="getTime" type="number" @input="updateTime" />
+    <!-- <input :value="getStart" type="number" @input="updateStart" step="0.1" /> loop start
+    <input :value="getDuration" type="number" step="0.1"  @input="updateDuration" /> loop end -->
   </section>
 </template>
 
@@ -51,6 +53,9 @@
         updateStart: ({ dispatch }, event) => dispatch('UPDATE_START', event.target.value),
         updateDuration: ({ dispatch }, event) => dispatch('UPDATE_DURATION', event.target.value)
       }
+    },
+    methods: {
+      isPlaying: (isPlaying) => (isPlaying) ? '' : 'is-playing'
     }
   }
 </script>
