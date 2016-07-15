@@ -1,8 +1,9 @@
 <style scoped lang="sass">
 	.layer {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid rgb(101, 55, 55);
     // background-color: rgba(193, 66, 66, .3);
-    height: 4em;
+    height: 3em;
+    margin-top: -0.2em;
     opacity: .7;
     position: relative;
   }

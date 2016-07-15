@@ -72,16 +72,30 @@
     }
 
     drawSubLoop(transport) {
-      let gradient = this.context.createLinearGradient(0, 0, 0, this.height);
+      let gradient = this.context.createLinearGradient(50, 0, 50, this.height);
+      let topOffset = 0;
 
       gradient.addColorStop(0.3, 'transparent'); 
       gradient.addColorStop(1, '#8ED6FF'); 
 
-      this.context.globalAlpha = 0.2;
+      this.context.globalAlpha = 0.15;
       this.context.beginPath();
       this.context.rect(parseFloat(transport.start) * this.width, 0,  parseFloat(transport.duration) * this.width, this.height);
-  
+      
+
       this.context.fillStyle = gradient;
+      this.context.fill();
+
+      this.context.beginPath();
+      this.context.globalAlpha = 1;
+      this.context.rect(transport.start * this.width, topOffset, 1, this.height);
+      this.context.fillStyle = '#653737';
+      this.context.fill();
+
+      this.context.beginPath();
+      this.context.globalAlpha = 1;
+      this.context.rect((transport.start + transport.duration) * this.width, topOffset, 1, this.height);
+      this.context.fillStyle = '#653737';
       this.context.fill();
     }
 
