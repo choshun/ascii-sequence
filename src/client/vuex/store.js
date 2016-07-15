@@ -74,6 +74,14 @@ const state = {
     {
       'index': 2,
       'element': '>'
+    },
+    {
+      'index': 3,
+      'element': '?'
+    },
+    {
+      'index': 4,
+      'element': '!'
     }
   ],
   styleManager: {
@@ -89,6 +97,7 @@ const state = {
     'playing': false, // Should be playing. // TODO: if playing onload = false add to pause time
     'start': 0, // Start of loop play as fraction of total time.
     'duration': 0.6, // duration of loop play as fraction of total time.
+    'end': 0.6,
     'time': 4, // Total loop time in seconds. TODO: rename to loop time.
     'offset': 0,
     'context': {} // Audio context that keeps time.
