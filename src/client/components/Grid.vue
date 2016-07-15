@@ -1,36 +1,30 @@
 <style scoped lang="sass">
 	.grid {
+    bottom: 1em;
     overflow: visible;
-		position: relative;
-    margin-bottom: 2em;
+		position: fixed;
+    z-index: 2;
 	}
 
-  .layers {
-    margin-top: 1em;
-  }
-
   .time-indicator {
-    background-color: blue;
-    height: 110%;
-    opacity: .5;
-    margin-bottom: 2em;
-    position: absolute;
-    margin-top: -1em;
+    bottom: 0;
+    height: 22em;
+    position: fixed;
+    margin-top: -20px;
     width: 100%;
   }
 </style>
 
 <template>
-  <section class="grid" id="grid">
-    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)" class="time-indicator">{{ upDateTime }}</canvas>
+  <section class="grid">
+    <canvas id="time-indicator" @mousedown="updateTimeIndicator($event)" @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)"class="time-indicator">{{ upDateTime }}</canvas>
 
     <ul class="layers">
-      <layer @mousemove="updateTimeIndicator($event)" @mouseup="updateTimeIndicator($event)" v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
+      <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
     </ul>
   </section>
-  asdads
-<button @click="clearLoop()">CLEAR LOOP</button>
-asdads
+  <button @click="clearLoop()">clear</button>
+
 </template>
 
 <script>
@@ -71,25 +65,58 @@ asdads
 
       this.drawSubLoop(transport);
       this.drawIndicator(transport);
+      this.drawLoopManipulator();
 
       // Draw next frame
       requestAnimationFrame(() => this.draw(transport));
     }
 
     drawSubLoop(transport) {
+      let gradient = this.context.createLinearGradient(0, 0, 0, this.height);
+
+      gradient.addColorStop(0.3, 'transparent'); 
+      gradient.addColorStop(1, '#8ED6FF'); 
+
+      this.context.globalAlpha = 0.2;
       this.context.beginPath();
       this.context.rect(parseFloat(transport.start) * this.width, 0,  parseFloat(transport.duration) * this.width, this.height);
-      this.context.fillStyle = 'green';
+  
+      this.context.fillStyle = gradient;
       this.context.fill();
     }
 
     drawIndicator(transport) {
+      let gradient = this.context.createLinearGradient(0, 0, 0, this.height);
+      gradient.addColorStop(0, 'transparent');
+      gradient.addColorStop(0.5, '#8ED6FF');
+      gradient.addColorStop(1, '#8ED6FF');
+
       this.position = contextUtils.getTranslatedContext(transport, this.width);
 
+      this.context.globalAlpha = 0.8;
       this.context.beginPath();
-      this.context.rect(this.position, 0, 2, this.height);
-      this.context.fillStyle = 'red';
+      
+      this.context.rect(this.position, -16, 2, this.height);
+      this.context.fillStyle = gradient;
+      
       this.context.fill();
+      // this.context.restore();
+    }
+
+    // Commented out for now. Region where youcan move indicator/make loops.
+    drawLoopManipulator() {
+      let height = 20;
+      let gradient = this.context.createLinearGradient(0, 0, 0, height);
+
+      gradient.addColorStop(0, '#8ED6FF');
+      gradient.addColorStop(1, 'transparent');
+
+      this.context.save();
+      this.context.globalAlpha = 0.5;
+      this.context.fillStyle = gradient;
+      // this.context.fillRect(0, 0, this.width, height);
+      this.context.restore();
+      // this.context.fill();
     }
   }
 
@@ -119,11 +146,10 @@ asdads
 
           if (event.type === 'mousedown') {
             timeIndicatorClass.eventStart = event.clientX / width;
-            event.target.parentNode.classList.add(EDITING_CLASS);
+            event.target.classList.add(EDITING_CLASS);
           }
 
-
-          if (event.type === 'mousemove' && event.target.parentNode.classList.contains(EDITING_CLASS) || event.target.parentNode.parentNode.classList.contains(EDITING_CLASS)) {
+          if (event.type === 'mousemove' && event.target.classList.contains(EDITING_CLASS)) {
             duration = event.clientX / width - timeIndicatorClass.eventStart;
 
             if (duration > 0.05) {
@@ -133,11 +159,10 @@ asdads
           }
 
           if (event.type === 'mouseup') {
-            event.target.parentNode.classList.remove(EDITING_CLASS);
-            event.target.parentNode.parentNode.classList.remove(EDITING_CLASS);
+            event.target.classList.remove(EDITING_CLASS);
 
             if (timeIndicatorClass.eventStart - event.clientX < 0.01) {
-              if (event.clientX / width > state.transport.start && event.clientX / width < state.transport.start + state.transport.duration) {
+              if (state.transport.context) {
                 dispatch('UPDATE_TIME_OFFSET', (event.clientX / width) - contextUtils.getTranslatedContext(state.transport));
               }
             }
