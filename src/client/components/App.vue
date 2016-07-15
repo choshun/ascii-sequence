@@ -47,9 +47,10 @@
   textarea,
   button {
     border: 0px solid #653737;
-    background-color: #000000;
+    background-color: transparent;
+    color: rgba(0, 255, 159, 1);
+    box-sizing: border-box;
     font-size: 0.9em;
-    color: transparent;
     font-family: "Raleway";
     font-weight: 800;
     outline-color: #0aa8cc;
@@ -57,18 +58,30 @@
     text-align: left;
     text-stroke: 1px white;
     text-shadow: 1px 1px 0 rgba(0, 220, 255, 0.75);
+    -webkit-text-fill-color: transparent;
+
+    &[type=number] {
+      width: 4em;
+      line-height: 2em;
+      -webkit-appearance: none;
+    }
   }
 
-  textarea {
-    height: 5em;
-    width: 100%;
+  input::-webkit-input-placeholder,
+  textarea::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  ::selection {
+    background: rgba(0, 255, 159, 0.65);
+    font-size: 1em;
   }
 </style>
 
 <template>
 	<body>
     <main id="app">
-      App!
       <grid></grid>
       <transport></transport>
       <style-manager></style-manager>

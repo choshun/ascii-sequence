@@ -9,7 +9,8 @@
   }
 
   .element {
-    padding-left: 20%;
+    /* color: rgba(0, 255, 159, 0.65); */
+    padding-left: 10%;
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;

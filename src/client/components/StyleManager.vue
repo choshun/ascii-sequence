@@ -1,9 +1,16 @@
 <style scoped lang="sass">
-  
+  textarea {
+    height: 15em;
+    position: fixed;
+    left: 70%;
+    top: 2%;
+    min-width: 20%;
+    z-index: 4;
+  }
 </style>
 
 <template>
-	<section className={'style-manager'}>
+	<section class="style-manager">
     <textarea :value="getActiveStyle" @input="onStyleChange"></textarea>
   </section>
 </template>

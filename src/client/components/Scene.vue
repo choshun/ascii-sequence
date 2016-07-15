@@ -17,8 +17,6 @@
 
 <template>
 	<section class="scene">
-    Scene!
-
     <ul>
       <li v-for="layer in layers">
         <figure class="layer-{{$index}} scene-item" track-by="$index">
