@@ -9,6 +9,11 @@
 
   .element {
     padding-left: 20%;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
   }
 </style>
 
