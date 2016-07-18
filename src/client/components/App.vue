@@ -79,7 +79,7 @@
   }
 </style>
 
-<template>
+<template @keyup="deleteEvent($event, event)">
 	<body>
     <main id="app">
       <grid></grid>
@@ -99,6 +99,10 @@
   import StyleManager from './StyleManager.vue';
   import Scheduler from './Scheduler.vue';
   import Scene from './Scene.vue';
+  import store from '../vuex/store';
+  /*import ContextUtils from '../utils/context-utils.js';*/
+
+  /*const contextUtils = new ContextUtils();*/
 
   export default {
     components: {
@@ -107,6 +111,25 @@
       StyleManager,
       Scheduler,
       Scene
+    },
+    created: () => {
+      // App level key controls.
+      window.addEventListener('keydown', (event) => {
+        // Take over delete.
+        let dispatch = store.dispatch;
+
+        console.log(event.which);
+        
+        if (event.which === 8) {
+          event.preventDefault();
+          dispatch('DELETE_EVENT');
+        }
+
+        if (event.which === 32) {
+          /*const context = contextUtils.getContext();*/
+          /*dispatch('TOGGLE_PLAY', context);*/
+        }
+      });
     }
   }
 </script>
