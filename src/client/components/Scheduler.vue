@@ -61,6 +61,9 @@
     schedule(sequence, transport) {
       if (transport.playing) {
         let time = contextUtils.getTranslatedContext(transport);
+
+let theSequence = _.cloneDeep(sequence);
+console.log('changed?', theSequence);
         this.index = schedulerClass.getNextIndex(sequence, transport, time);
 
         if (this.index !== -1) {
@@ -84,6 +87,8 @@
     }
 
     getNextIndex(sequence, transport, time) {
+
+      // console.log(sequence);
       return _.findIndex(sequence, (event) => {
         return event.time + this.scheduleAheadTime > time;
       });
@@ -102,6 +107,8 @@
         schedule: store => {
           let transport = store.transport,
               sequence = _.cloneDeep(store.sequence);
+
+          
 
           // Prep sequence.
           let sortedSequence = sequence.sort((a, b) => {

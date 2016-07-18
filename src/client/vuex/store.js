@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { forEach, findIndex, remove } from 'lodash';
+// TODO: use _.filter for filtering
+
 
 Vue.use(Vuex);
 
@@ -11,7 +14,8 @@ const state = {
       'callback': 'addStyle',
       'class': '.layer-2',
       'data': 'basdlob: of css;\nleft: 100px',
-      'key': 'event-20-25'
+      'key': 'event-20-25',
+      'selected': false
     },
     {
       'layer': 2,
@@ -19,7 +23,8 @@ const state = {
       'callback': 'addStyle',
       'class': '.layer-2',
       'data': 'basdlob: of css;\nleft: 500px',
-      'key': 'event-20-55'
+      'key': 'event-20-55',
+      'selected': false
     },
     {
 	    'layer': 1,
@@ -27,7 +32,8 @@ const state = {
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
 	    'data': 'basdlob: of css;\nleft: 100px;',
-	    'key': 'event-10-25'
+	    'key': 'event-10-25',
+      'selected': false
 	  },
 	  {
 	    'layer': 1,
@@ -35,7 +41,8 @@ const state = {
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
 	    'data': 'blob: of css;\nleft: 200px; top: 30px;',
-	    'key': 'event-10-75'
+	    'key': 'event-10-75',
+      'selected': false
 	  },
 	  {
 	    'layer': 1,
@@ -43,7 +50,8 @@ const state = {
 	    'callback': 'addStyle',
 	    'class': '.layer-1',
 	    'data': 'basdlob: of css;\nleft: 600px',
-	    'key': 'event-10-55'
+	    'key': 'event-10-55',
+      'selected': false
 	  },
 	  {
 	    'layer': 0,
@@ -51,7 +59,8 @@ const state = {
 	    'callback': 'addStyle',
 	    'class': '.layer-0',
 	    'data': 'assdlob: of css;\nleft: 50px; color: blue;',
-	    'key': 'event-00'
+	    'key': 'event-00',
+      'selected': false
 	  },
     {
       'layer': 0,
@@ -59,7 +68,8 @@ const state = {
       'callback': 'addStyle',
       'class': '.layer-0',
       'data': 'assdlob: of css;\nleft: 500px; color: red;',
-      'key': 'event-00-5'
+      'key': 'event-00-5',
+      'selected': false
     }
 	],
   layers: [
@@ -124,9 +134,29 @@ const mutations = {
   ADD_EVENT (state, newEvent) {
     state.sequence.push(newEvent);
   },
+  DELETE_EVENT (state) {
+    let cloned = _.clone(state.sequence);
+    _.remove(cloned, (event) => {
+      return event.selected === true;
+    });
+
+    state.sequence = cloned;
+  },
   SET_ACTIVE_STYLE (state, activeKey) {
     state.styleManager.active = state.sequence.filter(event => {
       return event.key === activeKey;
+    });
+  },
+  SET_SELECTED_EVENTS (state, eventsArray) {
+    let event;
+
+    _.forEach(eventsArray, (eventArray) => {
+      event = state.sequence.filter(event => {
+        event.selected = false;
+        return event.key === eventArray;
+      });
+
+      event[0] ? event[0].selected = true : eventsArray[0].selected = true;
     });
   },
   UPDATE_EVENT_DATA (state, data) {
