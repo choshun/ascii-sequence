@@ -25,7 +25,7 @@
 </style>
 
 <template>
-  <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }}" @click="selectStyle($event, event)">
+  <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }}" @click="selectStyle($event, event)">{{event.selected}}
   </li>
 </template>
 
@@ -40,7 +40,11 @@
         activeStyle: store => store.styleManager.active[0].key
       },
       actions: {
-        selectStyle: ({ dispatch }, event, eventData) => dispatch('SET_ACTIVE_STYLE', eventData.key)
+        selectStyle: ({ dispatch }, event, eventData) => {
+          console.log(eventData);
+          dispatch('SET_ACTIVE_STYLE', eventData.key);
+          dispatch('SET_SELECTED_EVENTS', [eventData.key]);
+        }
       }
     },
     methods: {

@@ -83,7 +83,8 @@
         'callback': 'addStyle',
         'class': `.layer-${layer}`,
         'data': 'new data: of css;\nleft: 50px',
-        'key': this.createKey(leftOffset, layer)
+        'key': this.createKey(leftOffset, layer),
+        'selected': true
       };
     }
 
@@ -130,6 +131,8 @@
 
             // Add the prepped event object.
             dispatch('ADD_EVENT', newEvent);
+
+            dispatch('SET_SELECTED_EVENTS', [newEvent]);
 
             // Make new event active.
             dispatch('SET_ACTIVE_STYLE', newEvent.key);
