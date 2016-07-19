@@ -1,6 +1,6 @@
 <template>
   <section class="scheduler">
-    {{ schedule }}
+    {{ getSortedSequence(schedule) }}
   </section>
 </template>
 
@@ -62,8 +62,6 @@
       if (transport.playing) {
         let time = contextUtils.getTranslatedContext(transport);
 
-let theSequence = _.cloneDeep(sequence);
-console.log('changed?', theSequence);
         this.index = schedulerClass.getNextIndex(sequence, transport, time);
 
         if (this.index !== -1) {
@@ -80,7 +78,11 @@ console.log('changed?', theSequence);
           }
         }
 
-        window.setTimeout(() => {
+        if (this.scheduleTimeout) {
+          clearTimeout(this.scheduleTimeout);
+        }
+
+        this.scheduleTimeout = window.setTimeout(() => {
           this.schedule(sequence, transport);
         }, this.lookahead);
       }
@@ -102,22 +104,28 @@ console.log('changed?', theSequence);
     store,
     vuex: {
       getters: {
-
+        schedule: store => store.schedule
         // For whatever reason using lodash made store.sequence sync horribly when I used _.sort
-        schedule: store => {
-          let transport = store.transport,
-              sequence = _.cloneDeep(store.sequence);
+        // schedule: (store) => {
+        //   console.log('fuck', this, store);
+        //   schedulerClass.schedule(this.getSortedSequence(_.cloneDeep(store.sequence)), store.transport);
+        // }
 
-          
-
-          // Prep sequence.
-          let sortedSequence = sequence.sort((a, b) => {
-            return a.time - b.time;
-          });
-
-          schedulerClass.schedule(sortedSequence, transport);
-        }
       }
+    },
+    methods: {
+      getSortedSequence (schedule) {
+        console.log('?!?!?!?', this, schedule);
+        // return sequence.sort((a, b) => {
+        //   return a.time - b.time;
+        // });
+      },
+      test () {
+        console.log('tesst');
+      }
+    }, 
+    created () {
+      console.log('?', this, this.schedule);
     }
   }
 </script>
