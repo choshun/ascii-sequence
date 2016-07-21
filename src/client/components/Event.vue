@@ -41,7 +41,6 @@
       },
       actions: {
         selectStyle: ({ dispatch }, event, eventData) => {
-          console.log(eventData);
           dispatch('SET_ACTIVE_STYLE', eventData.key);
           dispatch('SET_SELECTED_EVENTS', [eventData.key]);
         }

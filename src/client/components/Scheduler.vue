@@ -135,7 +135,7 @@
         });
       }
     },
-    created () {
+    ready () {
       // Kick off the polling.
       this.schedule(); 
     }
