@@ -21,17 +21,10 @@
 
 <template>
   <li class="layer" @click="addEvent($event, layer)">
-    <!--
-      Fires once at init, only way I could figure out passing store to a method that fires on init.
-      This bootstraps init store data for event css.
-     -->
-
     <span class="element">{{ element }}</span>
-    <!-- {{ element }} -->
 
-    {{ initEventCSS }}
     <ul>
-      <event v-for="event in sequence[layer]" track-by="$index" :event="event" ></event>
+      <event v-for="event in layers[layer]" track-by="$index" :event="event" ></event>
     </ul>
   </li>
 </template>
@@ -41,29 +34,73 @@
   import Event from './Event.vue';
   import { clone, uniq, map, each, filter } from 'lodash';
 
-  class Layer {
-    constructor() {
-      this.styleBlock = document.getElementById('grid-css');
-      this.initialized = false;
-    }
+  export default {
+    store,
+    data () {
+      return {
+        styleBlock: undefined
+      }
+    },
+    props: ['layer', 'element'],
+    vuex: {
+      getters: {
+        sequence: store => store.sequence,
+        layers: store => {
+          let eventsObject = _.clone(store.sequence),
+            uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
+            layersAndEvents = [];
 
-    // TODO: put in getter
-    createLayersFromEvents(sequence) {
-      let eventsObject = _.clone(sequence),
-          uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
-          layersAndEvents = [];
+          // Creates new object of Layers with events for ui.
+          _.each(uniqueLayers, (item, index) => {
+            layersAndEvents.push(_.filter(eventsObject, { layer: index }));
+          });
 
-      // Creates new object of Layers with events for ui.
-      _.each(uniqueLayers, (item, index) => {
-        layersAndEvents.push(_.filter(eventsObject, { layer: index }));
-      });
+          return layersAndEvents;
+        }
+      },
+      actions: {
+        addEventAction: ({ dispatch }, newEvent) => {
+          dispatch('ADD_EVENT', newEvent);
+          dispatch('SET_SELECTED_EVENTS', [newEvent]);
+          // Make new event active.
+          dispatch('SET_ACTIVE_STYLE', newEvent.key);
+        }
+      }
+    },
+    methods: {
+      addEvent (event, layer) {
+        if (!event.target.classList.contains('event')) {
+          let leftOffset = event.pageX / window.innerWidth,
+              newEvent = this.createEvent(leftOffset, layer),
+              left = this.createPosition(newEvent.time),
+              css = this.createCSS('left', left);
 
-      return layersAndEvents;
-    }
+          this.addEventAction(newEvent);
 
-    // TODO: put in getter maybe?
-    getInitEventCSS(events) {
-      if (this.initialized === false) {
+          this.addGridStyleToHead(newEvent.key, css);
+        }
+      },
+      createEvent (leftOffset, layer) {
+        return {
+          'layer': layer,
+          'time': leftOffset,
+          'callback': 'addStyle',
+          'class': `.layer-${layer}`,
+          'data': 'new data: of css;\nleft: 50px',
+          'key': this.createKey(leftOffset, layer),
+          'selected': true
+        };
+      },
+      createPosition (time) {
+        return time * 100 + '%';
+      },
+      createCSS(property, value) {
+        return `{ ${property}: ${value} }`;
+      },
+      createKey (leftOffset, layer) {
+        return `event-${layer}${leftOffset}`.replace(/\./g, '-');
+      },
+      getInitEventCSS (events) {
         _.each(events, (item, index) => {
           let left = this.createPosition(item.time),
               key = item.key,
@@ -71,77 +108,16 @@
 
           this.addGridStyleToHead(key, css);
         });
-      }
-
-      this.initialized = true;
-    }
-
-    createEvent(leftOffset, layer) {
-      return {
-        'layer': layer,
-        'time': leftOffset,
-        'callback': 'addStyle',
-        'class': `.layer-${layer}`,
-        'data': 'new data: of css;\nleft: 50px',
-        'key': this.createKey(leftOffset, layer),
-        'selected': true
-      };
-    }
-
-    createPosition(time) {
-      return time * 100 + '%';
-    }
-
-    createCSS(property, value) {
-      return `{ ${property}: ${value} }`;
-    }
-
-    createKey(leftOffset, layer) {
-      return `event-${layer}${leftOffset}`.replace(/\./g, '-');
-    }
-
-    addGridStyleToHead(key, css) {
-      // TODO: make .grid a constant
-      this.styleBlock.innerHTML += `.grid #${key} ${css}\n`;
-    }
-  }
-
-  // TODO: doesn't seem very vuey, but can't think of a way
-  // to easily pass store to helper methods.
-  const layerClass = new Layer();
-
-  export default {
-    store,
-    props: ['layer', 'element'],
-    init: () => {
-      layerClass.styleBlock = document.getElementById('grid-css');
-    },
-    vuex: {
-      getters: {
-        sequence: store => layerClass.createLayersFromEvents(store.sequence),
-        initEventCSS: store => layerClass.getInitEventCSS(store.sequence)
       },
-      actions: {
-        addEvent: ({ dispatch }, event, layer) => {
-          if (!event.target.classList.contains('event')) {
-            let leftOffset = event.pageX / window.innerWidth,
-                newEvent = layerClass.createEvent(leftOffset, layer),
-                left = layerClass.createPosition(newEvent.time),
-                css = layerClass.createCSS('left', left);
 
-            // Add the prepped event object.
-            dispatch('ADD_EVENT', newEvent);
-
-            dispatch('SET_SELECTED_EVENTS', [newEvent]);
-
-            // Make new event active.
-            dispatch('SET_ACTIVE_STYLE', newEvent.key);
-
-            // Add new event css to head.
-            layerClass.addGridStyleToHead(newEvent.key, css);
-          }
-        }
+      addGridStyleToHead(key, css) {
+        // TODO: make .grid a constant
+        this.styleBlock.innerHTML += `.grid #${key} ${css}\n`;
       }
+    },
+    ready () {
+      this.styleBlock = document.getElementById('grid-css');
+      this.getInitEventCSS(this.sequence);
     },
     components: {
       Event
