@@ -11,6 +11,10 @@
     transition: all .5s $ease;
     width: $width * 1px;
     margin-left: $width/2 * -1px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     z-index: 2;
 
     &.is-active {
