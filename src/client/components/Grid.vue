@@ -19,14 +19,22 @@
     margin-top: -20px;
     width: 100%;
   }
+
+  #selector.is-selecting {
+    border: 1px solid #00ff9f;
+    background-color: rgba(0, 255, 159, 0.2);
+    position: fixed;
+    z-index: -1;
+  }
 </style>
 
 <template>
   <section class="grid">
     <canvas id="time-indicator" @mousedown="updateStart($event)" @mousemove="updateDuration($event)" @mouseup="updateTimeOffset($event), resetLoop($event)" class="time-indicator"></canvas>
 
-    <ul class="layers">
-      <layer v-for="layer in layers" :layer="$index" :element="layer.element"></layer>
+    <section id="selector"></section>
+    <ul class="layers" @mousedown="startSelector($event)", @mousemove="moveSelector($event)" @mouseup="moveSelect($event)">
+      <layer v-for="layer in layers" :layer="$index" :element="layer.element" :layer-with-events="layersWithEvents[$index]" id="layer-{{layer}}"></layer>
     </ul>
   </section>
 </template>
@@ -35,6 +43,7 @@
   import store from '../vuex/store';
   import Layer from './Layer.vue';
   import ContextUtils from '../utils/context-utils.js';
+  import { clone, uniq, map, each, filter } from 'lodash';
 
   // TODO: make into component.
   const contextUtils = new ContextUtils();
@@ -50,13 +59,33 @@
         positionPercent: 0,
         position: 0,
         loopStart: 0,
-        EDITING_CLASS: '_editing'
+        selectorStartX: 0,
+        selectorStartY: 0,
+        selectorEndX: 0,
+        selectorEndY: 0,
+        styleBlock: undefined,
+        selector: undefined,
+        EDITING_CLASS: '_editing',
+        IS_SELECTING_CLASS: 'is-selecting'
       }
     },
     vuex: {
       getters: {
         layers: store => store.layers,
-        transport: store => store.transport
+        sequence: store => store.sequence,
+        transport: store => store.transport,
+        layersWithEvents: store => {
+          let eventsObject = _.clone(store.sequence),
+            uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
+            layersWithEvents = [];
+
+          // Creates new object of Layers with events for ui.
+          _.each(uniqueLayers, (item, index) => {
+            layersWithEvents.push(_.filter(eventsObject, { layer: index }));
+          });
+
+          return layersWithEvents;
+        }
       },
       actions: {
         updateTimeIndicator: ({ dispatch }, loopStart, duration) => {
@@ -74,12 +103,12 @@
     },
     methods: {
       updateStart (event) {
-        this.loopStart = event.clientX / this.width;
+        this.loopStart = this.getClientXPercent(event);
         event.target.classList.add(this.EDITING_CLASS);
       },
       updateDuration (event) {
         if (event.target.classList.contains(this.EDITING_CLASS)) {
-          let duration = event.clientX / this.width - this.loopStart;
+          let duration = this.getClientXPercent(event) - this.loopStart;
 
           if (duration > 0.05) {
             this.updateTimeIndicator(this.loopStart, duration);
@@ -91,18 +120,53 @@
 
         if (this.loopStart - event.clientX < 0.01) {
           if (this.transport.context) {
-            let offset = event.clientX / this.width - contextUtils.getTranslatedContext(this.transport);
+            let offset = this.getClientXPercent(event) - contextUtils.getTranslatedContext(this.transport);
             this.updateTimeOffsetAction(offset);
           }
         }
       },
       resetLoop (event) {
         let width = this.width,
-            clientX = event.clientX / width;
+            clientX = this.getClientXPercent(event);
 
         if (event.target.classList.contains('time-indicator') && (clientX < this.transport.start || clientX > this.transport.start + this.transport.duration)) {
           this.resetLoopAction();
         }
+      },
+      startSelector (event) {
+        this.selectorStartX = event.clientX;
+        this.selectorStartY = event.clientY;
+        this.selectedLayerStart = this.getEventLayer(event);
+
+        this.startLayer = event.target;
+        this.styleBlock.innerHTML = 
+            `#selector { 
+              left: ${this.selectorStartX}px;
+              top: ${this.selectorStartY}px 
+            }`;
+        console.log(this.selectedLayerStart);
+        this.selector.classList.add(this.IS_SELECTING_CLASS);
+      },
+      moveSelector (event) {
+        let width = event.clientX - this.selectorStartX,
+            height = event.clientY - this.selectorStartY;
+
+        this.styleBlock.innerHTML += 
+            `#selector { 
+              width: ${width}px;
+              height: ${height}px
+            }`;
+
+      },
+      moveSelect (event) {
+        this.endlayer = this.getEventLayer(event);
+        this.selector.classList.remove(this.IS_SELECTING_CLASS);
+      },
+      getClientXPercent (event) {
+        return event.clientX / this.width;
+      },
+      getEventLayer (event) {
+        return event.target.getAttribute('id').split('-')[1];
       },
       draw (transport) {
         let time = transport.context.currentTime;
@@ -161,18 +225,18 @@
       },
       drawLoopManipulator (transport) {
         // Commented out for now. Region where youcan move indicator/make loops.
-        let height = 20;
+        let height = 1000;
         let gradient = this.context.createLinearGradient(0, 0, 0, height);
 
-        gradient.addColorStop(0, '#8ED6FF');
+        gradient.addColorStop(0, '#0AD6FF');
         gradient.addColorStop(1, 'transparent');
 
         this.context.save();
-        this.context.globalAlpha = 0.5;
+        this.context.globalAlpha = 0.05;
         this.context.fillStyle = gradient;
-        // this.context.fillRect(0, 0, this.width, height);
+        this.context.fillRect(0, 0, this.width, height);
         this.context.restore();
-        // this.context.fill();
+        this.context.fill();
       }
     },
     ready () {
@@ -183,6 +247,8 @@
       this.canvas.setAttribute('width', this.width);
       this.canvas.setAttribute('height', this.height);
       this.draw(this.transport);
+      this.styleBlock = document.getElementById('selector-css');
+      this.selector = document.getElementById('selector');
     },
     components: {
       Layer
