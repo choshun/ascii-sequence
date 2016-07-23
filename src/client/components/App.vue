@@ -1,7 +1,7 @@
 <style lang="sass">
   /* Base styles, so not scoped */
   html {
-    background-color: #000;
+    background-color: rgb(14, 10, 14);
     color: #fff;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
@@ -19,7 +19,7 @@
   main,
   section,
   ul {
-    color: #653737;
+    /* color: #653737; */
     font-family: "Raleway";
     font-weight: 200;
     margin: 0;
