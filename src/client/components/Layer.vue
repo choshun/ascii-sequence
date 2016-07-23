@@ -24,7 +24,7 @@
     <span class="element">{{ element }}</span>
 
     <ul>
-      <event v-for="event in layers[layer]" track-by="$index" :event="event" ></event>
+      <event v-for="event in layerWithEvents" track-by="$index" :event="event" ></event>
     </ul>
   </li>
 </template>
@@ -32,7 +32,7 @@
 <script>
   import store from '../vuex/store';
   import Event from './Event.vue';
-  import { clone, uniq, map, each, filter } from 'lodash';
+  import { each } from 'lodash';
 
   export default {
     store,
@@ -41,22 +41,10 @@
         styleBlock: undefined
       }
     },
-    props: ['layer', 'element'],
+    props: ['layer', 'element', 'layerWithEvents'],
     vuex: {
       getters: {
         sequence: store => store.sequence,
-        layers: store => {
-          let eventsObject = _.clone(store.sequence),
-            uniqueLayers = _.uniq(_.map(eventsObject, 'layer')),
-            layersAndEvents = [];
-
-          // Creates new object of Layers with events for ui.
-          _.each(uniqueLayers, (item, index) => {
-            layersAndEvents.push(_.filter(eventsObject, { layer: index }));
-          });
-
-          return layersAndEvents;
-        }
       },
       actions: {
         addEventAction: ({ dispatch }, newEvent) => {
