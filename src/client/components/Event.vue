@@ -25,11 +25,15 @@
       margin-left: ($width) * -1px;
       width: ($width * 2) * 1px;
     }
+
+    &.is-selected {
+      border: 1px solid rgb(0, 255, 159);
+    }
   }
 </style>
 
 <template>
-  <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }}" @click="selectStyle($event, event)">{{event.selected}}
+  <li id="{{ event.key }}" class="event {{ isActive(activeStyle, event.key) }} {{ isSelected(event.selected) }}" @click="selectStyle($event, event)"><!-- {{event.selected}} -->
   </li>
 </template>
 
@@ -51,7 +55,12 @@
       }
     },
     methods: {
-      isActive: (activeStyle, eventClass) => (activeStyle === eventClass) ? 'is-active' : ''
+      isActive: (activeStyle, eventClass) => {
+        return (activeStyle === eventClass) ? 'is-active' : '';
+      },
+      isSelected: (isSelected) => {
+        return isSelected ? 'is-selected' : '';
+      }
     }
   }
 </script>
