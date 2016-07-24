@@ -10,7 +10,9 @@ This is an app using Vue for component rendering, and Vuex for page state manage
 - http://vuex.vuejs.org/en/tutorial.html
 
 Grid.vue is responsible for getting layers.
+
 Layer.vue responsible for getting events/adding events.
+
 Event.vue responsible for choosing event data.
 
 Transport.vue is responsible for tempo play/pause.
@@ -25,32 +27,26 @@ Scheduler.vue (based off http://www.html5rocks.com/en/tutorials/audio/scheduling
 
 NOTES/thoughts on vue:
 
-There's no 'this' in the vue export default code so you can't pass store/scope, or properties to methods directly. If anything is dependant on scope put in a getter, and if a method is dependant on scope instead of passing it directly to the method, just dispatch an event which executes a mutation in store.js - the store has access to store :P, the getter in the component will update the view accordingly.
+It's pretty great.
 
-Computed properties might address this?
+Remember to have functions be function () {} and not function: () => {}, or else that method won't have access to "this".
 
-Getters fire once onload, then every time the store changes. Getters are love, getters are life.
+NOTES/thoughts on vuex:
+All getters have no access to "this", as it should. Getters only retrieve stuff from store, all actions only dipatch stuff to store, and should have params prepped by methods in component.
 
-If you are handling a store, any filtering/native store handling will coerce the store property into an array. So just make all store stuff arrays (ie styleManager.active could just be an object, but we made it an array with one object cause it was borking if I didn't).
-
-A good example of how vue can work unlike I'd expect (compared to es6 classes, or react extended component classes) is
-
-"isActive"
-
-in Event.vue,
-when setting the active state.
-
-Normally "activeStyle" could be passed between a class with a constructor or property, instead I do a getter for active style, then pass THAT to the template, which THEN calls the isActive vue method with the getter'd store property. Same with the prop "event". I can't pass event.key directly to the method, I have to register the prop, then again pass that to the template, which in turn fires the vue method.
-
-It's pretty confusing, but it works! and only references the store, the dom is never really bound to anything, no classList.remove etc. and I guess the getters/actions/methods are shepharded to be more pure (no lateral calls, template as the one source of truth).
-
-TODO (forceranked):
-- Transport
-	- get sub looping in transport
+TODO:
+- Scheduler
+	- get transition delay to work as per scheduler
 - Grid
-	- get deleting event
+	- get click not triggering new event if something is selected
 	- get moving/dragging event
-- get ui to not suck, use sequencer css (from other repo)
+	- get moving/dragging events
+	- get copying event working
+	- get copying events working
+	- get select via layer working
+	- get shift add event to selected working
+	- get shift add events to selected working
+
 - styleManager
 	- get sass renderer to work in style-manager
 	- have a sense of preserved base classes
@@ -72,12 +68,18 @@ TODO (forceranked):
 DONE
 - get webpack to work with app.scss
 made everything a .vue, including app for better or worse. sass-loader was not happy with .vue loader
+- Scheduler
+	- get it working with multiple events and layers
 - Transport
 	- get canvas time indicator working
-	had to put a timeout of 0 on the canvas binding. Apparently vue 2 doesn'tneedthis, there'sno need for componentDidMount stuff.
-	- get pause to stop and start at same event (in scheduler)
-	Got it to work with some bugs, added TODO's in scheduler. A lot of it has to do with looping vs pausing vs changing total loop time. Mostly looping and pausing though. The break through was not firing new measure on last event of measure, but when currentTime modded to 0... it also had to consider paused elapsed time.
-	Ideally scheduler wouldn't need to worry about pause time at all, so maybe expose effectiveTime from store and not actual context time? No clue. Just extremely happy it works to some degree.
+	- get subloop working
+	- get tempo working
+- Grid
+	- get subloop ui working
+	- get selected event working
+	- get selected events working
+	- get delete working
+	- get delete selected events working
 
 IDEAS:
 - have left side ascii element animate by iteself based on layer
