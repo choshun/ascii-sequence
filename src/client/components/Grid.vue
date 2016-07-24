@@ -20,11 +20,17 @@
     width: 100%;
   }
 
+  .is-selecting {
+    width: 1px;
+  }
+
   #selector.is-selecting {
     border: 1px solid #00ff9f;
     background-color: rgba(0, 255, 159, 0.2);
     position: fixed;
     z-index: -1;
+
+
   }
 </style>
 
@@ -34,7 +40,7 @@
 
     <section id="selector"></section>
     <ul class="layers" @mousedown="startSelector($event)", @mousemove="moveSelector($event)" @mouseup="moveSelect($event)">
-      <layer v-for="layer in layers" :layer="$index" :element="layer.element" :layer-with-events="layersWithEvents[$index]" id="layer-{{layer}}"></layer>
+      <layer v-for="layer in layers" :layer="$index" :element="layer.element" :layer-with-events="layersWithEvents[$index]" id="layer-{{$index}}"></layer>
     </ul>
   </section>
 </template>
@@ -63,6 +69,8 @@
         selectorStartY: 0,
         selectorEndX: 0,
         selectorEndY: 0,
+        selectedLayerStart: 0,
+        selectedLayerEnd: 0,
         styleBlock: undefined,
         selector: undefined,
         EDITING_CLASS: '_editing',
@@ -98,6 +106,9 @@
         resetLoopAction: ({ dispatch }) => {
           dispatch('UPDATE_START', 0);
           dispatch('UPDATE_DURATION', 1);
+        },
+        selectEvents: ({ dispatch }, events) => {
+          dispatch('SET_SELECTED_EVENTS', events);
         }
       }
     },
@@ -152,14 +163,20 @@
             height = event.clientY - this.selectorStartY;
 
         this.styleBlock.innerHTML += 
-            `#selector { 
+            `#selector.is-selecting { 
               width: ${width}px;
               height: ${height}px
             }`;
 
       },
       moveSelect (event) {
-        this.endlayer = this.getEventLayer(event);
+        this.selectedLayerEnd = this.getEventLayer(event);
+        this.selectorEndX = event.clientX;
+        this.selectorEndY = event.clientY;
+
+        let thresholdX = this.selectorEndX / this.width - this.selectorStartX / this.width;
+
+        this.getSelectedEvents(thresholdX);
         this.selector.classList.remove(this.IS_SELECTING_CLASS);
       },
       getClientXPercent (event) {
@@ -167,6 +184,21 @@
       },
       getEventLayer (event) {
         return event.target.getAttribute('id').split('-')[1];
+      },
+      getSelectedEvents (thresholdX) {
+        let selectedEvents = [];
+
+        _.each(this.layersWithEvents, (layer, index) => {
+          if (index >= this.selectedLayerStart && index <= this.selectedLayerEnd) {
+            _.each(layer, (event, index) => {
+              if (event.time >= this.selectorStartX / this.width && event.time <= this.selectorEndX / this.width) {
+                selectedEvents.push(event.key);
+              }
+            });
+
+            this.selectEvents(selectedEvents);
+          }
+        });
       },
       draw (transport) {
         let time = transport.context.currentTime;
