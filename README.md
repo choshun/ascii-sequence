@@ -21,7 +21,7 @@ Scene.vue is responsible for sequence to destination playback (the result of the
 
 StyleManager.vue is responsible for changing event data.
 
-Scheduler.vue (based off http://www.html5rocks.com/en/tutorials/audio/scheduling/) is responsible for firing events in state.sequence. This may or may not need to be a .vue.
+Scheduler.vue (based off http://www.html5rocks.com/en/tutorials/audio/scheduling/) is responsible for firing events in state.sequence.
 
 /destinations/*.js is fired from scheduler, and executes scheduled callbacks with sequencer event data (in our case css).
 
@@ -32,6 +32,7 @@ It's pretty great.
 Remember to have functions be function () {} and not function: () => {}, or else that method won't have access to "this".
 
 NOTES/thoughts on vuex:
+
 All getters have no access to "this", as it should. Getters only retrieve stuff from store, all actions only dipatch stuff to store, and should have params prepped by methods in component.
 
 TODO:
