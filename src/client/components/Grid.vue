@@ -108,6 +108,7 @@
           dispatch('UPDATE_DURATION', 1);
         },
         selectEvents: ({ dispatch }, events) => {
+          dispatch('CLEAR_SELECTED_EVENTS', events);
           dispatch('SET_SELECTED_EVENTS', events);
         }
       }
@@ -196,7 +197,9 @@
               }
             });
 
-            this.selectEvents(selectedEvents);
+            if ((this.selectorEndX - this.selectorStartX) > 25) {
+              this.selectEvents(selectedEvents);
+            }
           }
         });
       },

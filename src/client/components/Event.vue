@@ -50,6 +50,7 @@
       actions: {
         selectStyle: ({ dispatch }, event, eventData) => {
           dispatch('SET_ACTIVE_STYLE', eventData.key);
+          dispatch('CLEAR_SELECTED_EVENTS', [eventData.key]);
           dispatch('SET_SELECTED_EVENTS', [eventData.key]);
         }
       }

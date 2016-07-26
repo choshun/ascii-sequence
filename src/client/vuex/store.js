@@ -150,18 +150,17 @@ const mutations = {
   SET_SELECTED_EVENTS (state, eventsArray) {
     let event;
 
-    // Reset selected.
-    _.forEach(state.sequence, (sequence, index) => {
-      sequence.selected = false;
-    });
-
-
     _.forEach(eventsArray, (eventArray) => {
       event = state.sequence.filter(event => {
         return event.key === eventArray;
       });
 
       event[0] ? event[0].selected = true : eventsArray[0].selected = false;
+    });
+  },
+  CLEAR_SELECTED_EVENTS (state) {
+    _.forEach(state.sequence, (event, index) => {
+      event.selected = false;
     });
   },
   UPDATE_EVENT_DATA (state, data) {
