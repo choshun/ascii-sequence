@@ -80,17 +80,11 @@
 </style>
 
 <template @keyup="deleteEvent($event, event)">
-	<body>
-    <main id="app">
-      <grid></grid>
-      <transport></transport>
-      <style-manager></style-manager>
-      <scheduler></scheduler>
-      <scene></scene>
-    </main>
-
-    <script src="bundle.js"></script>
-  </body>
+  <grid></grid>
+  <transport></transport>
+  <style-manager></style-manager>
+  <scheduler></scheduler>
+  <scene></scene>
 </template>
 
 <script>
