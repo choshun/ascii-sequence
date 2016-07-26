@@ -32,7 +32,7 @@
 <script>
   import store from '../vuex/store';
   import Event from './Event.vue';
-  import { each } from 'lodash';
+  import { each, some } from 'lodash';
 
   export default {
     store,
@@ -52,12 +52,17 @@
           dispatch('SET_SELECTED_EVENTS', [newEvent]);
           // Make new event active.
           dispatch('SET_ACTIVE_STYLE', newEvent.key);
-        }
+        },
+        clearSelectedEvents: ({ dispatch }) => dispatch('CLEAR_SELECTED_EVENTS')
       }
     },
     methods: {
       addEvent (event, layer) {
-        if (!event.target.classList.contains('event')) {
+
+        let isSelected = _.some(this.sequence, { selected: true }),
+            isEvent = event.target.classList.contains('event');
+
+        if (!isEvent && !isSelected) {
           let leftOffset = event.pageX / window.innerWidth,
               newEvent = this.createEvent(leftOffset, layer),
               left = this.createPosition(newEvent.time),
@@ -66,6 +71,8 @@
           this.addEventAction(newEvent);
 
           this.addGridStyleToHead(newEvent.key, css);
+        } else if (!isEvent) {
+          this.clearSelectedEvents();
         }
       },
       createEvent (leftOffset, layer) {
