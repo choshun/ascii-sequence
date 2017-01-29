@@ -2,9 +2,9 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve(__dirname, '../src/client/app.js'),
+  entry: path.resolve(__dirname, '../app/src/app.js'),
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../app/static'),
     filename: 'bundle.js'
   },
 
@@ -12,7 +12,7 @@ module.exports = {
     loaders: [
       {
         test: /(\.jsx?|\.js?)/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         loader: 'babel'
       },
       {
