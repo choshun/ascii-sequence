@@ -6,3 +6,7 @@ dist
 
 #node modules
 node_modules
+
+.idea
+ascii-sequence/static
+**/*.pyc
