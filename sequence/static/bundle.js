@@ -10277,7 +10277,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/App.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/App.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10301,8 +10301,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4ef59acd&file=App.vue!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4ef59acd&file=App.vue!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-492523c5&file=App.vue!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-492523c5&file=App.vue!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10818,7 +10818,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Transport.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Transport.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -10842,8 +10842,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ddd1d656&file=Transport.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Transport.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ddd1d656&file=Transport.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Transport.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7a8a03cd&file=Transport.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Transport.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7a8a03cd&file=Transport.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Transport.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10861,7 +10861,7 @@
 
 
 	// module
-	exports.push([module.id, ".transport[_v-ddd1d656] {\n  padding: .5em 0 0 2em; }\n\n.play-button[_v-ddd1d656] {\n  background-color: rgba(0, 255, 159, 0.65); }\n  .play-button.is-playing[_v-ddd1d656] {\n    background-color: transparent;\n    border-width: 10px 0 10px 20px;\n    border-color: transparent transparent transparent rgba(0, 255, 159, 0.65);\n    padding: 0; }\n", ""]);
+	exports.push([module.id, ".transport[_v-7a8a03cd] {\n  padding: .5em 0 0 2em; }\n\n.play-button[_v-7a8a03cd] {\n  background-color: rgba(0, 255, 159, 0.65); }\n  .play-button.is-playing[_v-7a8a03cd] {\n    background-color: transparent;\n    border-width: 10px 0 10px 20px;\n    border-color: transparent transparent transparent rgba(0, 255, 159, 0.65);\n    padding: 0; }\n", ""]);
 
 	// exports
 
@@ -28308,7 +28308,7 @@
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\t<section class=\"transport\" _v-ddd1d656=\"\">\n    <button class=\"play-button {{ isPlaying(getIsPlaying) }}\" @click=\"togglePlay\" _v-ddd1d656=\"\"></button>\n  \n    <input :value=\"getTime\" type=\"number\" @input=\"updateTime\" _v-ddd1d656=\"\">\n    <!-- <input :value=\"getStart\" type=\"number\" @input=\"updateStart\" step=\"0.1\" /> loop start\n    <input :value=\"getDuration\" type=\"number\" step=\"0.1\"  @input=\"updateDuration\" /> loop end -->\n  </section>\n";
+	module.exports = "\n\t<section class=\"transport\" _v-7a8a03cd=\"\">\n    <button class=\"play-button {{ isPlaying(getIsPlaying) }}\" @click=\"togglePlay\" _v-7a8a03cd=\"\"></button>\n  \n    <input :value=\"getTime\" type=\"number\" @input=\"updateTime\" _v-7a8a03cd=\"\">\n    <!-- <input :value=\"getStart\" type=\"number\" @input=\"updateStart\" step=\"0.1\" /> loop start\n    <input :value=\"getDuration\" type=\"number\" step=\"0.1\"  @input=\"updateDuration\" /> loop end -->\n  </section>\n";
 
 /***/ },
 /* 19 */
@@ -28325,7 +28325,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Grid.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Grid.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -28349,8 +28349,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5fb796ca&file=Grid.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Grid.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5fb796ca&file=Grid.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Grid.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-a90da65c&file=Grid.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Grid.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-a90da65c&file=Grid.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Grid.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -28368,7 +28368,7 @@
 
 
 	// module
-	exports.push([module.id, "/*.grid,\n  .time-indicator {\n    left: 10%;\n    width: 90%;\n  }*/\n.grid[_v-5fb796ca] {\n  bottom: 1em;\n  overflow: visible;\n  position: fixed;\n  z-index: 2; }\n\n.time-indicator[_v-5fb796ca] {\n  bottom: 0;\n  height: 22em;\n  position: fixed;\n  margin-top: -20px;\n  width: 100%; }\n\n.is-selecting[_v-5fb796ca] {\n  width: 1px; }\n\n#selector.is-selecting[_v-5fb796ca] {\n  border: 1px solid #00ff9f;\n  background-color: rgba(0, 255, 159, 0.2);\n  position: fixed;\n  z-index: -1; }\n", ""]);
+	exports.push([module.id, "/*.grid,\n  .time-indicator {\n    left: 10%;\n    width: 90%;\n  }*/\n.grid[_v-a90da65c] {\n  bottom: 1em;\n  overflow: visible;\n  position: fixed;\n  z-index: 2; }\n\n.time-indicator[_v-a90da65c] {\n  bottom: 0;\n  height: 22em;\n  position: fixed;\n  margin-top: -20px;\n  width: 100%; }\n\n.is-selecting[_v-a90da65c] {\n  width: 1px; }\n\n#selector.is-selecting[_v-a90da65c] {\n  border: 1px solid #00ff9f;\n  background-color: rgba(0, 255, 159, 0.2);\n  position: fixed;\n  z-index: -1; }\n", ""]);
 
 	// exports
 
@@ -28712,7 +28712,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Layer.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Layer.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -28736,8 +28736,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2b58ee06&file=Layer.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Layer.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-2b58ee06&file=Layer.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Layer.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-16c4b3f5&file=Layer.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Layer.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-16c4b3f5&file=Layer.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Layer.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -28755,7 +28755,7 @@
 
 
 	// module
-	exports.push([module.id, ".layer[_v-2b58ee06] {\n  border-bottom: 1px solid #653737;\n  height: 3em;\n  margin-top: -0.2em;\n  opacity: .7;\n  position: relative; }\n\n.element[_v-2b58ee06] {\n  /* color: rgba(0, 255, 159, 0.65); */\n  padding-left: 10%;\n  -ms-user-select: none;\n      user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -o-user-select: none; }\n", ""]);
+	exports.push([module.id, ".layer[_v-16c4b3f5] {\n  border-bottom: 1px solid #653737;\n  height: 3em;\n  margin-top: -0.2em;\n  opacity: .7;\n  position: relative; }\n\n.element[_v-16c4b3f5] {\n  /* color: rgba(0, 255, 159, 0.65); */\n  padding-left: 10%;\n  -ms-user-select: none;\n      user-select: none;\n  -moz-user-select: none;\n  -khtml-user-select: none;\n  -webkit-user-select: none;\n  -o-user-select: none; }\n", ""]);
 
 	// exports
 
@@ -28915,7 +28915,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Event.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Event.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -28939,8 +28939,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4f6859c6&file=Event.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Event.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4f6859c6&file=Event.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Event.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7bd984be&file=Event.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Event.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7bd984be&file=Event.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Event.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -28958,7 +28958,7 @@
 
 
 	// module
-	exports.push([module.id, "li[class*=\"event\"][_v-4f6859c6] {\n  background: -webkit-linear-gradient(top, black 0%, rgba(35, 128, 91, 0.8) 100%);\n  border: 1px solid #0aa8cc;\n  height: 101%;\n  position: absolute;\n  bottom: 0;\n  -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n  width: 5px;\n  margin-left: -2.5px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  z-index: 2; }\n  li[class*=\"event\"].is-active[_v-4f6859c6] {\n    height: 150%;\n    bottom: -10%;\n    margin-left: -5px;\n    width: 10px; }\n  li[class*=\"event\"].is-selected[_v-4f6859c6] {\n    border: 1px solid #00ff9f; }\n", ""]);
+	exports.push([module.id, "li[class*=\"event\"][_v-7bd984be] {\n  background: -webkit-linear-gradient(top, black 0%, rgba(35, 128, 91, 0.8) 100%);\n  border: 1px solid #0aa8cc;\n  height: 101%;\n  position: absolute;\n  bottom: 0;\n  -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n  width: 5px;\n  margin-left: -2.5px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  z-index: 2; }\n  li[class*=\"event\"].is-active[_v-7bd984be] {\n    height: 150%;\n    bottom: -10%;\n    margin-left: -5px;\n    width: 10px; }\n  li[class*=\"event\"].is-selected[_v-7bd984be] {\n    border: 1px solid #00ff9f; }\n", ""]);
 
 	// exports
 
@@ -29052,19 +29052,19 @@
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <li id=\"{{ event.key }}\" class=\"event {{ isActive(activeStyle, event.key) }} {{ isSelected(event.selected) }}\" @click=\"selectStyle($event, event)\" _v-4f6859c6=\"\"><!-- {{event.selected}} -->\n  </li>\n";
+	module.exports = "\n  <li id=\"{{ event.key }}\" class=\"event {{ isActive(activeStyle, event.key) }} {{ isSelected(event.selected) }}\" @click=\"selectStyle($event, event)\" _v-7bd984be=\"\"><!-- {{event.selected}} -->\n  </li>\n";
 
 /***/ },
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <li class=\"layer\" @click=\"addEvent($event, layer)\" _v-2b58ee06=\"\">\n    <span class=\"element\" _v-2b58ee06=\"\">{{ element }}</span>\n\n    <ul _v-2b58ee06=\"\">\n      <event v-for=\"event in layerWithEvents\" track-by=\"$index\" :event=\"event\" _v-2b58ee06=\"\"></event>\n    </ul>\n  </li>\n";
+	module.exports = "\n  <li class=\"layer\" @click=\"addEvent($event, layer)\" _v-16c4b3f5=\"\">\n    <span class=\"element\" _v-16c4b3f5=\"\">{{ element }}</span>\n\n    <ul _v-16c4b3f5=\"\">\n      <event v-for=\"event in layerWithEvents\" track-by=\"$index\" :event=\"event\" _v-16c4b3f5=\"\"></event>\n    </ul>\n  </li>\n";
 
 /***/ },
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <section class=\"grid\" _v-5fb796ca=\"\">\n    <canvas id=\"time-indicator\" @mousedown=\"updateStart($event)\" @mousemove=\"updateDuration($event)\" @mouseup=\"updateTimeOffset($event), resetLoop($event)\" class=\"time-indicator\" _v-5fb796ca=\"\"></canvas>\n\n    <section id=\"selector\" _v-5fb796ca=\"\"></section>\n    <ul class=\"layers\" @mousedown=\"startSelector($event)\" ,=\"\" @mousemove=\"moveSelector($event)\" @mouseup=\"moveSelect($event)\" _v-5fb796ca=\"\">\n      <layer v-for=\"layer in layers\" :layer=\"$index\" :element=\"layer.element\" :layer-with-events=\"layersWithEvents[$index]\" id=\"layer-{{$index}}\" _v-5fb796ca=\"\"></layer>\n    </ul>\n  </section>\n";
+	module.exports = "\n  <section class=\"grid\" _v-a90da65c=\"\">\n    <canvas id=\"time-indicator\" @mousedown=\"updateStart($event)\" @mousemove=\"updateDuration($event)\" @mouseup=\"updateTimeOffset($event), resetLoop($event)\" class=\"time-indicator\" _v-a90da65c=\"\"></canvas>\n\n    <section id=\"selector\" _v-a90da65c=\"\"></section>\n    <ul class=\"layers\" @mousedown=\"startSelector($event)\" ,=\"\" @mousemove=\"moveSelector($event)\" @mouseup=\"moveSelect($event)\" _v-a90da65c=\"\">\n      <layer v-for=\"layer in layers\" :layer=\"$index\" :element=\"layer.element\" :layer-with-events=\"layersWithEvents[$index]\" id=\"layer-{{$index}}\" _v-a90da65c=\"\"></layer>\n    </ul>\n  </section>\n";
 
 /***/ },
 /* 34 */
@@ -29081,7 +29081,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/StyleManager.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/StyleManager.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -29105,8 +29105,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21bab580&file=StyleManager.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./StyleManager.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21bab580&file=StyleManager.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./StyleManager.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-b5dc9970&file=StyleManager.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./StyleManager.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-b5dc9970&file=StyleManager.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./StyleManager.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29124,7 +29124,7 @@
 
 
 	// module
-	exports.push([module.id, "textarea[_v-21bab580] {\n  height: 15em;\n  position: fixed;\n  left: 70%;\n  top: 2%;\n  min-width: 20%;\n  z-index: 4; }\n", ""]);
+	exports.push([module.id, "textarea[_v-b5dc9970] {\n  height: 15em;\n  position: fixed;\n  left: 70%;\n  top: 2%;\n  min-width: 20%;\n  z-index: 4; }\n", ""]);
 
 	// exports
 
@@ -29186,7 +29186,7 @@
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\t<section class=\"style-manager\" _v-21bab580=\"\">\n    <textarea :value=\"getActiveStyle\" @input=\"onStyleChange\" _v-21bab580=\"\"></textarea>\n  </section>\n";
+	module.exports = "\n\t<section class=\"style-manager\" _v-b5dc9970=\"\">\n    <textarea :value=\"getActiveStyle\" @input=\"onStyleChange\" _v-b5dc9970=\"\"></textarea>\n  </section>\n";
 
 /***/ },
 /* 39 */
@@ -29201,7 +29201,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Scheduler.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Scheduler.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -29459,7 +29459,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/choshun/Projects/ascii-sequence/app/src/components/Scene.vue"
+	  var id = "/Users/choshun/Projects/ascii-sequence/sequence/src/components/Scene.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -29483,8 +29483,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-96c69290&file=Scene.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Scene.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-96c69290&file=Scene.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Scene.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3de43ca0&file=Scene.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Scene.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3de43ca0&file=Scene.vue&scoped=true!./../../../node_modules/sass-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Scene.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29502,7 +29502,7 @@
 
 
 	// module
-	exports.push([module.id, ".scene[_v-96c69290] {\n  height: 100%;\n  position: fixed; }\n  .scene .scene-item[_v-96c69290] {\n    font-size: 4em;\n    position: fixed;\n    -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n    top: 0; }\n", ""]);
+	exports.push([module.id, ".scene[_v-3de43ca0] {\n  height: 100%;\n  position: fixed; }\n  .scene .scene-item[_v-3de43ca0] {\n    font-size: 4em;\n    position: fixed;\n    -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n    top: 0; }\n", ""]);
 
 	// exports
 
@@ -29569,7 +29569,7 @@
 /* 46 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\t<section class=\"scene\" _v-96c69290=\"\">\n    <ul _v-96c69290=\"\">\n      <li v-for=\"layer in layers\" _v-96c69290=\"\">\n        <figure class=\"layer-{{$index}} scene-item\" track-by=\"$index\" _v-96c69290=\"\">\n          {{ layer.element }}\n        </figure>\n      </li>\n    </ul>\n  </section>\n";
+	module.exports = "\n\t<section class=\"scene\" _v-3de43ca0=\"\">\n    <ul _v-3de43ca0=\"\">\n      <li v-for=\"layer in layers\" _v-3de43ca0=\"\">\n        <figure class=\"layer-{{$index}} scene-item\" track-by=\"$index\" _v-3de43ca0=\"\">\n          {{ layer.element }}\n        </figure>\n      </li>\n    </ul>\n  </section>\n";
 
 /***/ },
 /* 47 */

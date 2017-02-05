@@ -2,9 +2,9 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve(__dirname, '../app/src/app.js'),
+  entry: path.resolve(__dirname, '../sequence/src/app.js'),
   output: {
-    path: path.resolve(__dirname, '../app/static'),
+    path: path.resolve(__dirname, '../sequence/static'),
     filename: 'bundle.js'
   },
 
