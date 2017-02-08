@@ -1,1 +1,1 @@
-python: gunicorn --pythonpath sequence routes:app
+bot: gunicorn --pythonpath sequence routes:app
