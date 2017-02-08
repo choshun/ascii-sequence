@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath sequence routes:app
+python: gunicorn --pythonpath sequence routes:app
