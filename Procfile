@@ -1,1 +1,1 @@
-bot: gunicorn --pythonpath sequence routes:app
+echo "web: gunicorn --pythonpath sequence routes:app" > Procfile
