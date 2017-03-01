@@ -10,11 +10,17 @@
 * [Intro to flask/super quick setup](https://code.tutsplus.com/tutorials/an-introduction-to-pythons-flask-framework--net-28822) Good at POC get an app up in as little time as possible.
 * [Flask official](http://flask.pocoo.org/)
 * [Flask totorial with sqllite](http://flask.pocoo.org/docs/0.12/tutorial/introduction/) This sort of broke my everything, but it's helpful (requirements.txt was a disaster)
-* [Flask tutoral with postgres](https://realpython.com/blog/python/flask-by-example-part-2-postgres-sqlalchemy-and-alembic/) Really good though sparse. Just try to do the spirit of the steps and you'll get there (some of the steps are insanely vague).
+* [Flask tutorial with postgres](https://realpython.com/blog/python/flask-by-example-part-2-postgres-sqlalchemy-and-alembic/) Really good though sparse. Just try to do the spirit of the steps and you'll get there (some of the steps are insanely vague).
 
 *Deprecate after I get further in non-shitty postgres tut:*
 
 [`flask` not found](https://github.com/pallets/flask/issues/1278)
+
+##### Setup:
+* Add `source /usr/local/bin/virtualenvwrapper.sh` to `~/.bashrc`. Now `workon` should work.
+* `workon seq`
+* `cd ascii-sequence`. This will bootstrap [app-settings](https://realpython.com/blog/python/flask-by-example-part-1-project-setup/) and the like. 
+* `heroku local`
 
 No clue why this worked for `flask initdb`
 ```sh
@@ -46,7 +52,7 @@ git push pro master
 ```
 * [Holy shit, it only serves master](https://devcenter.heroku.com/articles/multiple-environments#advanced-linking-local-branches-to-remote-apps)
 ```sh
-git push staging development:master
+git push stage feature/flask:master
 ```
 Pushes local dev to staging remotes master. Fuck me.
 * [gunicorn and procfiles with nested stuff](http://stackoverflow.com/questions/16416172/how-can-i-modify-procfile-to-run-gunicorn-process-in-a-non-standard-folder-on-he)
